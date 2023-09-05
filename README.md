@@ -6,7 +6,7 @@ erab merupakan aplikasi E-RAB sederhana yang dibangun menggunakan Laravel 9.
 
 ## Installation
 
--   Siapkan [Composer](https://getcomposer.org/download/) bagi yang belum punya. kemudian jalankan
+-   Siapkan [Composer](https://getcomposer.org/download/) & [NodeJs LTS](https://nodejs.org/id) bagi yang belum punya. kemudian jalankan
 
 ```bash
 composer install
