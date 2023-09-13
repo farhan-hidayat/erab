@@ -25,8 +25,10 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'faculty_id',
         'email',
         'password',
+        'roles'
     ];
 
     /**
@@ -58,4 +60,9 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function faculty()
+    {
+        return $this->belongsTo(Faculty::class);
+    }
 }

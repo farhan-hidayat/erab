@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Str;
+use App\Http\Requests\FacultyRequest;
+use App\Models\Faculty;
 use Illuminate\Http\Request;
 
 class FacultyController extends Controller
@@ -32,9 +35,14 @@ class FacultyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(FacultyRequest $request)
     {
-        //
+        $data = $request->all();
+        $data['slug'] = Str::slug($data['name']) . '-' . Str::lower(Str::random(5));
+
+        Faculty::create($data);
+
+        return redirect()->route('faculties.index');
     }
 
     /**
