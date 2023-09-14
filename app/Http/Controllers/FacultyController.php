@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Alert;
 use Illuminate\Support\Str;
 use App\Http\Requests\FacultyRequest;
 use App\Models\Faculty;
@@ -16,7 +17,14 @@ class FacultyController extends Controller
      */
     public function index()
     {
-        return view('pages.faculties.index');
+        $data = [
+            'faculties' => Faculty::where('name', '!=', 'Admin')->get(),
+            'no' => 1
+        ];
+        $title = 'Hapus Data!';
+        $text = "Apakah Anda Yakin Ingin Menghapus Data?";
+        confirmDelete($title, $text);
+        return view('pages.faculties.index', $data);
     }
 
     /**
@@ -26,7 +34,7 @@ class FacultyController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.faculties.create');
     }
 
     /**
@@ -42,7 +50,7 @@ class FacultyController extends Controller
 
         Faculty::create($data);
 
-        return redirect()->route('faculties.index');
+        return redirect()->route('faculties.index')->with('toast_success', 'Data Berhasil Ditambahkan');
     }
 
     /**
@@ -74,9 +82,12 @@ class FacultyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(FacultyRequest $request, Faculty $faculty)
     {
-        //
+        $data = $request->all();
+        $data['slug'] = Str::slug($data['name']) . '-' . Str::lower(Str::random(5));
+        $faculty->update($data);
+        return redirect()->route('faculties.index')->with('toast_success', 'Data Berhasil Diubah');
     }
 
     /**
@@ -85,8 +96,10 @@ class FacultyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Faculty $faculty)
     {
-        //
+        $faculty->delete();
+        toast('Data Berhasil Dihapus', 'success');
+        return redirect()->route('faculties.index');
     }
 }

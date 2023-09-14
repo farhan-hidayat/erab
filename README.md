@@ -33,7 +33,18 @@ php artisan key:generate
 -   Buat database dan sesuaikan nama database dengan setup pada .env lalu lakukan migrate
 
 ```bash
-php artisan migrate:fresh
+php artisan migrate:fresh --seed
+```
+
+-   Tambahkan config sweet alert pada file .env
+
+```bash
+SWEET_ALERT_CONFIRM_DELETE_CONFIRM_BUTTON_TEXT='Ya, Hapus!'
+SWEET_ALERT_CONFIRM_DELETE_CANCEL_BUTTON_TEXT='Tidak, Batalkan'
+SWEET_ALERT_CONFIRM_DELETE_SHOW_CANCEL_BUTTON=true
+SWEET_ALERT_CONFIRM_DELETE_SHOW_CLOSE_BUTTON=false
+SWEET_ALERT_CONFIRM_DELETE_ICON='warning'
+SWEET_ALERT_CONFIRM_DELETE_SHOW_LOADER_ON_CONFIRM=true
 ```
 
 -   Jalankan program

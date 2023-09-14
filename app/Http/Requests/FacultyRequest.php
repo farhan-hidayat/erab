@@ -25,7 +25,15 @@ class FacultyRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:255'
+            'name' => 'required|unique:faculties,name|string|max:255',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'Nama harus diisi',
+            'name.unique' => 'Nama sudah terdaftar',
         ];
     }
 }

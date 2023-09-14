@@ -26,9 +26,11 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
-                            {{-- <div class="card-header">
-                                <h4>Data Fakultas</h4>
-                            </div> --}}
+                            <div class="card-header">
+                                <button class="btn btn-success" data-toggle="modal" data-target="#ModalTambah"> + Tambah
+                                    Fakultas </button>
+                                {{-- <a href="{{ route('faculties.create') }}" class="btn btn-success"> + Tambah Fakultas </a> --}}
+                            </div>
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-striped" id="table-1">
@@ -43,61 +45,22 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>
-                                                    1
-                                                </td>
-                                                <td>Fakultas Teknik</td>
-                                                <td>fakultas-teknik</td>
-                                                <td>
-                                                    <a href="#" class="btn btn-primary">Ubah</a>
-                                                    <a href="#" class="btn btn-danger">Hapus</a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    2
-                                                </td>
-                                                <td>Fakultas Ekonomi dan Bisnis</td>
-                                                <td>fakultas-ekonomi-dan-bisnis</td>
-                                                <td>
-                                                    <a href="#" class="btn btn-primary">Ubah</a>
-                                                    <a href="#" class="btn btn-danger">Hapus</a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    3
-                                                </td>
-                                                <td>Fakultas Kedokteran</td>
-                                                <td>fakultas-kedokteran</td>
-                                                <td>
-                                                    <a href="#" class="btn btn-primary">Ubah</a>
-                                                    <a href="#" class="btn btn-danger">Hapus</a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    4
-                                                </td>
-                                                <td>Fakultas Ilmu Sosial dan Ilmu Politik</td>
-                                                <td>fakultas-ilmu-sosial-dan-ilmu-politik</td>
-                                                <td>
-                                                    <a href="#" class="btn btn-primary">Ubah</a>
-                                                    <a href="#" class="btn btn-danger">Hapus</a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    5
-                                                </td>
-                                                <td>Fakultas Matematika dan Ilmu Pengetahuan Alam</td>
-                                                <td>fakultas-matematika-dan-ilmu-pengetahuan-alam</td>
-                                                <td>
-                                                    <a href="#" class="btn btn-primary">Ubah</a>
-                                                    <a href="#" class="btn btn-danger">Hapus</a>
-                                                </td>
-                                            </tr>
+                                            @foreach ($faculties as $f)
+                                                <tr>
+                                                    <td>{{ $no++ }}</td>
+                                                    <td>{{ $f->name }}</td>
+                                                    <td>{{ $f->slug }}</td>
+                                                    <td>
+                                                        <a href="#" class="btn btn-primary btn-edit"
+                                                            data-toggle="modal"
+                                                            data-target="#ModalEdit{{ $f->id }}"><i
+                                                                class="fas fa-edit"></i> Ubah</a>
+                                                        <a href="{{ route('faculties.destroy', $f->id) }}"
+                                                            class="btn btn-danger" data-confirm-delete="true"><i
+                                                                class="fas fa-trash"></i> Hapus</a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>
@@ -108,6 +71,65 @@
             </div>
         </section>
     </div>
+
+    <!-- Modal Tambah -->
+    <div class="modal fade" id="ModalTambah" tabindex="-1" role="dialog" aria-labelledby="ModalTambah" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ModalTambah">Tambah Fakultas</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="POST" action="{{ route('faculties.store') }}" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="name">Nama</label>
+                            <input type="text" class="form-control" id="name" name="name">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Tambah</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Ubah -->
+    @foreach ($faculties as $f)
+        <div class="modal fade" id="ModalEdit{{ $f->id }}" tabindex="-1" role="dialog"
+            aria-labelledby="ModalEdit{{ $f->id }}" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="ModalEdit{{ $f->id }}">Edit Fakultas</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form method="POST" action="{{ route('faculties.update', $f->id) }}" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="edit_name{{ $f->id }}">Nama</label>
+                                <input type="text" class="form-control" id="edit_name{{ $f->id }}" name="name"
+                                    value="{{ $f->name }}">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endforeach
 @endsection
 
 @push('prepend-script')
@@ -116,5 +138,14 @@
     <script src="/node_modules/datatables.net-select-bs4/js/select.bootstrap4.min.js"></script>
 @endpush
 @push('addon-script')
+    <script>
+        $(document).ready(function() {
+            // Menampilkan modal edit ketika tombol "Ubah" diklik
+            $('.btn-edit').click(function() {
+                var facultyId = $(this).data('faculty-id');
+                $('#ModalEdit' + facultyId).modal('show');
+            });
+        });
+    </script>
     <script src="/assets/js/page/modules-datatables.js"></script>
 @endpush
