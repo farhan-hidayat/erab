@@ -13,9 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->foreignId('faculty_id')->after('name')->constrained()->onDelete('cascade');
-            $table->string('roles')->after('password')->default('USER');
+        Schema::table('faculties', function (Blueprint $table) {
+            $table->dropColumn('deleted_at');
         });
     }
 
@@ -26,9 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('faculty_id');
-            $table->dropColumn('roles');
+        Schema::table('faculties', function (Blueprint $table) {
+            $table->softDeletes();
         });
     }
 };
