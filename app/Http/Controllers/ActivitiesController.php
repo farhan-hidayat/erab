@@ -81,7 +81,7 @@ class ActivitiesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(ActivitiesRequest $request, Activity $activity)
+    public function update(Request $request, Activity $activity)
     {
         $data = $request->all();
         $data['slug'] = Str::slug($request->name);

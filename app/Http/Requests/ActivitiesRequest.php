@@ -25,6 +25,7 @@ class ActivitiesRequest extends FormRequest
     public function rules()
     {
         return [
+            'code' => ['required', 'string', 'max:255', 'unique:activities'],
             'name' => ['required', 'string', 'max:255', 'unique:activities'],
         ];
     }
@@ -32,6 +33,8 @@ class ActivitiesRequest extends FormRequest
     public function messages()
     {
         return [
+            'code.required' => 'Kode harus diisi',
+            'code.unique' => 'Kode sudah terdaftar',
             'name.required' => 'Nama harus diisi',
             'name.unique' => 'Nama sudah terdaftar',
         ];

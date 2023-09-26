@@ -12,6 +12,10 @@
                 @csrf
                 <div class="modal-body">
                     <div class="form-group">
+                        <label for="code">Nama</label>
+                        <input type="text" class="form-control" id="code" name="code">
+                    </div>
+                    <div class="form-group">
                         <label for="name">Nama</label>
                         <input type="text" class="form-control" id="name" name="name">
                     </div>
@@ -41,6 +45,11 @@
                     @csrf
                     @method('PUT')
                     <div class="modal-body">
+                        <div class="form-group">
+                            <label for="edit_code{{ $f->id }}">Nama</label>
+                            <input type="text" class="form-control" id="edit_code{{ $f->id }}" name="code"
+                                value="{{ $f->code }}">
+                        </div>
                         <div class="form-group">
                             <label for="edit_name{{ $f->id }}">Nama</label>
                             <input type="text" class="form-control" id="edit_name{{ $f->id }}" name="name"

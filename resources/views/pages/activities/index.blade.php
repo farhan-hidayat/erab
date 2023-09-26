@@ -39,6 +39,7 @@
                                                 <th class="text-center">
                                                     #
                                                 </th>
+                                                <th>Code</th>
                                                 <th>Nama</th>
                                                 <th>Slug</th>
                                                 <th>Aksi</th>
@@ -48,6 +49,7 @@
                                             @foreach ($activities as $f)
                                                 <tr>
                                                     <td>{{ $no++ }}</td>
+                                                    <td>{{ $f->code }}</td>
                                                     <td>{{ $f->name }}</td>
                                                     <td>{{ $f->slug }}</td>
                                                     <td>
