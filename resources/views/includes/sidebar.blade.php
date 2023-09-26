@@ -11,14 +11,16 @@
                     class="fas fa-gauge-high fa-beat"></i>
                 <span>Dashboard</span></a></li>
         <li class="menu-header">Master Data</li>
-        <li class="nav-item dropdown">
+        <li class="nav-item dropdown {{ request()->is('activities*') ? 'active' : '' }}">
             <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i
                     class="fas fa-list-check fa-beat"></i>
                 <span>Data Kegiatan</span></a>
             <ul class="dropdown-menu">
-                <li><a class="nav-link" href="#">Kegiatan</a></li>
-                <li><a class="nav-link" href="#">Transparent Sidebar</a></li>
-                <li><a class="nav-link" href="#">Top Navigation</a></li>
+                <li class="{{ request()->is('activities*') ? 'active' : '' }}"><a class="nav-link"
+                        href="{{ route('activities.index') }}">Kegiatan</a></li>
+                <li><a class="nav-link" href="#">Klasifikasi</a></li>
+                <li><a class="nav-link" href="#">Rincian</a></li>
+                <li><a class="nav-link" href="#">Komponen</a></li>
             </ul>
         </li>
         <li class="nav-item dropdown">
@@ -26,9 +28,9 @@
                     class="fas fa-magnifying-glass-dollar fa-beat"></i>
                 <span>Data Sumber Dana</span></a>
             <ul class="dropdown-menu">
-                <li><a class="nav-link" href="#">Default Layout</a></li>
-                <li><a class="nav-link" href="#">Transparent Sidebar</a></li>
-                <li><a class="nav-link" href="#">Top Navigation</a></li>
+                <li><a class="nav-link" href="#">Sumber</a></li>
+                <li><a class="nav-link" href="#">Kelompok Akun</a></li>
+                <li><a class="nav-link" href="#">Akun</a></li>
             </ul>
         </li>
         <li class="{{ request()->is('faculties*') ? 'active' : '' }}">
