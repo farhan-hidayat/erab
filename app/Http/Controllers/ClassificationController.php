@@ -99,8 +99,10 @@ class ClassificationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Classification $classification)
     {
-        //
+        $classification->delete();
+
+        return redirect()->route('classifications.index')->with('toast_success', 'Data Berhasil Dihapus');
     }
 }

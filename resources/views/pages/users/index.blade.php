@@ -103,7 +103,8 @@
                                                             <td>
                                                                 <a href="#" class="btn btn-primary btn-edit"
                                                                     data-toggle="modal"
-                                                                    data-target="#ModalEditAdmin{{ $admin->id }}"><i
+                                                                    data-target="#ModalEditAdmin{{ $admin->id }}"
+                                                                    data-id="{{ $admin->id }}"><i
                                                                         class="fas fa-edit"></i> Ubah</a>
                                                                 <a href="{{ route('users.destroy', $admin->id) }}"
                                                                     class="btn btn-danger" data-confirm-delete="true"><i

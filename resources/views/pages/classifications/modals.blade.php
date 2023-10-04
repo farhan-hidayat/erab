@@ -24,7 +24,7 @@
                     <div class="form-group">
                         <label for="code">Kode</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" id="front_code" name="front_code" readonly>
+                            <input type="text" class="form-control" id="front_code" name="front_code" disabled>
                             <input type="text" class="form-control" id="back_code" name="code">
                         </div>
                     </div>
@@ -61,7 +61,8 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="activity">Kegiatan</label>
-                            <select name="activity_id" id="activityedit" class="form-control selectric">
+                            <select name="activity_id" id="activityedit{{ $classification->id }}"
+                                class="form-control selectric">
                                 @foreach ($activities as $activity)
                                     <option data-front-code-edit="{{ $activity->code }}"
                                         value="{{ $activity->id }}"{{ $activity->id == $classification->activity_id ? 'selected' : '' }}>
@@ -72,8 +73,9 @@
                         <div class="form-group">
                             <label for="code">Kode</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" id="front_code_edit" name="front_code_edit"
-                                    value="{{ $classification->activity->code }}" readonly>
+                                <input type="text" class="form-control"
+                                    id="front_code_edit{{ $classification->id }}" name="front_code_edit"
+                                    value="{{ $classification->activity->code }}" disabled>
                                 <input type="text" class="form-control" id="back_code" name="code"
                                     value="{{ $classification->code }}">
                             </div>

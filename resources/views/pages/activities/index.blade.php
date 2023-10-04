@@ -46,18 +46,18 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($activities as $f)
+                                            @foreach ($activities as $activity)
                                                 <tr>
                                                     <td>{{ $no++ }}</td>
-                                                    <td>{{ $f->code }}</td>
-                                                    <td>{{ $f->name }}</td>
-                                                    <td>{{ $f->slug }}</td>
+                                                    <td>{{ $activity->code }}</td>
+                                                    <td>{{ $activity->name }}</td>
+                                                    <td>{{ $activity->slug }}</td>
                                                     <td>
                                                         <a href="#" class="btn btn-primary btn-edit"
-                                                            data-toggle="modal"
-                                                            data-target="#ModalEdit{{ $f->id }}"><i
-                                                                class="fas fa-edit"></i> Ubah</a>
-                                                        <a href="{{ route('activities.destroy', $f->id) }}"
+                                                            data-toggle="modal" data-target="#ModalEdit{{ $activity->id }}"
+                                                            data-id="{{ $activity->id }}"><i class="fas fa-edit"></i>
+                                                            Ubah</a>
+                                                        <a href="{{ route('activities.destroy', $activity->id) }}"
                                                             class="btn btn-danger" data-confirm-delete="true"><i
                                                                 class="fas fa-trash"></i> Hapus</a>
                                                     </td>
@@ -87,7 +87,7 @@
         $(document).ready(function() {
             // Menampilkan modal edit ketika tombol "Ubah" diklik
             $('.btn-edit').click(function() {
-                var activityId = $(this).data('activity-id');
+                var activityId = $(this).data('id');
                 $('#ModalEdit' + activityId).modal('show');
             });
         });

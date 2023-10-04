@@ -48,19 +48,21 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($classifications as $f)
+                                            @foreach ($classifications as $classification)
                                                 <tr>
                                                     <td>{{ $no++ }}</td>
-                                                    <td>{{ $f->activity->code . '.' . $f->code }}</td>
-                                                    <td>{{ $f->activity->name }}</td>
-                                                    <td>{{ $f->name }}</td>
-                                                    <td>{{ $f->slug }}</td>
+                                                    <td>{{ $classification->activity->code . '.' . $classification->code }}
+                                                    </td>
+                                                    <td>{{ $classification->activity->name }}</td>
+                                                    <td>{{ $classification->name }}</td>
+                                                    <td>{{ $classification->slug }}</td>
                                                     <td>
                                                         <a href="#" class="btn btn-primary btn-edit"
                                                             data-toggle="modal"
-                                                            data-target="#ModalEdit{{ $f->id }}"><i
-                                                                class="fas fa-edit"></i> Ubah</a>
-                                                        <a href="{{ route('activities.destroy', $f->id) }}"
+                                                            data-target="#ModalEdit{{ $classification->id }}"
+                                                            data-id="{{ $classification->id }}"><i class="fas fa-edit"></i>
+                                                            Ubah</a>
+                                                        <a href="{{ route('activities.destroy', $classification->id) }}"
                                                             class="btn btn-danger" data-confirm-delete="true"><i
                                                                 class="fas fa-trash"></i> Hapus</a>
                                                     </td>
@@ -91,29 +93,19 @@
         $(document).ready(function() {
             // Menampilkan modal edit ketika tombol "Ubah" diklik
             $('.btn-edit').click(function() {
-                var classificationId = $(this).data('classification-id');
+                var classificationId = $(this).data('id');
                 $('#ModalEdit' + classificationId).modal('show');
-            });
-
-            $('#activityedit').change(function() {
-                var selectedOption = $(this).find('option:selected');
-                var frontCode = selectedOption.data('front-code-edit');
-                $('#front_code_edit').val(frontCode);
+                $('#activityedit' + classificationId).change(function() {
+                    var selectedOption = $(this).find('option:selected');
+                    var frontCode = selectedOption.data('front-code-edit');
+                    $('#front_code_edit' + classificationId).val(frontCode);
+                });
             });
         });
     </script>
     <script>
         $(document).ready(function() {
             $('#activity').change(function() {
-                var selectedOption = $(this).find('option:selected');
-                var frontCode = selectedOption.data('front-code');
-                $('#front_code').val(frontCode);
-            });
-        });
-    </script>
-    <script>
-        $(document).ready(function() {
-            $('#activityedit').change(function() {
                 var selectedOption = $(this).find('option:selected');
                 var frontCode = selectedOption.data('front-code');
                 $('#front_code').val(frontCode);

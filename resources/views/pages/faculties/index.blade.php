@@ -52,9 +52,9 @@
                                                     <td>{{ $f->slug }}</td>
                                                     <td>
                                                         <a href="#" class="btn btn-primary btn-edit"
-                                                            data-toggle="modal"
-                                                            data-target="#ModalEdit{{ $f->id }}"><i
-                                                                class="fas fa-edit"></i> Ubah</a>
+                                                            data-toggle="modal" data-target="#ModalEdit{{ $f->id }}"
+                                                            data-id="{{ $f->id }}"><i class="fas fa-edit"></i>
+                                                            Ubah</a>
                                                         <a href="{{ route('faculties.destroy', $f->id) }}"
                                                             class="btn btn-danger" data-confirm-delete="true"><i
                                                                 class="fas fa-trash"></i> Hapus</a>
@@ -85,7 +85,7 @@
         $(document).ready(function() {
             // Menampilkan modal edit ketika tombol "Ubah" diklik
             $('.btn-edit').click(function() {
-                var facultyId = $(this).data('faculty-id');
+                var facultyId = $(this).data('id');
                 $('#ModalEdit' + facultyId).modal('show');
             });
         });

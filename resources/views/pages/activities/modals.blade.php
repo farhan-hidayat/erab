@@ -30,30 +30,31 @@
 </div>
 
 <!-- Modal Ubah -->
-@foreach ($activities as $f)
-    <div class="modal fade" id="ModalEdit{{ $f->id }}" tabindex="-1" role="dialog"
-        aria-labelledby="ModalEdit{{ $f->id }}" aria-hidden="true">
+@foreach ($activities as $activity)
+    <div class="modal fade" id="ModalEdit{{ $activity->id }}" tabindex="-1" role="dialog"
+        aria-labelledby="ModalEdit{{ $activity->id }}" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="ModalEdit{{ $f->id }}">Edit Kegiatan</h5>
+                    <h5 class="modal-title" id="ModalEdit{{ $activity->id }}">Edit Kegiatan</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form method="POST" action="{{ route('activities.update', $f->id) }}" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('activities.update', $activity->id) }}"
+                    enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="edit_code{{ $f->id }}">Kode</label>
-                            <input type="text" class="form-control" id="edit_code{{ $f->id }}" name="code"
-                                value="{{ $f->code }}">
+                            <label for="edit_code{{ $activity->id }}">Kode</label>
+                            <input type="text" class="form-control" id="edit_code{{ $activity->id }}" name="code"
+                                value="{{ $activity->code }}">
                         </div>
                         <div class="form-group">
-                            <label for="edit_name{{ $f->id }}">Nama</label>
-                            <input type="text" class="form-control" id="edit_name{{ $f->id }}" name="name"
-                                value="{{ $f->name }}">
+                            <label for="edit_name{{ $activity->id }}">Nama</label>
+                            <input type="text" class="form-control" id="edit_name{{ $activity->id }}" name="name"
+                                value="{{ $activity->name }}">
                         </div>
                     </div>
                     <div class="modal-footer">
