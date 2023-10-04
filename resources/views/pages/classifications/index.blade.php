@@ -1,23 +1,24 @@
 @extends('layouts.dashboard')
 
 @section('title')
-    E-RAB | Kegiatan
+    E-RAB | Klasifikasi
 @endsection
 
 @push('prepend-style')
     <link rel="stylesheet" href="/node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="/node_modules/datatables.net-select-bs4/css/select.bootstrap4.min.css">
+    <link rel="stylesheet" href="/node_modules/selectric/public/selectric.css">
 @endpush
 
 @section('content')
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Data Kegiatan</h1>
+                <h1>Data Klasifikasi</h1>
                 <div class="section-header-button">
                     <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#ModalTambah"> <i
                             class="fa-solid fa-plus"></i> Tambah
-                        Kegiatan </a>
+                        Klasifikasi </a>
                 </div>
             </div>
 
@@ -40,16 +41,18 @@
                                                     #
                                                 </th>
                                                 <th>Kode</th>
+                                                <th>Kegiatan</th>
                                                 <th>Nama</th>
                                                 <th>Slug</th>
                                                 <th width="20%" class="text-center">Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($activities as $f)
+                                            @foreach ($classifications as $f)
                                                 <tr>
                                                     <td>{{ $no++ }}</td>
-                                                    <td>{{ $f->code }}</td>
+                                                    <td>{{ $f->activity->code . '.' . $f->code }}</td>
+                                                    <td>{{ $f->activity->name }}</td>
                                                     <td>{{ $f->name }}</td>
                                                     <td>{{ $f->slug }}</td>
                                                     <td>
@@ -74,21 +77,46 @@
         </section>
     </div>
 
-    @include('pages.activities.modals')
+    @include('pages.classifications.modals')
 @endsection
 
 @push('prepend-script')
     <script src="/node_modules/datatables/media/js/jquery.dataTables.min.js"></script>
     <script src="/node_modules/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
     <script src="/node_modules/datatables.net-select-bs4/js/select.bootstrap4.min.js"></script>
+    <script src="/node_modules/selectric/public/jquery.selectric.min.js"></script>
 @endpush
 @push('addon-script')
     <script>
         $(document).ready(function() {
             // Menampilkan modal edit ketika tombol "Ubah" diklik
             $('.btn-edit').click(function() {
-                var activityId = $(this).data('activity-id');
-                $('#ModalEdit' + activityId).modal('show');
+                var classificationId = $(this).data('classification-id');
+                $('#ModalEdit' + classificationId).modal('show');
+            });
+
+            $('#activityedit').change(function() {
+                var selectedOption = $(this).find('option:selected');
+                var frontCode = selectedOption.data('front-code-edit');
+                $('#front_code_edit').val(frontCode);
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#activity').change(function() {
+                var selectedOption = $(this).find('option:selected');
+                var frontCode = selectedOption.data('front-code');
+                $('#front_code').val(frontCode);
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#activityedit').change(function() {
+                var selectedOption = $(this).find('option:selected');
+                var frontCode = selectedOption.data('front-code');
+                $('#front_code').val(frontCode);
             });
         });
     </script>

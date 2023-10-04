@@ -5,18 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Activity extends Model
+class Classification extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'code',
         'name',
-        'slug'
+        'slug',
+        'activity_id'
     ];
 
-    public function classification()
+    public function activity()
     {
-        return $this->hasMany(Classification::class);
+        return $this->belongsTo(Activity::class);
     }
 }

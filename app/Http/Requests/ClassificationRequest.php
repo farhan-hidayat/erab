@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class ActivitiesRequest extends FormRequest
+class ClassificationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,8 +25,9 @@ class ActivitiesRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'string', 'max:255', 'unique:activities'],
-            'name' => ['required', 'string', 'max:255', 'unique:activities'],
+            'code'  => ['required', 'string', 'max:255', 'unique:classifications'],
+            'name'  => ['required', 'string', 'max:255', 'unique:classifications'],
+            'activity_id'   => ['required', 'exists:activities,id'],
         ];
     }
 
@@ -37,6 +38,7 @@ class ActivitiesRequest extends FormRequest
             'code.unique' => 'Kode sudah terdaftar',
             'name.required' => 'Nama harus diisi',
             'name.unique' => 'Nama sudah terdaftar',
+            'activity_id.required' => 'Kode harus diisi',
         ];
     }
 }

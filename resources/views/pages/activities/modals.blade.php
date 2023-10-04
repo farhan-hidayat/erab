@@ -3,7 +3,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="ModalTambah">Tambah Fakultas</h5>
+                <h5 class="modal-title" id="ModalTambah">Tambah Kegiatan</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -12,7 +12,7 @@
                 @csrf
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="code">Nama</label>
+                        <label for="code">Kode</label>
                         <input type="text" class="form-control" id="code" name="code">
                     </div>
                     <div class="form-group">
@@ -36,7 +36,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="ModalEdit{{ $f->id }}">Edit Fakultas</h5>
+                    <h5 class="modal-title" id="ModalEdit{{ $f->id }}">Edit Kegiatan</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -46,7 +46,7 @@
                     @method('PUT')
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="edit_code{{ $f->id }}">Nama</label>
+                            <label for="edit_code{{ $f->id }}">Kode</label>
                             <input type="text" class="form-control" id="edit_code{{ $f->id }}" name="code"
                                 value="{{ $f->code }}">
                         </div>

@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\ActivitiesController;
+use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\ClassificationController;
 use App\Http\Controllers\FacultyController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -20,17 +21,28 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
-// Route::get('/', function () {
-//     return redirect()->route('login');
-// });
-
+// User
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified'
 ])->group(function () {
     Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+    // Route::resource('users', UserController::class);
+    // Route::resource('faculties', FacultyController::class);
+    // Route::resource('activities', ActivityController::class);
+});
+
+// Admin
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+    'admin'
+])->group(function () {
+    // Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
     Route::resource('users', UserController::class);
     Route::resource('faculties', FacultyController::class);
-    Route::resource('activities', ActivitiesController::class);
+    Route::resource('activities', ActivityController::class);
+    Route::resource('classifications', ClassificationController::class);
 });

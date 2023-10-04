@@ -60,7 +60,7 @@
                                                         <tr>
                                                             <td>{{ $no++ }}</td>
                                                             <td>{{ $user->name }}</td>
-                                                            <td>{{ $user->fakultas }}</td>
+                                                            <td>{{ $user->faculty->name }}</td>
                                                             <td>{{ $user->email }}</td>
                                                             <td>
                                                                 <a href="#" class="btn btn-primary btn-edit"
