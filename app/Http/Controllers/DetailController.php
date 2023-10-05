@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use Alert;
-use App\Http\Requests\ClassificationRequest;
-use App\Models\Activity;
 use Illuminate\Support\Str;
+use App\Http\Requests\DetailRequest;
 use App\Models\Classification;
+use App\Models\Detail;
 use Illuminate\Http\Request;
 
-class ClassificationController extends Controller
+class DetailController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,14 +19,14 @@ class ClassificationController extends Controller
     public function index()
     {
         $data = [
-            'classifications' => Classification::with('activity')->withCount('details')->get(),
-            'activities' => Activity::all(),
+            'details' => Detail::with('classification', 'classification.activity')->get(),
+            'classifications' => Classification::with('activity')->get(),
             'no' => 1
         ];
         $title = 'Hapus Data!';
         $text = "Apakah Anda Yakin Ingin Menghapus Data? Data yang berelasi akan ikut terhapus!";
         confirmDelete($title, $text);
-        return view('pages.classifications.index', $data);
+        return view('pages.details.index', $data);
     }
 
     /**
@@ -45,15 +45,15 @@ class ClassificationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ClassificationRequest $request)
+    public function store(DetailRequest $request)
     {
         $data = $request->all();
         $data['slug'] = Str::slug($request->name);
         $data['code'] = $request->front_code . '.' . $request->code;
         // return $data;
-        Classification::create($data);
+        Detail::create($data);
 
-        return redirect()->route('classifications.index')->with('toast_success', 'Data Berhasil Ditambahkan');
+        return redirect()->route('details.index')->with('toast_success', 'Data Berhasil Ditambahkan');
     }
 
     /**
@@ -85,15 +85,14 @@ class ClassificationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Classification $classification)
+    public function update(Request $request, Detail $detail)
     {
         $data = $request->all();
         $data['slug'] = Str::slug($request->name);
         $data['code'] = $request->front_code_edit . '.' . $request->code;
-        // return $data;
-        $classification->update($data);
+        $detail->update($data);
 
-        return redirect()->route('classifications.index')->with('toast_success', 'Data Berhasil Diubah');
+        return redirect()->route('details.index')->with('toast_success', 'Data Berhasil Diubah');
     }
 
     /**
@@ -102,10 +101,10 @@ class ClassificationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Classification $classification)
+    public function destroy(Detail $detail)
     {
-        $classification->delete();
+        $detail->delete();
 
-        return redirect()->route('classifications.index')->with('toast_success', 'Data Berhasil Dihapus');
+        return redirect()->route('details.index')->with('toast_success', 'Data Berhasil Dihapus');
     }
 }

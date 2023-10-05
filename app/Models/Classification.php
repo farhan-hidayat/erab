@@ -20,4 +20,9 @@ class Classification extends Model
     {
         return $this->belongsTo(Activity::class);
     }
+
+    public function details()
+    {
+        return $this->hasMany(Detail::class);
+    }
 }

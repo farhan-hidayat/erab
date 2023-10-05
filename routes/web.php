@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\ClassificationController;
+use App\Http\Controllers\DetailController;
 use App\Http\Controllers\FacultyController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -45,4 +46,5 @@ Route::middleware([
     Route::resource('faculties', FacultyController::class);
     Route::resource('activities', ActivityController::class);
     Route::resource('classifications', ClassificationController::class);
+    Route::resource('details', DetailController::class);
 });

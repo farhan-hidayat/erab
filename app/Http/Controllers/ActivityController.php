@@ -18,7 +18,7 @@ class ActivityController extends Controller
     public function index()
     {
         $data = [
-            'activities' => Activity::all(),
+            'activities' => Activity::withCount('classifications')->get(),
             'no' => 1
         ];
         $title = 'Hapus Data!';

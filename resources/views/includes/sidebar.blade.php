@@ -13,7 +13,7 @@
         @if (Auth::user()->roles == 'ADMIN')
             <li class="menu-header">Master Data</li>
             <li
-                class="nav-item dropdown {{ request()->is('activities*') || request()->is('classifications*') ? 'active' : '' }}">
+                class="nav-item dropdown {{ request()->is('activities*') || request()->is('classifications*') || request()->is('details*') ? 'active' : '' }}">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i
                         class="fas fa-list-check fa-beat"></i>
                     <span>Data Kegiatan</span></a>
@@ -22,7 +22,8 @@
                             href="{{ route('activities.index') }}">Kegiatan</a></li>
                     <li class="{{ request()->is('classifications*') ? 'active' : '' }}"><a class="nav-link"
                             href="{{ route('classifications.index') }}">Klasifikasi</a></li>
-                    <li><a class="nav-link" href="#">Rincian</a></li>
+                    <li class="{{ request()->is('details*') ? 'active' : '' }}"><a class="nav-link"
+                            href="{{ route('details.index') }}">Rincian</a></li>
                     <li><a class="nav-link" href="#">Komponen</a></li>
                 </ul>
             </li>
