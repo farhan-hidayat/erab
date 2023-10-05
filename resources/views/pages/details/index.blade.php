@@ -44,6 +44,7 @@
                                                 <th>Klasifikasi</th>
                                                 <th>Nama</th>
                                                 <th>Slug</th>
+                                                <th>Komponen</th>
                                                 <th width="20%" class="text-center">Aksi</th>
                                             </tr>
                                         </thead>
@@ -56,6 +57,11 @@
                                                     <td>{{ $detail->classification->name }}</td>
                                                     <td>{{ $detail->name }}</td>
                                                     <td>{{ $detail->slug }}</td>
+                                                    <td><a href="#" class="btn btn-success btn-add"
+                                                            data-toggle="modal" data-target="#ModalAdd{{ $detail->id }}"
+                                                            data-id="{{ $detail->id }}"><i class="fas fa-plus"></i><span
+                                                                class="badge badge-transparent">{{ $detail->components_count }}</span></a>
+                                                    </td>
                                                     <td>
                                                         <a href="#" class="btn btn-primary btn-edit"
                                                             data-toggle="modal" data-target="#ModalEdit{{ $detail->id }}"

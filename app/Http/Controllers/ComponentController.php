@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use Alert;
 use Illuminate\Support\Str;
-use App\Http\Requests\DetailRequest;
-use App\Models\Classification;
+use App\Http\Requests\ComponentRequest;
+use App\Models\Component;
 use App\Models\Detail;
 use Illuminate\Http\Request;
 
-class DetailController extends Controller
+class ComponentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,15 +19,16 @@ class DetailController extends Controller
     public function index()
     {
         $data = [
-            'details' => Detail::with('classification', 'classification.activity')->withCount('components')->get(),
-            'classifications' => Classification::all(),
+            'components' => Component::with('detail')->get(),
+            'details' => Detail::all(),
             'no' => 1
         ];
         $title = 'Hapus Data!';
         $text = "Apakah Anda Yakin Ingin Menghapus Data? Data yang berelasi akan ikut terhapus!";
         confirmDelete($title, $text);
-        return view('pages.details.index', $data);
+        return view('pages.components.index', $data);
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -45,15 +46,15 @@ class DetailController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(DetailRequest $request)
+    public function store(ComponentRequest $request)
     {
         $data = $request->all();
         $data['slug'] = Str::slug($request->name);
         $data['code'] = $request->front_code . '.' . $request->code;
         // return $data;
-        Detail::create($data);
+        Component::create($data);
 
-        return redirect()->route('details.index')->with('toast_success', 'Data Berhasil Ditambahkan');
+        return redirect()->route('components.index')->with('toast_success', 'Data Berhasil Ditambahkan');
     }
 
     /**
@@ -85,14 +86,14 @@ class DetailController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Detail $detail)
+    public function update(ComponentRequest $request, Component $component)
     {
         $data = $request->all();
         $data['slug'] = Str::slug($request->name);
         $data['code'] = $request->front_code_edit . '.' . $request->code;
-        $detail->update($data);
+        $component->update($data);
 
-        return redirect()->route('details.index')->with('toast_success', 'Data Berhasil Diubah');
+        return redirect()->route('components.index')->with('toast_success', 'Data Berhasil Diubah');
     }
 
     /**
@@ -101,10 +102,10 @@ class DetailController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Detail $detail)
+    public function destroy(Component $component)
     {
-        $detail->delete();
+        $component->delete();
 
-        return redirect()->route('details.index')->with('toast_success', 'Data Berhasil Dihapus');
+        return redirect()->route('components.index')->with('toast_success', 'Data Berhasil Dihapus');
     }
 }

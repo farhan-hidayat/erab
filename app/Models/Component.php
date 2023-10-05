@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Detail extends Model
+class Component extends Model
 {
     use HasFactory;
 
@@ -13,16 +13,11 @@ class Detail extends Model
         'code',
         'name',
         'slug',
-        'classification_id'
+        'detail_id'
     ];
 
-    public function Classification()
+    public function Detail()
     {
-        return $this->belongsTo(Classification::class);
-    }
-
-    public function Components()
-    {
-        return $this->hasMany(Component::class);
+        return $this->belongsTo(Detail::class);
     }
 }

@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('title')
-    E-RAB | Klasifikasi
+    E-RAB | Komponen
 @endsection
 
 @push('prepend-style')
@@ -14,11 +14,11 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Data Klasifikasi</h1>
+                <h1>Data Komponen</h1>
                 <div class="section-header-button">
                     <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#ModalTambah"> <i
                             class="fa-solid fa-plus"></i> Tambah
-                        Klasifikasi </a>
+                        Komponen </a>
                 </div>
             </div>
 
@@ -41,36 +41,27 @@
                                                     #
                                                 </th>
                                                 <th>Kode</th>
-                                                <th>Kegiatan</th>
+                                                <th>Rincian</th>
                                                 <th>Nama</th>
                                                 <th>Slug</th>
-                                                <th>Rincian</th>
                                                 <th width="20%" class="text-center">Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($classifications as $classification)
+                                            @foreach ($components as $component)
                                                 <tr>
                                                     <td>{{ $no++ }}</td>
-                                                    <td>{{ $classification->code }}
+                                                    <td>{{ $component->code }}
                                                     </td>
-                                                    <td>{{ $classification->activity->name }}</td>
-                                                    <td>{{ $classification->name }}</td>
-                                                    <td>{{ $classification->slug }}</td>
-                                                    <td><a href="#" class="btn btn-success btn-add"
-                                                            data-toggle="modal"
-                                                            data-target="#ModalAdd{{ $classification->id }}"
-                                                            data-id="{{ $classification->id }}"><i
-                                                                class="fas fa-plus"></i><span
-                                                                class="badge badge-transparent">{{ $classification->details_count }}</span></a>
-                                                    </td>
+                                                    <td>{{ $component->detail->name }}</td>
+                                                    <td>{{ $component->name }}</td>
+                                                    <td>{{ $component->slug }}</td>
                                                     <td>
                                                         <a href="#" class="btn btn-primary btn-edit"
-                                                            data-toggle="modal"
-                                                            data-target="#ModalEdit{{ $classification->id }}"
-                                                            data-id="{{ $classification->id }}"><i class="fas fa-edit"></i>
+                                                            data-toggle="modal" data-target="#ModalEdit{{ $component->id }}"
+                                                            data-id="{{ $component->id }}"><i class="fas fa-edit"></i>
                                                             Ubah</a>
-                                                        <a href="{{ route('classifications.destroy', $classification->id) }}"
+                                                        <a href="{{ route('components.destroy', $component->id) }}"
                                                             class="btn btn-danger" data-confirm-delete="true"><i
                                                                 class="fas fa-trash"></i> Hapus</a>
                                                     </td>
@@ -87,7 +78,7 @@
         </section>
     </div>
 
-    @include('pages.classifications.modals')
+    @include('pages.components.modals')
 @endsection
 
 @push('prepend-script')
@@ -101,19 +92,19 @@
         $(document).ready(function() {
             // Menampilkan modal edit ketika tombol "Ubah" diklik
             $('.btn-edit').click(function() {
-                var classificationId = $(this).data('id');
-                $('#ModalEdit' + classificationId).modal('show');
-                $('#activityedit' + classificationId).change(function() {
+                var componentId = $(this).data('id');
+                $('#ModalEdit' + componentId).modal('show');
+                $('#classificationedit' + componentId).change(function() {
                     var selectedOption = $(this).find('option:selected');
                     var frontCode = selectedOption.data('front-code-edit');
-                    $('#front_code_edit' + classificationId).val(frontCode);
+                    $('#front_code_edit' + componentId).val(frontCode);
                 });
             });
         });
     </script>
     <script>
         $(document).ready(function() {
-            $('#activity').change(function() {
+            $('#detail').change(function() {
                 var selectedOption = $(this).find('option:selected');
                 var frontCode = selectedOption.data('front-code');
                 $('#front_code').val(frontCode);

@@ -25,8 +25,8 @@ class DetailRequest extends FormRequest
     public function rules()
     {
         return [
-            'code'  => ['required', 'string', 'max:255', 'unique:classifications'],
-            'name'  => ['required', 'string', 'max:255', 'unique:classifications'],
+            'code'  => ['required', 'string', 'max:255', 'unique:details'],
+            'name'  => ['required', 'string', 'max:255'],
             'classification_id'   => ['required', 'exists:classifications,id'],
         ];
     }
@@ -37,7 +37,6 @@ class DetailRequest extends FormRequest
             'code.required' => 'Kode harus diisi',
             'code.unique' => 'Kode sudah terdaftar',
             'name.required' => 'Nama harus diisi',
-            'name.unique' => 'Nama sudah terdaftar',
             'classification_id.required' => 'Kode harus diisi',
         ];
     }
