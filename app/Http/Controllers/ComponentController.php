@@ -86,7 +86,7 @@ class ComponentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(ComponentRequest $request, Component $component)
+    public function update(Request $request, Component $component)
     {
         $data = $request->all();
         $data['slug'] = Str::slug($request->name);
