@@ -29,7 +29,7 @@
                 </ul>
             </li>
             <li
-                class="nav-item dropdown {{ request()->is('resources*') || request()->is('groups*') ? 'active' : '' }}">
+                class="nav-item dropdown {{ request()->is('resources*') || request()->is('groups*') || request()->is('types*') ? 'active' : '' }}">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i
                         class="fas fa-magnifying-glass-dollar fa-beat"></i>
                     <span>Data Sumber Dana</span></a>
@@ -38,7 +38,8 @@
                             href="{{ route('resources.index') }}">Sumber</a></li>
                     <li class="{{ request()->is('groups*') ? 'active' : '' }}"><a class="nav-link"
                             href="{{ route('groups.index') }}">Kelompok Akun</a></li>
-                    <li><a class="nav-link" href="#">Akun</a></li>
+                    <li class="{{ request()->is('types*') ? 'active' : '' }}"><a class="nav-link"
+                            href="{{ route('types.index') }}">Akun</a></li>
                 </ul>
             </li>
             <li class="{{ request()->is('faculties*') ? 'active' : '' }}">

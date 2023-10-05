@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('title')
-    E-RAB | Grup
+    E-RAB | Tipe Akun
 @endsection
 
 @push('prepend-style')
@@ -14,11 +14,11 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Data Grup</h1>
+                <h1>Data Tipe Akun</h1>
                 <div class="section-header-button">
                     <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#ModalTambah"> <i
                             class="fa-solid fa-plus"></i> Tambah
-                        Grup </a>
+                        Tipe Akun </a>
                 </div>
             </div>
 
@@ -41,33 +41,27 @@
                                                     #
                                                 </th>
                                                 <th>Kode</th>
-                                                <th>Sumber Dana</th>
+                                                <th>Grup</th>
                                                 <th>Nama</th>
                                                 <th>Slug</th>
-                                                <th>Tipe</th>
                                                 <th width="20%" class="text-center">Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($groups as $group)
+                                            @foreach ($types as $type)
                                                 <tr>
                                                     <td>{{ $no++ }}</td>
-                                                    <td>{{ $group->code }}
+                                                    <td>{{ $type->code }}
                                                     </td>
-                                                    <td>{{ $group->resource->name }}</td>
-                                                    <td>{{ $group->name }}</td>
-                                                    <td>{{ $group->slug }}</td>
-                                                    <td><a href="#" class="btn btn-success btn-add"
-                                                            data-toggle="modal" data-target="#ModalAdd{{ $group->id }}"
-                                                            data-id="{{ $group->id }}"><i class="fas fa-plus"></i><span
-                                                                class="badge badge-transparent">{{ $group->types_count }}</span></a>
-                                                    </td>
+                                                    <td>{{ $type->group->name }}</td>
+                                                    <td>{{ $type->name }}</td>
+                                                    <td>{{ $type->slug }}</td>
                                                     <td>
                                                         <a href="#" class="btn btn-primary btn-edit"
-                                                            data-toggle="modal" data-target="#ModalEdit{{ $group->id }}"
-                                                            data-id="{{ $group->id }}"><i class="fas fa-edit"></i>
+                                                            data-toggle="modal" data-target="#ModalEdit{{ $type->id }}"
+                                                            data-id="{{ $type->id }}"><i class="fas fa-edit"></i>
                                                             Ubah</a>
-                                                        <a href="{{ route('groups.destroy', $group->id) }}"
+                                                        <a href="{{ route('types.destroy', $type->id) }}"
                                                             class="btn btn-danger" data-confirm-delete="true"><i
                                                                 class="fas fa-trash"></i> Hapus</a>
                                                     </td>
@@ -84,7 +78,7 @@
         </section>
     </div>
 
-    @include('pages.groups.modals')
+    @include('pages.types.modals')
 @endsection
 
 @push('prepend-script')
@@ -98,19 +92,19 @@
         $(document).ready(function() {
             // Menampilkan modal edit ketika tombol "Ubah" diklik
             $('.btn-edit').click(function() {
-                var groupId = $(this).data('id');
-                $('#ModalEdit' + groupId).modal('show');
-                $('#resourceedit' + groupId).change(function() {
+                var typeId = $(this).data('id');
+                $('#ModalEdit' + typeId).modal('show');
+                $('#resourceedit' + typeId).change(function() {
                     var selectedOption = $(this).find('option:selected');
                     var frontCode = selectedOption.data('front-code-edit');
-                    $('#front_code_edit' + groupId).val(frontCode);
+                    $('#front_code_edit' + typeId).val(frontCode);
                 });
             });
         });
     </script>
     <script>
         $(document).ready(function() {
-            $('#resource').change(function() {
+            $('#group').change(function() {
                 var selectedOption = $(this).find('option:selected');
                 var frontCode = selectedOption.data('front-code');
                 $('#front_code').val(frontCode);

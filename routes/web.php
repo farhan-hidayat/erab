@@ -7,6 +7,7 @@ use App\Http\Controllers\DetailController;
 use App\Http\Controllers\FacultyController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\ResourceController;
+use App\Http\Controllers\TypeController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -53,4 +54,5 @@ Route::middleware([
     Route::resource('components', ComponentController::class);
     Route::resource('resources', ResourceController::class);
     Route::resource('groups', GroupController::class);
+    Route::resource('types', TypeController::class);
 });

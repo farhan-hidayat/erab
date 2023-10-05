@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Group extends Model
+class Type extends Model
 {
     use HasFactory;
 
@@ -13,16 +13,11 @@ class Group extends Model
         'code',
         'name',
         'slug',
-        'resource_id'
+        'group_id'
     ];
 
-    public function resource()
+    public function group()
     {
-        return $this->belongsTo(Resource::class);
-    }
-
-    public function types()
-    {
-        return $this->hasMany(Type::class);
+        return $this->belongsTo(Group::class);
     }
 }

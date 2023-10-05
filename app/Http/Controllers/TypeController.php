@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use Alert;
-use App\Http\Requests\GroupRequest;
+use App\Http\Requests\TypeRequest;
 use App\Models\Group;
-use App\Models\Resource;
+use App\Models\Type;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
-class GroupController extends Controller
+class TypeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,14 +19,14 @@ class GroupController extends Controller
     public function index()
     {
         $data = [
-            'groups' => Group::with('resource')->withCount('types')->get(),
-            'resources' => Resource::all(),
+            'types' => Type::with('group')->get(),
+            'groups' => Group::all(),
             'no' => 1
         ];
         $title = 'Hapus Data!';
         $text = "Apakah Anda Yakin Ingin Menghapus Data? Data yang berelasi akan ikut terhapus!";
         confirmDelete($title, $text);
-        return view('pages.groups.index', $data);
+        return view('pages.types.index', $data);
     }
 
     /**
@@ -45,15 +45,15 @@ class GroupController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(GroupRequest $request)
+    public function store(TypeRequest $request)
     {
         $data = $request->all();
         $data['slug'] = Str::slug($request->name);
         $data['code'] = $request->front_code . '.' . $request->code;
         // return $data;
-        Group::create($data);
+        Type::create($data);
 
-        return redirect()->route('groups.index')->with('toast_success', 'Data Berhasil Ditambahkan');
+        return redirect()->route('types.index')->with('toast_success', 'Data Berhasil Ditambahkan');
     }
 
     /**
@@ -85,15 +85,15 @@ class GroupController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Group $group)
+    public function update(Request $request, Type $type)
     {
         $data = $request->all();
         $data['slug'] = Str::slug($request->name);
         $data['code'] = $request->front_code_edit . '.' . $request->code;
         // return $data;
-        $group->update($data);
+        $type->update($data);
 
-        return redirect()->route('groups.index')->with('toast_success', 'Data Berhasil Diubah');
+        return redirect()->route('types.index')->with('toast_success', 'Data Berhasil Diubah');
     }
 
     /**
@@ -102,10 +102,10 @@ class GroupController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Group $group)
+    public function destroy(Type $type)
     {
-        $group->delete();
+        $type->delete();
 
-        return redirect()->route('groups.index')->with('toast_success', 'Data Berhasil Dihapus');
+        return redirect()->route('types.index')->with('toast_success', 'Data Berhasil Dihapus');
     }
 }
