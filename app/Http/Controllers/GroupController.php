@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use Alert;
-use Illuminate\Support\Str;
-use App\Http\Requests\ResourceRequest;
+use App\Http\Requests\GroupRequest;
+use App\Models\Group;
 use App\Models\Resource;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
-class ResourceController extends Controller
+class GroupController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,13 +19,14 @@ class ResourceController extends Controller
     public function index()
     {
         $data = [
-            'resources' => Resource::withCount('groups')->get(),
+            'groups' => Group::with('resource')->get(),
+            'resources' => Resource::all(),
             'no' => 1
         ];
         $title = 'Hapus Data!';
         $text = "Apakah Anda Yakin Ingin Menghapus Data? Data yang berelasi akan ikut terhapus!";
         confirmDelete($title, $text);
-        return view('pages.resources.index', $data);
+        return view('pages.groups.index', $data);
     }
 
     /**
@@ -43,14 +45,15 @@ class ResourceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ResourceRequest $request)
+    public function store(GroupRequest $request)
     {
         $data = $request->all();
         $data['slug'] = Str::slug($request->name);
+        $data['code'] = $request->front_code . '.' . $request->code;
         // return $data;
-        Resource::create($data);
+        Group::create($data);
 
-        return redirect()->route('resources.index')->with('toast_success', 'Data Berhasil Ditambahkan');
+        return redirect()->route('groups.index')->with('toast_success', 'Data Berhasil Ditambahkan');
     }
 
     /**
@@ -82,14 +85,15 @@ class ResourceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Resource $resource)
+    public function update(Request $request, Group $group)
     {
         $data = $request->all();
         $data['slug'] = Str::slug($request->name);
+        $data['code'] = $request->front_code_edit . '.' . $request->code;
+        // return $data;
+        $group->update($data);
 
-        $resource->update($data);
-
-        return redirect()->route('resources.index')->with('toast_success', 'Data Berhasil Diubah');
+        return redirect()->route('groups.index')->with('toast_success', 'Data Berhasil Diubah');
     }
 
     /**
@@ -98,10 +102,10 @@ class ResourceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Resource $resource)
+    public function destroy(Group $group)
     {
-        $resource->delete();
+        $group->delete();
 
-        return redirect()->route('resources.index')->with('toast_success', 'Data Berhasil Dihapus');
+        return redirect()->route('groups.index')->with('toast_success', 'Data Berhasil Dihapus');
     }
 }

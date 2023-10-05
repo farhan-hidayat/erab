@@ -14,4 +14,9 @@ class Resource extends Model
         'name',
         'slug'
     ];
+
+    public function groups()
+    {
+        return $this->hasMany(Group::class);
+    }
 }

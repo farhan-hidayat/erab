@@ -16,7 +16,7 @@ class Component extends Model
         'detail_id'
     ];
 
-    public function Detail()
+    public function detail()
     {
         return $this->belongsTo(Detail::class);
     }

@@ -28,14 +28,16 @@
                             href="{{ route('components.index') }}">Komponen</a></li>
                 </ul>
             </li>
-            <li class="nav-item dropdown {{ request()->is('resources*') ? 'active' : '' }}">
+            <li
+                class="nav-item dropdown {{ request()->is('resources*') || request()->is('groups*') ? 'active' : '' }}">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i
                         class="fas fa-magnifying-glass-dollar fa-beat"></i>
                     <span>Data Sumber Dana</span></a>
                 <ul class="dropdown-menu">
                     <li class="{{ request()->is('resources*') ? 'active' : '' }}"><a class="nav-link"
                             href="{{ route('resources.index') }}">Sumber</a></li>
-                    <li><a class="nav-link" href="#">Kelompok Akun</a></li>
+                    <li class="{{ request()->is('groups*') ? 'active' : '' }}"><a class="nav-link"
+                            href="{{ route('groups.index') }}">Kelompok Akun</a></li>
                     <li><a class="nav-link" href="#">Akun</a></li>
                 </ul>
             </li>
