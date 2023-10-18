@@ -6,6 +6,8 @@ use App\Http\Controllers\ComponentController;
 use App\Http\Controllers\DetailController;
 use App\Http\Controllers\FacultyController;
 use App\Http\Controllers\GroupController;
+use App\Http\Controllers\RabComboboxController;
+use App\Http\Controllers\RabController;
 use App\Http\Controllers\ResourceController;
 use App\Http\Controllers\TypeController;
 use App\Http\Controllers\UserController;
@@ -33,6 +35,12 @@ Route::middleware([
     'verified'
 ])->group(function () {
     Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+    Route::resource('rabs', RabController::class);
+    Route::get('get-classifications/{activityId}', [RabComboboxController::class, 'getClassificationsByActivity']);
+    Route::get('get-details/{classificationId}', [RabComboboxController::class, 'getDetailsByClassification']);
+    Route::get('get-components/{detailId}', [RabComboboxController::class, 'getComponentsByDetail']);
+    Route::get('get-groups/{resourceId}', [RabComboboxController::class, 'getGroupsByResource']);
+    Route::get('get-types/{groupId}', [RabComboboxController::class, 'getTypesByGroup']);
     // Route::resource('users', UserController::class);
     // Route::resource('faculties', FacultyController::class);
     // Route::resource('activities', ActivityController::class);

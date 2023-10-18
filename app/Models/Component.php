@@ -20,4 +20,9 @@ class Component extends Model
     {
         return $this->belongsTo(Detail::class);
     }
+
+    public function rabs()
+    {
+        return $this->hasMany(Rab::class);
+    }
 }

@@ -65,4 +65,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Faculty::class);
     }
+
+    public function rabs()
+    {
+        return $this->hasMany(Rab::class);
+    }
 }

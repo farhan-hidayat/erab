@@ -53,11 +53,11 @@
             </li>
         @endif
         <li class="menu-header">Aplikasi</li>
-        <li class="">
-            <a href="#" class="nav-link"><i class="fas fa-scale-balanced fa-beat"></i>
+        <li class="{{ request()->is('rabs*') ? 'active' : '' }}">
+            <a href="{{ route('rabs.index') }}" class="nav-link"><i class="fas fa-scale-balanced fa-beat"></i>
                 <span>RAB</span></a>
         </li>
-        <li class="">
+        <li class="{{ request()->is('rpds*') ? 'active' : '' }}">
             <a href="#" class="nav-link"><i class="fa-solid fa-money-bill-transfer fa-beat"></i>
                 <span>RPD</span></a>
         </li>
