@@ -90,8 +90,8 @@
     </div>
 </div>
 
-{{-- <!-- Modal Ubah -->
-@foreach ($activities as $activity)
+<!-- Modal Ubah -->
+{{-- @foreach ($activities as $activity)
     <div class="modal fade" id="ModalEdit{{ $activity->id }}" tabindex="-1" role="dialog"
         aria-labelledby="ModalEdit{{ $activity->id }}" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -126,36 +126,68 @@
             </div>
         </div>
     </div>
-@endforeach
+@endforeach --}}
 
-<!-- Modal Tambah Classification -->
-@foreach ($activities as $activity)
-    <div class="modal fade" id="ModalAdd{{ $activity->id }}" tabindex="-1" role="dialog" aria-labelledby="ModalAdd"
+<!-- Modal Tambah RAB langsung Classification -->
+@foreach ($components as $component)
+    <div class="modal fade" id="ModalAdd{{ $component->id }}" tabindex="-1" role="dialog" aria-labelledby="ModalAdd"
         aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="ModalAdd{{ $activity->id }}">Tambah Klasifikasi</h5>
+                    <h5 class="modal-title" id="ModalAdd{{ $component->id }}">Pengajuan RAB</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form method="POST" action="{{ route('classifications.store') }}" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('rabs.store') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="code">Kode</label>
                             <div class="input-group">
-                                <input type="hidden" class="form-control" name="activity_id" id="activity"
-                                    value="{{ $activity->id }}">
+                                <input type="hidden" class="form-control" name="component_id" id="component"
+                                    value="{{ $component->id }}">
                                 <input type="text" class="form-control" id="front_code" name="front_code"
-                                    value="{{ $activity->code }}" readonly>
-                                <input type="text" class="form-control" id="back_code" name="code">
+                                    value="{{ $component->code }}" readonly>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="name">Nama</label>
-                            <input type="text" class="form-control" id="name" name="name">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Sumber Dana</span>
+                                </div>
+                                <select name="resource_id" id="resourceTD{{ $component->id }}" class="form-control">
+                                    <option value="">Pilih Sumber Dana</option>
+                                    @foreach ($resources as $resource)
+                                        <option value="{{ $resource->id }}">{{ $resource->name }}</option>
+                                    @endforeach
+                                </select>
+                                <div class="input-group-append">
+                                    <span class="input-group-text">Kelompok Akun</span>
+                                </div>
+                                <select name="group_id" id="groupTD{{ $component->id }}" class="form-control">
+                                </select>
+                                <div class="input-group-append">
+                                    <span class="input-group-text">Akun</span>
+                                </div>
+                                <select name="type_id" id="typeTD{{ $component->id }}" class="form-control">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Deskripsi</label>
+                            <textarea class="summernote-simple" id="description" name="description"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input type="number" class="form-control" id="volume" name="volume"
+                                    placeholder="Volume">
+                                <input type="number" class="form-control" id="frequency" name="frequency"
+                                    placeholder="Frequency">
+                                <input type="number" class="form-control" id="price" name="price"
+                                    placeholder="Price">
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -166,4 +198,4 @@
             </div>
         </div>
     </div>
-@endforeach --}}
+@endforeach

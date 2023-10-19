@@ -85,13 +85,17 @@
                                                                                                 </h4>
                                                                                                 @if (Auth::user()->roles == 'USER')
                                                                                                     <a href="#"
-                                                                                                        class="btn btn-success btn-add"
+                                                                                                        class="btn btn-primary btn-add"
                                                                                                         data-toggle="modal"
                                                                                                         data-target="#ModalAdd{{ $component->id }}"
                                                                                                         data-id="{{ $component->id }}"><i
                                                                                                             class="fas fa-plus"></i>
-                                                                                                        {{-- <span
-                                                                                                                    class="badge badge-transparent">{{ $activity->classifications_count }}</span> --}}
+                                                                                                        <span
+                                                                                                            class="badge badge-danger">{{ $rabs->where('component_id', $component->id)->where('status', 'DITOLAK')->where('user_id', Auth::user()->id)->count() }}</span>
+                                                                                                        <span
+                                                                                                            class="badge badge-warning">{{ $rabs->where('component_id', $component->id)->where('status', 'PENGAJUAN')->where('user_id', Auth::user()->id)->count() }}</span>
+                                                                                                        <span
+                                                                                                            class="badge badge-success">{{ $rabs->where('component_id', $component->id)->where('status', 'DITERIMA')->where('user_id', Auth::user()->id)->count() }}</span>
                                                                                                     </a>
                                                                                                 @endif
                                                                                             </div>
@@ -113,7 +117,7 @@
                                                                                                                         </th>
                                                                                                                         <th>Tiket
                                                                                                                         </th>
-                                                                                                                        <th>Akun
+                                                                                                                        <th>Fakultas
                                                                                                                         </th>
                                                                                                                         <th>Nominal
                                                                                                                         </th>
@@ -174,7 +178,7 @@
                                                                                                                                 </td>
                                                                                                                                 <td>{{ $rab->ticket }}
                                                                                                                                 </td>
-                                                                                                                                <td>{{ $rab->type->name }}
+                                                                                                                                <td>{{ $rab->user->faculty->name }}
                                                                                                                                 </td>
                                                                                                                                 <td>{{ $rab->price }}
                                                                                                                                 </td>
@@ -191,15 +195,13 @@
                                                                                                                                     @endif
                                                                                                                                 </td>
                                                                                                                                 <td>
-                                                                                                                                    @if (Auth::user()->roles == 'USER')
-                                                                                                                                        <a href="#"
-                                                                                                                                            class="btn btn-primary btn-edit"
-                                                                                                                                            data-toggle="modal"
-                                                                                                                                            data-target="#"
-                                                                                                                                            data-id="#"><i
-                                                                                                                                                class="fas fa-edit"></i>
-                                                                                                                                            Ubah</a>
-                                                                                                                                    @endif
+                                                                                                                                    <a href="#"
+                                                                                                                                        class="btn btn-success btn-edit"
+                                                                                                                                        data-toggle="modal"
+                                                                                                                                        data-target="#"
+                                                                                                                                        data-id="#"><i
+                                                                                                                                            class="fas fa-edit"></i>
+                                                                                                                                        Verifikasi</a>
                                                                                                                                     <a href="#"
                                                                                                                                         class="btn btn-danger"
                                                                                                                                         data-confirm-delete="true"><i
@@ -410,6 +412,67 @@
                         }
                     });
                 }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('.btn-add').click(function() {
+                var Id = $(this).data('id');
+                // Ambil selectbox Klasifikasi
+                var groupSelect = $('#groupTD' + Id);
+                // Ambil selectbox Rincian
+                var typeSelect = $('#typeTD' + Id);
+
+                // Ketika selectbox Kegiatan berubah
+                $('#resourceTD' + Id).change(function() {
+                    // Reset dan hapus opsi yang ada pada selectbox Klasifikasi
+                    groupSelect.empty().append('<option value="">Pilih Kelompok Akun</option>');
+                    // Reset dan hapus opsi yang ada pada selectbox Rincian
+                    typeSelect.empty().append('<option value="">Pilih Akun</option>');
+
+                    var selectedResourceId = $(this).val();
+                    if (selectedResourceId) {
+                        // Ambil data klasifikasi berdasarkan kegiatan yang dipilih
+                        $.ajax({
+                            url: '/get-groups/' +
+                                selectedResourceId, // Ganti URL ini sesuai kebutuhan
+                            type: 'GET',
+                            dataType: 'json',
+                            success: function(data) {
+                                // Isi selectbox Klasifikasi dengan data yang diterima
+                                for (var i = 0; i < data.length; i++) {
+                                    groupSelect.append('<option value="' + data[i].id +
+                                        '">' + data[i].name + '</option>');
+                                }
+                            }
+                        });
+                    }
+                });
+
+                // Ketika selectbox Klasifikasi berubah
+                groupSelect.change(function() {
+                    // Reset dan hapus opsi yang ada pada selectbox Rincian
+                    typeSelect.empty().append('<option value="">Pilih Akun</option>');
+
+                    var selectedgroupId = $(this).val();
+                    if (selectedgroupId) {
+                        // Ambil data rincian berdasarkan klasifikasi yang dipilih
+                        $.ajax({
+                            url: '/get-types/' +
+                                selectedgroupId, // Ganti URL ini sesuai kebutuhan
+                            type: 'GET',
+                            success: function(data) {
+                                // Isi selectbox Rincian dengan data yang diterima
+                                for (var i = 0; i < data.length; i++) {
+                                    typeSelect.append('<option value="' + data[i].id +
+                                        '">' +
+                                        data[i].name + '</option>');
+                                }
+                            }
+                        });
+                    }
+                });
             });
         });
     </script>
