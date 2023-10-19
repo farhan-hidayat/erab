@@ -163,7 +163,7 @@
                                                                                                                                                 class="fas fa-edit"></i>
                                                                                                                                             Ubah</a>
                                                                                                                                     @endif
-                                                                                                                                    <a href="#"
+                                                                                                                                    <a href="{{ route('rabs.destroy', $rab->id) }}') }}"
                                                                                                                                         class="btn btn-danger"
                                                                                                                                         data-confirm-delete="true"><i
                                                                                                                                             class="fas fa-trash"></i>
@@ -202,7 +202,7 @@
                                                                                                                                         data-id="#"><i
                                                                                                                                             class="fas fa-edit"></i>
                                                                                                                                         Verifikasi</a>
-                                                                                                                                    <a href="#"
+                                                                                                                                    <a href="{{ route('rabs.destroy', $rab->id) }}') }}"
                                                                                                                                         class="btn btn-danger"
                                                                                                                                         data-confirm-delete="true"><i
                                                                                                                                             class="fas fa-trash"></i>
