@@ -32,7 +32,7 @@ class RabController extends Controller
             'resources' => Resource::all(),
             'groups' => Group::with('resource')->get(),
             'types' => Type::with('group')->get(),
-            'rabs' => Rab::with('user', 'component')->get(),
+            'rabs' => Rab::with('user', 'type', 'type.group', 'type.group.resource', 'component', 'component.detail', 'component.detail.classification', 'component.detail.classification.activity')->get(),
             'no' => 1
         ];
         $title = 'Hapus Data!';
@@ -97,9 +97,13 @@ class RabController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Rab $rab)
     {
-        //
+        $data = $request->all();
+        // return $data;
+        $rab->update($data);
+
+        return redirect()->route('rabs.index')->with('toast_success', 'Data Berhasil Diubah');
     }
 
     /**
