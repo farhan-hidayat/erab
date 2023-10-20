@@ -33,7 +33,6 @@ class RabController extends Controller
             'groups' => Group::with('resource')->get(),
             'types' => Type::with('group')->get(),
             'rabs' => Rab::with('user', 'type', 'type.group', 'type.group.resource', 'component', 'component.detail', 'component.detail.classification', 'component.detail.classification.activity')->get(),
-            'no' => 1
         ];
         $title = 'Hapus Data!';
         $text = "Apakah Anda Yakin Ingin Menghapus Data? Data yang berelasi akan ikut terhapus!";

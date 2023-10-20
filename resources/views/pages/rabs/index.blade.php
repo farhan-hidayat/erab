@@ -200,6 +200,9 @@
                                                                                                                 </thead>
                                                                                                                 <tbody>
                                                                                                                     @if (Auth::user()->roles == 'USER')
+                                                                                                                        @php
+                                                                                                                            $no = 1;
+                                                                                                                        @endphp
                                                                                                                         @foreach ($rabs->where('component_id', $component->id)->where('user_id', Auth::user()->id) as $rab)
                                                                                                                             <tr>
                                                                                                                                 <td>{{ $no++ }}
@@ -244,6 +247,9 @@
                                                                                                                             </tr>
                                                                                                                         @endforeach
                                                                                                                     @else
+                                                                                                                        @php
+                                                                                                                            $no = 1;
+                                                                                                                        @endphp
                                                                                                                         @foreach ($rabs->where('component_id', $component->id) as $rab)
                                                                                                                             <tr>
                                                                                                                                 <td>{{ $no++ }}

@@ -9,6 +9,7 @@ use App\Http\Controllers\GroupController;
 use App\Http\Controllers\RabComboboxController;
 use App\Http\Controllers\RabController;
 use App\Http\Controllers\ResourceController;
+use App\Http\Controllers\RpdController;
 use App\Http\Controllers\TypeController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -41,6 +42,7 @@ Route::middleware([
     Route::get('get-components/{detailId}', [RabComboboxController::class, 'getComponentsByDetail']);
     Route::get('get-groups/{resourceId}', [RabComboboxController::class, 'getGroupsByResource']);
     Route::get('get-types/{groupId}', [RabComboboxController::class, 'getTypesByGroup']);
+    Route::resource('rpds', RpdController::class);
     // Route::resource('users', UserController::class);
     // Route::resource('faculties', FacultyController::class);
     // Route::resource('activities', ActivityController::class);
