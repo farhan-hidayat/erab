@@ -72,10 +72,19 @@
                     </div>
                     <div class="form-group">
                         <div class="input-group">
+                            <div class="input-group-append">
+                                <span class="input-group-text">Volume</span>
+                            </div>
                             <input type="number" class="form-control" id="volume" name="volume"
                                 placeholder="Volume">
+                            <div class="input-group-append">
+                                <span class="input-group-text">Frequency</span>
+                            </div>
                             <input type="number" class="form-control" id="frequency" name="frequency"
                                 placeholder="Frequency">
+                            <div class="input-group-append">
+                                <span class="input-group-text">Rp.</span>
+                            </div>
                             <input type="text" class="form-control currency" id="price" name="price"
                                 placeholder="Price">
                         </div>
@@ -213,10 +222,10 @@
                                 <input type="number" class="form-control" id="frequency" name="frequency"
                                     value="{{ $rab->frequency }}">
                                 <div class="input-group-append">
-                                    <span class="input-group-text">Rp</span>
+                                    <span class="input-group-text">Rp.</span>
                                 </div>
                                 <input type="text" class="form-control currency" id="price" name="price"
-                                    value="{{ $rab->price }}">
+                                    value="{{ number_format($rab->price) }}">
                             </div>
                         </div>
                     </div>
@@ -279,10 +288,10 @@
                                 <input type="number" class="form-control" id="frequency" name="frequency"
                                     value="{{ $rab->frequency }}" disabled>
                                 <div class="input-group-append">
-                                    <span class="input-group-text">Price</span>
+                                    <span class="input-group-text">Rp.</span>
                                 </div>
                                 <input type="text" class="form-control currency" id="price" name="price"
-                                    value="{{ $rab->price }}" disabled>
+                                    value="{{ number_format($rab->price) }}" disabled>
                             </div>
                         </div>
                     </div>
@@ -353,10 +362,19 @@
                         </div>
                         <div class="form-group">
                             <div class="input-group">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">Volume</span>
+                                </div>
                                 <input type="number" class="form-control" id="volume" name="volume"
                                     placeholder="Volume">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">Frequency</span>
+                                </div>
                                 <input type="number" class="form-control" id="frequency" name="frequency"
                                     placeholder="Frequency">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">Rp.</span>
+                                </div>
                                 <input type="text" class="form-control currency" id="price" name="price"
                                     placeholder="Price">
                             </div>

@@ -210,7 +210,8 @@
                                                                                                                                 </td>
                                                                                                                                 <td>{{ $rab->type->name }}
                                                                                                                                 </td>
-                                                                                                                                <td>{{ $rab->price }}
+                                                                                                                                <td>Rp.
+                                                                                                                                    {{ number_format($rab->price) }}
                                                                                                                                 </td>
                                                                                                                                 <td>
                                                                                                                                     @if ($rab->status == 'PENGAJUAN')
@@ -253,7 +254,8 @@
                                                                                                                                 </td>
                                                                                                                                 <td>{{ $rab->type->name }}
                                                                                                                                 </td>
-                                                                                                                                <td>{{ $rab->price }}
+                                                                                                                                <td>Rp.
+                                                                                                                                    {{ number_format($rab->price) }}
                                                                                                                                 </td>
                                                                                                                                 <td>
                                                                                                                                     @if ($rab->status == 'PENGAJUAN')

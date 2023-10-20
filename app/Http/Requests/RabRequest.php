@@ -30,15 +30,15 @@ class RabRequest extends FormRequest
             'description' => ['required', 'max:255'],
             'volume' => ['required', 'integer'],
             'frequency' => ['required', 'integer'],
-            'price' => ['required', 'integer'],
+            'price' => ['required'],
         ];
     }
 
     public function messages()
     {
         return [
-            'component_id.required' => 'Component harus diisi',
-            'type_id.required' => 'Type harus diisi',
+            'component_id.required' => 'Komponen harus diisi',
+            'type_id.required' => 'Akun Dana harus diisi',
             'description.required' => 'Deskripsi harus diisi',
             'volume.required' => 'Volume harus diisi',
             'frequency.required' => 'Frekuensi harus diisi',
