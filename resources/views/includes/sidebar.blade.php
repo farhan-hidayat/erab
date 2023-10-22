@@ -58,8 +58,7 @@
                 <span>RAB</span></a>
         </li>
         <li class="{{ request()->is('rpds*') ? 'active' : '' }}">
-            <a href="{{ route('rpds.index') }}" class="nav-link"><i
-                    class="fa-solid fa-money-bill-transfer fa-beat"></i>
+            <a href="{{ route('rpds.index') }}" class="nav-link"><i class="fas fa-money-bill-transfer fa-beat"></i>
                 <span>RPD</span></a>
         </li>
     </ul>

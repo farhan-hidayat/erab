@@ -47,23 +47,58 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {{-- @foreach ($resources as $resource) --}}
-                                            <tr>
-                                                <td>1</td>
-                                                <td>RAB-20231010</td>
-                                                <td>Fakultas Teknik</td>
-                                                <td>Rp. 1,500,000</td>
-                                                <td>Rp. 1,000,000</td>
-                                                <td class="text-center">
-                                                    <a href="#" class="btn btn-primary btn-lihat" data-toggle="modal"
-                                                        data-target="#ModalLihat" data-id="#"><i class="fas fa-eye"></i>
-                                                        Lihat</a>
-                                                    <a href="#" class="btn btn-success btn-tarik" data-toggle="modal"
-                                                        data-target="#ModalTarik" data-id="#"><i
-                                                            class="fa-solid fa-money-bill-1-wave"></i> Pencairan</a>
-                                                </td>
-                                            </tr>
-                                            {{-- @endforeach --}}
+                                            @if (Auth::user()->roles == 'USER')
+                                                @php
+                                                    $no = 1;
+                                                @endphp
+                                                @foreach ($rabs->where('user_id', Auth::user()->id) as $rab)
+                                                    <tr>
+                                                        <td>{{ $no++ }}</td>
+                                                        <td>{{ $rab->ticket }}</td>
+                                                        <td>{{ $rab->user->faculty->name }}</td>
+                                                        <td>Rp. {{ number_format($rab->price) }}</td>
+                                                        <td>Rp. {{ number_format($rab->balance) }}</td>
+                                                        <td class="text-center">
+                                                            <a href="#" class="btn btn-primary btn-lihat"
+                                                                data-toggle="modal"
+                                                                data-target="#ModalLihat{{ $rab->id }}"
+                                                                data-id="{{ $rab->id }}"><i class="fas fa-eye"></i>
+                                                                Lihat</a>
+                                                            <a href="#" class="btn btn-success btn-tarik"
+                                                                data-toggle="modal"
+                                                                data-target="#ModalTarik{{ $rab->id }}"
+                                                                data-id="{{ $rab->id }}"><i
+                                                                    class="fa-solid fa-money-bill-1-wave"></i>
+                                                                Pencairan</a>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            @else
+                                                @php
+                                                    $no = 1;
+                                                @endphp
+                                                @foreach ($rabs as $rab)
+                                                    <tr>
+                                                        <td>{{ $no++ }}</td>
+                                                        <td>{{ $rab->ticket }}</td>
+                                                        <td>{{ $rab->user->faculty->name }}</td>
+                                                        <td>Rp. {{ number_format($rab->price) }}</td>
+                                                        <td>Rp. {{ number_format($rab->balance) }}</td>
+                                                        <td class="text-center">
+                                                            <a href="#" class="btn btn-primary btn-lihat"
+                                                                data-toggle="modal"
+                                                                data-target="#ModalLihat{{ $rab->id }}"
+                                                                data-id="{{ $rab->id }}"><i class="fas fa-eye"></i>
+                                                                Lihat</a>
+                                                            {{-- <a href="#" class="btn btn-success btn-tarik"
+                                                                data-toggle="modal" data-target="#ModalTarik"
+                                                                data-id="{{ $rab->id }}"><i
+                                                                    class="fa-solid fa-money-bill-1-wave"></i>
+                                                                Pencairan</a> --}}
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            @endif
                                         </tbody>
                                     </table>
                                 </div>
@@ -87,9 +122,80 @@
     <script>
         $(document).ready(function() {
             // Menampilkan modal edit ketika tombol "Ubah" diklik
-            $('.btn-edit').click(function() {
-                var resourceId = $(this).data('id');
-                $('#ModalEdit' + resourceId).modal('show');
+            $('.btn-lihat').click(function() {
+                var rabId = $(this).data('id');
+                $('#ModaLihat' + rabId).modal('show');
+
+                // Fungsi untuk mengatur status dan mengirim form
+                function setStatus(status, rabId) {
+                    document.getElementById('status' + rabId).value = status;
+                    document.getElementById('myForm' + rabId).submit();
+                }
+
+                // Mengikat fungsi setStatus ke tombol "Terima" dan "Tolak"
+                $('.btn-terima').click(function() {
+                    var rabId = $(this).data('id');
+                    setStatus('DITERIMA', rabId);
+                });
+
+                $('.btn-tolak').click(function() {
+                    var rabId = $(this).data('id');
+                    setStatus('DITOLAK', rabId);
+                });
+            });
+            $('.btn-tarik').click(function() {
+                var rabId = $(this).data('id');
+                $('#ModaTarik' + rabId).modal('show');
+
+                const rabBalanceInput = document.querySelector('#rab_balance' + rabId);
+                const currencyInputs = document.querySelectorAll('.currency' + rabId);
+
+                // Simpan nilai awal dari rab_balance untuk mengembalikannya jika input dihapus
+                const initialBalance = parseInt(rabBalanceInput.value.replace(/[^0-9]/g, ''));
+
+                currencyInputs.forEach(function(input) {
+                    input.addEventListener('input', function() {
+                        // Menghapus karakter selain angka
+                        let value = this.value.replace(/[^0-9]/g, '');
+
+                        // Format angka menjadi ribuan
+                        if (value.length > 3) {
+                            value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                        }
+
+                        // Setel nilai input dengan format ribuan
+                        this.value = value;
+
+                        // Perbarui rab_balance secara dinamis
+                        const priceValue = parseInt(value.replace(/,/g,
+                            '')); // Hapus tanda koma dan parse ke integer
+                        const rabBalanceValue = parseInt(rabBalanceInput.value.replace(
+                            /[^0-9]/g, '')); // Ambil nilai dari rab_balance
+
+                        if (!isNaN(priceValue) && !isNaN(rabBalanceValue)) {
+                            const newBalance = rabBalanceValue - priceValue;
+
+                            if (priceValue > rabBalanceValue) {
+                                // Jika nilai input melebihi rab_balance, set nilai input menjadi rab_balance
+                                this.value = 0;
+                                rabBalanceInput.value = 'Rp. ' + initialBalance
+                                    .toLocaleString();
+                                // rabBalanceInput.value = 'Rp. 0';
+                            } else {
+                                const newBalance = rabBalanceValue - priceValue;
+                                rabBalanceInput.value = 'Rp. ' + newBalance
+                                    .toLocaleString();
+                            }
+                        }
+                    });
+                    // Tangani peristiwa ketika input dihapus
+                    input.addEventListener('keyup', function(event) {
+                        if (event.key === 'Backspace' || event.key === 'Delete') {
+                            rabBalanceInput.value = 'Rp. ' + initialBalance
+                                .toLocaleString(); // Kembalikan ke nilai awal
+                        }
+                    });
+                });
             });
         });
     </script>

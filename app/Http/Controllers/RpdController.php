@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Alert;
+use App\Http\Requests\RpdRequest;
+use App\Models\Rab;
+use App\Models\Rpd;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
@@ -16,7 +19,8 @@ class RpdController extends Controller
     public function index()
     {
         $data = [
-            // 'resources' => Resource::withCount('groups')->get(),
+            'rabs' => Rab::with('type', 'user', 'user.faculty')->where('status', 'DITERIMA')->get(),
+            'rpds' => Rpd::with('rab')->get(),
             'no' => 1
         ];
         $title = 'Hapus Data!';
@@ -41,9 +45,19 @@ class RpdController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(RpdRequest $request)
     {
-        //
+        $data = $request->all();
+        $saldo = Rab::where('id', $data['rab_id'])->first();
+        $data['ticket'] = 'RPD-' . date('Ymd') . '-' . Str::random(5);
+        $data['price'] = Str::replace(',', '', $data['price']);
+        $data['balance'] = $saldo->balance - $data['price'];
+        $data['status'] = 'PENGAJUAN';
+        // return $data;
+        Rpd::create($data);
+        Rab::where('id', $data['rab_id'])->update(['balance' => $data['balance']]);
+
+        return redirect()->route('rpds.index')->with('toast_success', 'Data Berhasil Ditambahkan');
     }
 
     /**
@@ -75,9 +89,13 @@ class RpdController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Rpd $rpd)
     {
-        //
+        $data = $request->all();
+        // return $data;
+        $rpd->update($data);
+
+        return redirect()->route('rpds.index')->with('toast_success', 'Data Berhasil Diubah');
     }
 
     /**
@@ -86,8 +104,10 @@ class RpdController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Rpd $rpd)
     {
-        //
+        $rpd->delete();
+        toast('Data Berhasil Dihapus', 'success');
+        return redirect()->route('rpds.index');
     }
 }

@@ -35,4 +35,9 @@ class Rab extends Model
     {
         return $this->belongsTo(Type::class);
     }
+
+    public function rpds()
+    {
+        return $this->hasMany(Rpd::class);
+    }
 }

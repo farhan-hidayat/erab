@@ -62,6 +62,7 @@ class RabController extends Controller
         $data['ticket'] = 'RAB-' . date('Ymd') . '-' . Str::random(5);
         $data['user_id'] = auth()->user()->id;
         $data['price'] = Str::replace(',', '', $data['price']);
+        $data['balance'] = $data['price'];
         $data['status'] = 'PENGAJUAN';
         // return $data;
         Rab::create($data);
