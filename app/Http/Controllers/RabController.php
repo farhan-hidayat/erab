@@ -102,6 +102,7 @@ class RabController extends Controller
     {
         $data = $request->all();
         $data['price'] = Str::replace(',', '', $data['price']);
+        $data['balance'] = $data['price'];
         // return $data;
         $rab->update($data);
 
