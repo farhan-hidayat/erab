@@ -18,6 +18,7 @@ class Rab extends Model
         'volume',
         'frequency',
         'price',
+        'balance',
         'status',
     ];
 
