@@ -20,68 +20,83 @@
 
             <div class="section-body">
                 <div class="row">
-                    <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                    {{-- <div class="col-lg-4 col-md-6 col-sm-6 col-12">
                         <div class="card card-statistic-1">
                             <div class="card-icon bg-primary">
-                                <i class="far fa-user"></i>
+                                <i class="fas fa-users fa-beat"></i>
                             </div>
                             <div class="card-wrap">
                                 <div class="card-header">
-                                    <h4>Total Admin</h4>
+                                    <h4>Total Pengguna</h4>
                                 </div>
                                 <div class="card-body">
-                                    10
+                                    {{ $c_users }}
+                                </div>
+                            </div>
+                        </div>
+                    </div> --}}
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+                        <div class="card card-statistic-1">
+                            <div class="card-icon bg-primary">
+                                <i class="fas fa-scale-balanced fa-beat"></i>
+                            </div>
+                            <div class="card-wrap">
+                                <div class="card-header">
+                                    <h4>Pengajuan RAB</h4>
+                                </div>
+                                <div class="card-body">
+                                    @if (Auth::user()->roles == 'ADMIN')
+                                        <span class="badge badge-warning">{{ $c_rabMenunggu->count() }} Pengajuan</span>
+                                        <span class="badge badge-danger">{{ $c_rabDitolak->count() }} Ditolak</span>
+                                        <span class="badge badge-success">{{ $c_rabDiterima->count() }} Diterima</span>
+                                    @else
+                                        <span
+                                            class="badge badge-warning">{{ $c_rabMenunggu->where('user_id', Auth::user()->id)->count() }}
+                                            Pengajuan</span>
+                                        <span
+                                            class="badge badge-danger">{{ $c_rabDitolak->where('user_id', Auth::user()->id)->count() }}
+                                            Ditolak</span>
+                                        <span
+                                            class="badge badge-success">{{ $c_rabDiterima->where('user_id', Auth::user()->id)->count() }}
+                                            Diterima</span>
+                                    @endif
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-12">
                         <div class="card card-statistic-1">
-                            <div class="card-icon bg-danger">
-                                <i class="far fa-newspaper"></i>
+                            <div class="card-icon bg-primary">
+                                <i class="fas fa-money-bill-transfer fa-beat"></i>
                             </div>
                             <div class="card-wrap">
                                 <div class="card-header">
-                                    <h4>News</h4>
+                                    <h4>Pengajuan RPD</h4>
                                 </div>
-                                <div class="card-body">
-                                    42
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                        <div class="card card-statistic-1">
-                            <div class="card-icon bg-warning">
-                                <i class="far fa-file"></i>
-                            </div>
-                            <div class="card-wrap">
-                                <div class="card-header">
-                                    <h4>Reports</h4>
-                                </div>
-                                <div class="card-body">
-                                    1,201
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                        <div class="card card-statistic-1">
-                            <div class="card-icon bg-success">
-                                <i class="fas fa-circle"></i>
-                            </div>
-                            <div class="card-wrap">
-                                <div class="card-header">
-                                    <h4>Online Users</h4>
-                                </div>
-                                <div class="card-body">
-                                    47
-                                </div>
+                                @if (Auth::user()->roles == 'ADMIN')
+                                    <div class="card-body">
+                                        <span class="badge badge-warning">{{ $c_rpdMenunggu->count() }} Pengajuan</span>
+                                        <span class="badge badge-danger">{{ $c_rpdDitolak->count() }} Ditolak</span>
+                                        <span class="badge badge-success">{{ $c_rpdDiterima->count() }} Diterima</span>
+                                    </div>
+                                @else
+                                    <div class="card-body">
+                                        <span
+                                            class="badge badge-warning">{{ $c_rpdMenunggu->where('rab.user_id', Auth::user()->id)->count() }}
+                                            Pengajuan</span>
+                                        <span
+                                            class="badge badge-danger">{{ $c_rpdDitolak->where('rab.user_id', Auth::user()->id)->count() }}
+                                            Ditolak</span>
+                                        <span
+                                            class="badge badge-success">{{ $c_rpdDiterima->where('rab.user_id', Auth::user()->id)->count() }}
+                                            Diterima</span>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                {{-- <div class="row">
                     <div class="col-lg-8 col-md-12 col-12 col-sm-12">
                         <div class="card">
                             <div class="card-header">
@@ -181,7 +196,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </section>
     </div>
