@@ -101,6 +101,7 @@ class RabController extends Controller
     public function update(Request $request, Rab $rab)
     {
         $data = $request->all();
+        $data['price'] = Str::replace(',', '', $data['price']);
         // return $data;
         $rab->update($data);
 
