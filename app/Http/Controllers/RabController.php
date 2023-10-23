@@ -101,10 +101,16 @@ class RabController extends Controller
     public function update(Request $request, Rab $rab)
     {
         $data = $request->all();
-        $data['price'] = Str::replace(',', '', $data['price']);
-        $data['balance'] = $data['price'];
-        // return $data;
-        $rab->update($data);
+        // Periksa apakah request memiliki data yang dikirimkan
+        if ($request->has('price')) {
+            $data['price'] = Str::replace(',', '', $data['price']);
+            $data['balance'] = $data['price'];
+        }
+
+        // Update data jika ada perubahan
+        if (!empty($data)) {
+            $rab->update($data);
+        }
 
         return redirect()->route('rabs.index')->with('toast_success', 'Data Berhasil Diubah');
     }

@@ -147,6 +147,7 @@
                 var rabId = $(this).data('id');
                 $('#ModaTarik' + rabId).modal('show');
 
+                const rabPriceInput = document.querySelector('#rab_price' + rabId);
                 const rabBalanceInput = document.querySelector('#rab_balance' + rabId);
                 const currencyInputs = document.querySelectorAll('.currency' + rabId);
 
@@ -169,23 +170,52 @@
                         // Perbarui rab_balance secara dinamis
                         const priceValue = parseInt(value.replace(/,/g,
                             '')); // Hapus tanda koma dan parse ke integer
-                        const rabBalanceValue = parseInt(rabBalanceInput.value.replace(
-                            /[^0-9]/g, '')); // Ambil nilai dari rab_balance
+                        if (!isNaN(priceValue)) {
+                            // Hitung ulang saldo dari awal berdasarkan semua input yang ada
+                            let newBalance = initialBalance;
 
-                        if (!isNaN(priceValue) && !isNaN(rabBalanceValue)) {
-                            const newBalance = rabBalanceValue - priceValue;
+                            currencyInputs.forEach(function(otherInput) {
+                                if (otherInput !== input) {
+                                    const otherValue = otherInput.value.replace(
+                                        /[^0-9]/g, '');
+                                    const otherPriceValue = parseInt(otherValue);
 
-                            if (priceValue > rabBalanceValue) {
-                                // Jika nilai input melebihi rab_balance, set nilai input menjadi rab_balance
+                                    if (!isNaN(otherPriceValue)) {
+                                        newBalance -= otherPriceValue;
+                                    }
+                                }
+                            });
+
+                            // Periksa apakah nilai input melebihi saldo
+                            if (priceValue > newBalance) {
+                                // Pesan kesalahan jika nilai input melebihi saldo
                                 this.value = 0;
                                 rabBalanceInput.value = 'Rp. ' + initialBalance
                                     .toLocaleString();
-                                // rabBalanceInput.value = 'Rp. 0';
                             } else {
-                                const newBalance = rabBalanceValue - priceValue;
+                                // Update saldo jika nilai input tidak melebihi saldo
+                                newBalance -= priceValue;
                                 rabBalanceInput.value = 'Rp. ' + newBalance
                                     .toLocaleString();
                             }
+
+                            // // Periksa apakah nilai input melebihi 50% dari rab_price
+                            // const rabPriceValue = parseInt(rabPriceInput.value.replace(
+                            //     /[^0-9]/g, ''));
+                            // if (priceValue > rabPriceValue * 0.5) {
+                            //     // Pesan kesalahan jika nilai input melebihi 50% dari rab_price
+                            //     this.value = (rabPriceValue * 0.5).toLocaleString();
+                            // } else if (priceValue > newBalance) {
+                            //     // Pesan kesalahan jika nilai input melebihi saldo
+                            //     this.value = 0;
+                            //     rabBalanceInput.value = 'Rp. ' + initialBalance
+                            //         .toLocaleString();
+                            // } else {
+                            //     // Update saldo jika nilai input tidak melebihi saldo
+                            //     newBalance -= priceValue;
+                            //     rabBalanceInput.value = 'Rp. ' + newBalance
+                            // .toLocaleString();
+                            // }
                         }
                     });
                     // Tangani peristiwa ketika input dihapus

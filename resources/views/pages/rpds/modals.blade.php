@@ -159,7 +159,8 @@
                                     <span class="input-group-text">Total RAB</span>
                                 </div>
                                 <input type="text" name="rab_price" id="rab_price{{ $rab->id }}"
-                                    class="form-control" value="Rp. {{ number_format($rab->price) }}" disabled>
+                                    class="form-control rab-price" value="Rp. {{ number_format($rab->price) }}"
+                                    disabled>
                                 <div class="input-group-append">
                                     <span class="input-group-text">Sisa</span>
                                 </div>
