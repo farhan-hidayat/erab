@@ -46,6 +46,83 @@
                     <div class="form-group">
                         <div class="input-group">
                             <div class="input-group-prepend">
+                                <span class="input-group-text">Sub Komponen</span>
+                            </div>
+                            <select name="#" id="#" class="form-control">
+                                <option value="">Pilih Sub Komponen</option>
+                                <option value="">AC - Penyelenggaraan Pendidikan dan Proses Mengajar</option>
+                                <option value="">AB - Penyelenggaraan Operasional Perkantoran</option>
+                                <option value="">AI - Kegiatan Operasional</option>
+                            </select>
+                        </div>
+                    </div>
+                    {{-- <div class="form-group">
+                        <label for="description">Deskripsi</label>
+                        <textarea class="summernote-simple" id="description" name="description"></textarea>
+                    </div> --}}
+                    <div class="card">
+                        {{-- <div class="card-header">
+                            <h4>Tes</h4>
+                        </div> --}}
+                        <div class="card-body">
+                            <div class="mt-0 section-title">Program :
+                                <select name="#" id="#" class="form-control">
+                                    <option value="">Pilih Kode</option>
+                                    <option value="">525111 - Belanja Gaji</option>
+                                    <option value="">525112 - Belanja Barang</option>
+                                    <option value="">525113 - Belanja Jasa</option>
+                                </select>
+                            </div>
+                            <table class="table table-hover" id="tabelRAB1">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" width="5%">#</th>
+                                        <th scope="col">Deskripsi</th>
+                                        <th scope="col" width="12%">Volume</th>
+                                        <th scope="col" width="15%">Satuan</th>
+                                        <th scope="col" width="18%">Harga</th>
+                                        <th scope="col" width="20%">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @php
+                                        $no = 1;
+                                        $noo = 1;
+                                    @endphp
+                                    <tr>
+                                        <th scope="row">{{ $no++ }}</th>
+                                        <td>
+                                            <textarea name="" id="" cols="30" rows="3" oninput="addRowIfNotEmpty(this)"></textarea>
+                                        </td>
+                                        <td>
+                                            <input type="number" class="form-control" id="volume" name="volume"
+                                                placeholder="0">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" id="unit" name="unit">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control currency" id="frequency"
+                                                name="frequency">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control currency" id="price"
+                                                name="price" placeholder="Rp. 0" readonly>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th colspan="4" class="text-right">Total Keseluruhan</th>
+                                        <th colspan="3">Rp. 0</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
                                 <span class="input-group-text">Sumber Dana</span>
                             </div>
                             <select name="resource_id" id="resourceTD" class="form-control">
@@ -66,29 +143,24 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="description">Deskripsi</label>
-                        <textarea class="summernote-simple" id="description" name="description"></textarea>
-                    </div>
-                    <div class="form-group">
+                    {{-- <div class="form-group">
                         <div class="input-group">
                             <div class="input-group-append">
-                                <span class="input-group-text">Volume</span>
+                                <span class="input-group-text">Banyak</span>
                             </div>
                             <input type="number" class="form-control" id="volume" name="volume"
                                 placeholder="Volume">
                             <div class="input-group-append">
-                                <span class="input-group-text">Frequency</span>
+                                <span class="input-group-text">Harga</span>
                             </div>
-                            <input type="number" class="form-control" id="frequency" name="frequency"
-                                placeholder="Frequency">
+                            <input type="text" class="form-control currency" id="frequency" name="frequency">
                             <div class="input-group-append">
-                                <span class="input-group-text">Rp.</span>
+                                <span class="input-group-text">Total</span>
                             </div>
                             <input type="text" class="form-control currency" id="price" name="price"
-                                placeholder="Price">
+                                placeholder="Rp. 0" readonly>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

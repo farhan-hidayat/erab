@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class RabRequest extends FormRequest
+class Rab_RequestRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,8 +25,10 @@ class RabRequest extends FormRequest
     public function rules()
     {
         return [
-            'rab_request_id'   => ['nullable', 'exists:rab_requests,id'],
             'price' => ['required'],
+            'balance' => ['required'],
+            'year' => ['required'],
+            'status' => ['required'],
         ];
     }
 
@@ -34,6 +36,9 @@ class RabRequest extends FormRequest
     {
         return [
             'price.required' => 'Harga harus diisi',
+            'balance.required' => 'Balance harus diisi',
+            'year.required' => 'Tahun harus diisi',
+            'status.required' => 'Status harus diisi',
         ];
     }
 }

@@ -7,6 +7,7 @@ use App\Models\Component;
 use App\Models\Detail;
 use App\Models\Group;
 use App\Models\Resource;
+use App\Models\SubComponent;
 use App\Models\Type;
 use Illuminate\Http\Request;
 
@@ -28,6 +29,12 @@ class RabComboboxController extends Controller
     {
         $components = Component::where('detail_id', $detailId)->get();
         return response()->json($components);
+    }
+
+    public function getSubByComponent(Request $request, $componentId)
+    {
+        $sub = SubComponent::where('component_id', $componentId)->get();
+        return response()->json($sub);
     }
 
     public function getGroupsByResource(Request $request, $resourceId)

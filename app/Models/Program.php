@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Component extends Model
+class Program extends Model
 {
     use HasFactory;
 
@@ -13,16 +13,10 @@ class Component extends Model
         'code',
         'name',
         'slug',
-        'detail_id'
     ];
 
-    public function detail()
+    public function rab_details()
     {
-        return $this->belongsTo(Detail::class);
-    }
-
-    public function rabs()
-    {
-        return $this->hasMany(SubComponent::class);
+        return $this->hasMany(RabDetail::class);
     }
 }

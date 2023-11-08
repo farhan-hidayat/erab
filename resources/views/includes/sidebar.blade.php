@@ -10,8 +10,8 @@
         <li class="{{ request()->is('dashboard') ? 'active' : '' }}"><a class="nav-link" href="{{ route('dashboard') }}"><i
                     class="fas fa-gauge-high fa-beat"></i>
                 <span>Dashboard</span></a></li>
+        <li class="menu-header">Master Data</li>
         @if (Auth::user()->roles == 'ADMIN')
-            <li class="menu-header">Master Data</li>
             <li
                 class="nav-item dropdown {{ request()->is('activities*') || request()->is('classifications*') || request()->is('details*') || request()->is('components*') ? 'active' : '' }}">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i
@@ -50,6 +50,12 @@
             <li class="{{ request()->is('users*') ? 'active' : '' }}">
                 <a href="{{ route('users.index') }}" class="nav-link"><i class="fas fa-users-gear fa-beat"></i>
                     <span>Data Pengguna</span></a>
+            </li>
+        @endif
+        @if (Auth::user()->roles == 'USER')
+            <li class="{{ request()->is('subs*') ? 'active' : '' }}">
+                <a href="{{ route('subs.index') }}" class="nav-link"><i class="fas fa-list-check fa-beat"></i>
+                    <span>Sub Komponen</span></a>
             </li>
         @endif
         <li class="menu-header">Aplikasi</li>

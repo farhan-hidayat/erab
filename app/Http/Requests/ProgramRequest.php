@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class RabRequest extends FormRequest
+class ProgramRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,15 +25,17 @@ class RabRequest extends FormRequest
     public function rules()
     {
         return [
-            'rab_request_id'   => ['nullable', 'exists:rab_requests,id'],
-            'price' => ['required'],
+            'code'  => ['required', 'string', 'max:255', 'unique:components'],
+            'name'  => ['required', 'string', 'max:255'],
         ];
     }
 
     public function messages()
     {
         return [
-            'price.required' => 'Harga harus diisi',
+            'code.required' => 'Kode harus diisi',
+            'code.unique' => 'Kode sudah terdaftar',
+            'name.required' => 'Nama harus diisi',
         ];
     }
 }

@@ -5,24 +5,25 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Rab extends Model
+class RabRequest extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'rab_request_id',
+        'ticket',
         'price',
+        'balance',
         'year',
         'status',
     ];
 
-    public function rab_details()
+    public function rabs()
     {
-        return $this->hasMany(RabDetail::class);
+        return $this->hasMany(Rab::class);
     }
 
-    public function rab_request()
+    public function rpds()
     {
-        return $this->belongsTo(RabRequest::class);
+        return $this->hasMany(Rpd::class);
     }
 }

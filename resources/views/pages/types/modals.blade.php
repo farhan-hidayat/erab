@@ -73,8 +73,12 @@
                             <div class="input-group">
                                 <input type="text" class="form-control" id="front_code_edit{{ $type->id }}"
                                     name="front_code_edit" value="{{ $type->group->code }}" readonly>
+                                @php
+                                    $parts = explode('.', $type->code);
+                                    $lastPart = end($parts);
+                                @endphp
                                 <input type="text" class="form-control" id="back_code" name="code"
-                                    value="{{ substr($type->code, strpos($type->code, '.') + 1) }}">
+                                    value="{{ $lastPart }}">
                             </div>
                         </div>
                         <div class="form-group">

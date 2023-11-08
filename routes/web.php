@@ -10,6 +10,7 @@ use App\Http\Controllers\RabComboboxController;
 use App\Http\Controllers\RabController;
 use App\Http\Controllers\ResourceController;
 use App\Http\Controllers\RpdController;
+use App\Http\Controllers\SubComController;
 use App\Http\Controllers\TypeController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -36,10 +37,12 @@ Route::middleware([
     'verified'
 ])->group(function () {
     Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+    Route::resource('subs', SubComController::class);
     Route::resource('rabs', RabController::class);
     Route::get('get-classifications/{activityId}', [RabComboboxController::class, 'getClassificationsByActivity']);
     Route::get('get-details/{classificationId}', [RabComboboxController::class, 'getDetailsByClassification']);
     Route::get('get-components/{detailId}', [RabComboboxController::class, 'getComponentsByDetail']);
+    Route::get('get-sub/{componentId}', [RabComboboxController::class, 'getSubByComponent']);
     Route::get('get-groups/{resourceId}', [RabComboboxController::class, 'getGroupsByResource']);
     Route::get('get-types/{groupId}', [RabComboboxController::class, 'getTypesByGroup']);
     Route::resource('rpds', RpdController::class);

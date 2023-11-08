@@ -19,7 +19,7 @@
                 @if (Auth::user()->roles == 'USER')
                     <div class="section-header-button">
                         <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#ModalTambah"> <i
-                                class="fa-solid fa-plus"></i> Ajukan RAB </a>
+                                class="fa-solid fa-plus"></i> Buat RAB </a>
                     </div>
                 @endif
             </div>
@@ -44,6 +44,9 @@
                                                 <h4>{{ $activity->code }} - {{ $activity->name }}</h4>
                                                 @if (Auth::user()->roles == 'USER')
                                                     <div>
+                                                        <a href="#" class="btn btn-primary" data-toggle="modal"
+                                                            data-target="#"> <i class="fa-solid fa-paper-plane fa-beat"></i>
+                                                            Ajukan RAB </a>
                                                         <span
                                                             class="badge badge-danger">{{ $rabs->where('component.detail.classification.activity_id', $activity->id)->where('status', 'DITOLAK')->where('user_id', Auth::user()->id)->count() }}</span>
                                                         <span
@@ -337,6 +340,10 @@
 @push('addon-script')
     <script>
         // Ambil elemen input
+        const volumeInput = document.getElementById('volume');
+        const frequencyInput = document.getElementById('frequency');
+        const priceInput = document.getElementById('price');
+
         const currencyInputs = document.querySelectorAll('.currency');
 
         currencyInputs.forEach(function(input) {
@@ -350,9 +357,23 @@
                 }
 
                 // Setel nilai input dengan format ribuan
-                this.value = value;
+                this.value = 'Rp. ' + value;
+                updateTotal();
             });
         });
+
+        volumeInput.addEventListener('input', function() {
+            updateTotal();
+        });
+
+        function updateTotal() {
+            const volume = parseFloat(volumeInput.value) || 0;
+            const frequency = parseFloat(frequencyInput.value.replace(/[^0-9]/g, '')) || 0;
+            const total = volume * frequency;
+
+            // Format angka menjadi ribuan untuk input "Total"
+            priceInput.value = 'Rp. ' + total.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        }
     </script>
     <script>
         $(document).ready(function() {
@@ -738,5 +759,34 @@
                 });
             });
         });
+    </script>
+
+    <script>
+        var table = document.getElementById("tabelRAB1");
+        var tbody = table.querySelector('tbody');
+        var rowNumber = 2; // Inisialisasi nomor baris
+
+        // Fungsi untuk menambahkan baris baru
+        function addRow() {
+            var newRow = document.createElement('tr');
+            newRow.innerHTML =
+                '<th scope="row">' + rowNumber++ + '</th>' +
+                '<td><textarea name="" id="" cols="30" rows="3" oninput="addRowIfNotEmpty(this)"></textarea></td>' +
+                '<td><input type="number" class="form-control" id="volume" name="volume" placeholder="0"></td>' +
+                '<td><input type="text" class="form-control" id="unit" name="unit" placeholder="0"></td>' +
+                '<td><input type="text" class="form-control currency" id="frequency" name="frequency"></td>' +
+                '<td><input type="text" class="form-control currency" id="price" name="price" placeholder="Rp. 0" readonly></td>';
+            tbody.appendChild(newRow);
+        }
+
+        // Fungsi untuk menambahkan baris jika input tidak kosong
+        function addRowIfNotEmpty(input) {
+            var lastRow = tbody.lastElementChild;
+            if (input.value.trim() !== "") {
+                if (input.parentElement.parentElement === lastRow) {
+                    addRow();
+                }
+            }
+        }
     </script>
 @endpush
