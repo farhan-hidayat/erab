@@ -15,13 +15,7 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Data RAB</h1>
-                @if (Auth::user()->roles == 'USER')
-                    <div class="section-header-button">
-                        <a href="{{ route('rabs.create') }}" class="btn btn-primary"> <i class="fa-solid fa-plus"></i> Buat
-                            RAB </a>
-                    </div>
-                @endif
+                <h1>Buat RAB</h1>
             </div>
 
             <div class="section-body">
@@ -35,46 +29,164 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-striped" id="table-1">
-                                        <thead>
-                                            <tr>
-                                                <th class="text-center">
-                                                    #
-                                                </th>
-                                                <th>Tiket</th>
-                                                <th>Kegiatan</th>
-                                                <th>Fakultas</th>
-                                                <th>Nominal</th>
-                                                <th>Status</th>
-                                                <th width="20%" class="text-center">Aksi</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {{-- @foreach ($components as $component) --}}
-                                            <tr>
-                                                <td>1</td>
-                                                <td>RAB-FT231110
-                                                </td>
-                                                <td>Kegiatan 1</td>
-                                                <td>Teknik</td>
-                                                <td>Rp. 10.000.000</td>
-                                                <td>DRAF</td>
-                                                <td>
-                                                    <a href="#" class="btn btn-success btn-edit" data-toggle="modal"
-                                                        data-target="#ModalEdit1" data-id="1"><i class="fas fa-eye"></i>
-                                                        Detail</a>
-                                                    <a href="#" class="btn btn-primary btn-edit" data-toggle="modal"
-                                                        data-target="#ModalEdit1" data-id="1"><i class="fas fa-edit"></i>
-                                                        Ubah</a>
-                                                    <a href="#" class="btn btn-danger" data-confirm-delete="true"><i
-                                                            class="fas fa-trash"></i> Hapus</a>
-                                                </td>
-                                            </tr>
-                                            {{-- @endforeach --}}
-                                        </tbody>
-                                    </table>
-                                </div>
+                                <form method="POST" action="{{ route('rabs.store') }}" enctype="multipart/form-data">
+                                    @csrf
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">Kegiatan</span>
+                                                </div>
+                                                <select name="activity_id" id="activityTD" class="form-control">
+                                                    <option value="">Pilih Kegiatan</option>
+                                                    @foreach ($activities as $activity)
+                                                        <option value="{{ $activity->id }}">{{ $activity->code }} -
+                                                            {{ $activity->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text">Klasifikasi</span>
+                                                </div>
+                                                <select name="classification_id" id="classificationTD" class="form-control">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">Rincian</span>
+                                                </div>
+                                                <select name="detail_id" id="detailTD" class="form-control">
+                                                </select>
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text">Komponen</span>
+                                                </div>
+                                                <select name="component_id" id="componentTD" class="form-control">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        {{-- <div class="form-group">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">Sub Komponen</span>
+                                                </div>
+                                                <select name="sub_component_id" id="sub_componentTD" class="form-control">
+                                                </select>
+                                            </div>
+                                        </div> --}}
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="mt-0 section-title">Sub Komponen :
+                                                    <select name="sub_component_id" id="sub_componentTD"
+                                                        class="form-control">
+                                                    </select>
+                                                </div>
+                                                <div class="mt-0 section-title">Program :
+                                                    <select name="program_id" class="form-control">
+                                                        <option value="">Pilih Program</option>
+                                                        @foreach ($programs as $program)
+                                                            <option value="{{ $program->id }}">{{ $program->code }} -
+                                                                {{ $program->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <table class="table table-hover" id="tabelRAB1">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col" width="5%">#</th>
+                                                            <th scope="col">Deskripsi</th>
+                                                            <th scope="col" width="12%">Volume</th>
+                                                            <th scope="col" width="15%">Satuan</th>
+                                                            <th scope="col" width="18%">Harga</th>
+                                                            <th scope="col" width="20%">Total</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @php
+                                                            $no = 1;
+                                                            $noo = 1;
+                                                        @endphp
+                                                        <tr>
+                                                            <th scope="row">{{ $no++ }}</th>
+                                                            <td>
+                                                                <textarea name="" id="" cols="30" rows="3" oninput="addRowIfNotEmpty(this)"></textarea>
+                                                            </td>
+                                                            <td>
+                                                                <input type="number" class="form-control" id="volume"
+                                                                    name="volume" placeholder="0">
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" class="form-control" id="unit"
+                                                                    name="unit">
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" class="form-control currency"
+                                                                    id="price" name="price">
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" class="form-control currency"
+                                                                    id="total" name="total" placeholder="Rp. 0"
+                                                                    readonly>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <th colspan="4" class="text-right">Total Keseluruhan</th>
+                                                            <th colspan="3">Rp. 0</th>
+                                                        </tr>
+                                                    </tfoot>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">Sumber Dana</span>
+                                                </div>
+                                                <select name="resource_id" id="resourceTD" class="form-control">
+                                                    <option value="">Pilih Sumber Dana</option>
+                                                    @foreach ($resources as $resource)
+                                                        <option value="{{ $resource->id }}">{{ $resource->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text">Kelompok Akun</span>
+                                                </div>
+                                                <select name="group_id" id="groupTD" class="form-control">
+                                                </select>
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text">Akun</span>
+                                                </div>
+                                                <select name="type_id" id="typeTD" class="form-control">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        {{-- <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-append">
+                                <span class="input-group-text">Banyak</span>
+                            </div>
+                            <input type="number" class="form-control" id="volume" name="volume"
+                                placeholder="Volume">
+                            <div class="input-group-append">
+                                <span class="input-group-text">Harga</span>
+                            </div>
+                            <input type="text" class="form-control currency" id="frequency" name="frequency">
+                            <div class="input-group-append">
+                                <span class="input-group-text">Total</span>
+                            </div>
+                            <input type="text" class="form-control currency" id="price" name="price"
+                                placeholder="Rp. 0" readonly>
+                        </div>
+                    </div> --}}
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Tambah</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -82,8 +194,6 @@
             </div>
         </section>
     </div>
-
-    @include('pages.rabs.modals')
 @endsection
 
 @push('prepend-script')
@@ -100,8 +210,8 @@
     <script>
         // Ambil elemen input
         const volumeInput = document.getElementById('volume');
-        const frequencyInput = document.getElementById('frequency');
         const priceInput = document.getElementById('price');
+        const totalInput = document.getElementById('total');
 
         const currencyInputs = document.querySelectorAll('.currency');
 
@@ -127,11 +237,11 @@
 
         function updateTotal() {
             const volume = parseFloat(volumeInput.value) || 0;
-            const frequency = parseFloat(frequencyInput.value.replace(/[^0-9]/g, '')) || 0;
-            const total = volume * frequency;
+            const price = parseFloat(priceInput.value.replace(/[^0-9]/g, '')) || 0;
+            const total = volume * price;
 
             // Format angka menjadi ribuan untuk input "Total"
-            priceInput.value = 'Rp. ' + total.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            totalInput.value = 'Rp. ' + total.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
         }
     </script>
     <script>
@@ -330,6 +440,8 @@
             var detailSelect = $('#detailTD');
             // Ambil selectbox Komponen
             var componentSelect = $('#componentTD');
+            // Ambil selectbox Sub Komponen
+            var sub_componentSelect = $('#sub_componentTD');
             // Ambil selectbox Klasifikasi
             var groupSelect = $('#groupTD');
             // Ambil selectbox Rincian
@@ -343,6 +455,8 @@
                 detailSelect.empty().append('<option value="">Pilih Rincian</option>');
                 // Reset dan hapus opsi yang ada pada selectbox Komponen
                 componentSelect.empty().append('<option value="">Pilih Komponen</option>');
+                // Reset dan hapus opsi yang ada pada selectbox Sub Komponen
+                sub_componentSelect.empty().append('<option value="">Pilih Sub Komponen</option>');
 
                 var selectedActivityId = $(this).val();
                 if (selectedActivityId) {
@@ -356,7 +470,8 @@
                             // Isi selectbox Klasifikasi dengan data yang diterima
                             for (var i = 0; i < data.length; i++) {
                                 classificationSelect.append('<option value="' + data[i].id +
-                                    '">' + data[i].name + '</option>');
+                                    '">' +
+                                    data[i].code + ' - ' + data[i].name + '</option>');
                             }
                         }
                     });
@@ -381,6 +496,7 @@
                             // Isi selectbox Rincian dengan data yang diterima
                             for (var i = 0; i < data.length; i++) {
                                 detailSelect.append('<option value="' + data[i].id + '">' +
+                                    data[i].code + ' - ' +
                                     data[i].name + '</option>');
                             }
                         }
@@ -404,6 +520,31 @@
                             // Isi selectbox Komponen dengan data yang diterima
                             for (var i = 0; i < data.length; i++) {
                                 componentSelect.append('<option value="' + data[i].id + '">' +
+                                    data[i].code + ' - ' +
+                                    data[i].name + '</option>');
+                            }
+                        }
+                    });
+                }
+            });
+
+            // Ketika selectbox Komponen berubah
+            componentSelect.change(function() {
+                // Reset dan hapus opsi yang ada pada selectbox Sub Komponen
+                sub_componentSelect.empty().append('<option value="">Pilih Sub Komponen</option>');
+
+                var selectedComponentId = $(this).val();
+                if (selectedComponentId) {
+                    // Ambil data sub komponen berdasarkan komponen yang dipilih
+                    $.ajax({
+                        url: '/get-sub-components/' +
+                            selectedComponentId, // Ganti URL ini sesuai kebutuhan
+                        type: 'GET',
+                        success: function(data) {
+                            // Isi selectbox Sub Komponen dengan data yang diterima
+                            for (var i = 0; i < data.length; i++) {
+                                sub_componentSelect.append('<option value="' + data[i].id +
+                                    '">' + data[i].code + ' - ' +
                                     data[i].name + '</option>');
                             }
                         }

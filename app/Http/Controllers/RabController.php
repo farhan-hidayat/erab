@@ -9,11 +9,14 @@ use App\Models\Classification;
 use App\Models\Component;
 use App\Models\Detail;
 use App\Models\Group;
+use App\Models\Program;
 use Illuminate\Support\Str;
 use App\Models\Rab;
 use App\Models\Resource;
+use App\Models\SubComponent;
 use App\Models\Type;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class RabController extends Controller
 {
@@ -47,7 +50,18 @@ class RabController extends Controller
      */
     public function create()
     {
-        //
+        $data = [
+            'activities' => Activity::withCount('classifications')->get(),
+            'classifications' => Classification::with('activity')->withCount('details')->get(),
+            'details' => Detail::with('classification')->withCount('components')->get(),
+            'components' => Component::with('detail')->get(),
+            'sub_components' => SubComponent::with('component', 'user')->where('user_id', Auth::user()->id)->get(),
+            'programs' => Program::all(),
+            'resources' => Resource::all(),
+            'groups' => Group::with('resource')->get(),
+            'types' => Type::with('group')->get(),
+        ];
+        return view('pages.rabs.create', $data);
     }
 
     /**

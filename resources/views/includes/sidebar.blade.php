@@ -58,6 +58,10 @@
                     <span>Sub Komponen</span></a>
             </li>
         @endif
+        <li class="{{ request()->is('programs*') ? 'active' : '' }}">
+            <a href="{{ route('programs.index') }}" class="nav-link"><i class="fas fa-box-archive fa-beat"></i>
+                <span>Program</span></a>
+        </li>
         <li class="menu-header">Aplikasi</li>
         <li class="{{ request()->is('rabs*') ? 'active' : '' }}">
             <a href="{{ route('rabs.index') }}" class="nav-link"><i class="fas fa-scale-balanced fa-beat"></i>

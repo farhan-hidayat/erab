@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Alert;
+use Illuminate\Support\Str;
+use App\Http\Requests\ProgramRequest;
+use App\Models\Program;
 use Illuminate\Http\Request;
 
-class SubComController extends Controller
+class ProgramController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +17,14 @@ class SubComController extends Controller
      */
     public function index()
     {
-        //
+        $data = [
+            'programs' => Program::all(),
+            'no' => 1
+        ];
+        $title = 'Hapus Data!';
+        $text = "Apakah Anda Yakin Ingin Menghapus Data? Data yang berelasi akan ikut terhapus!";
+        confirmDelete($title, $text);
+        return view('pages.programs.index', $data);
     }
 
     /**
@@ -32,9 +43,14 @@ class SubComController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProgramRequest $request)
     {
-        //
+        $data = $request->all();
+        $data['slug'] = Str::slug($request->name);
+
+        Program::create($data);
+
+        return redirect()->route('programs.index')->with('toast_success', 'Data Berhasil Ditambahkan');
     }
 
     /**
@@ -66,9 +82,14 @@ class SubComController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Program $program)
     {
-        //
+        $data = $request->all();
+        $data['slug'] = Str::slug($request->name);
+
+        $program->update($data);
+
+        return redirect()->route('programs.index')->with('toast_success', 'Data Berhasil Diubah');
     }
 
     /**
@@ -77,8 +98,10 @@ class SubComController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Program $program)
     {
-        //
+        $program->delete();
+
+        return redirect()->route('programs.index')->with('toast_success', 'Data Berhasil Dihapus');
     }
 }

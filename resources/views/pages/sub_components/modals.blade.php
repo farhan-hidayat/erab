@@ -8,16 +8,16 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="{{ route('components.store') }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('subs.store') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="detail">Rincian</label>
-                        <select name="detail_id" id="detail" class="form-control selectric">
-                            <option value="">Pilih Rincian</option>
-                            @foreach ($details as $detail)
-                                <option value="{{ $detail->id }}" data-front-code="{{ $detail->code }}">
-                                    {{ $detail->name }}</option>
+                        <label for="component">Komponen</label>
+                        <select name="component_id" id="component" class="form-control selectric">
+                            <option value="">Pilih Komponen</option>
+                            @foreach ($components as $component)
+                                <option value="{{ $component->id }}" data-front-code="{{ $component->code }}">
+                                    {{ $component->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -43,39 +43,39 @@
 </div>
 
 <!-- Modal Ubah -->
-@foreach ($components as $component)
-    <div class="modal fade" id="ModalEdit{{ $component->id }}" tabindex="-1" role="dialog"
-        aria-labelledby="ModalEdit{{ $component->id }}" aria-hidden="true">
+@foreach ($sub_components as $subcom)
+    <div class="modal fade" id="ModalEdit{{ $subcom->id }}" tabindex="-1" role="dialog"
+        aria-labelledby="ModalEdit{{ $subcom->id }}" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="ModalEdit{{ $component->id }}">Edit Komponen</h5>
+                    <h5 class="modal-title" id="ModalEdit{{ $subcom->id }}">Edit Komponen</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form method="POST" action="{{ route('components.update', $component->id) }}"
-                    enctype="multipart/form-data">
+                <form method="POST" action="{{ route('subs.update', $subcom->id) }}" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="detail">Rincian</label>
-                            <select name="detail_id" id="detailedit{{ $component->id }}" class="form-control selectric">
-                                @foreach ($details as $detail)
-                                    <option data-front-code-edit="{{ $detail->code }}"
-                                        value="{{ $detail->id }}"{{ $detail->id == $component->detail_id ? 'selected' : '' }}>
-                                        {{ $detail->name }}</option>
+                            <label for="component">Komponen</label>
+                            <select name="component_id" id="componentedit{{ $subcom->id }}"
+                                class="form-control selectric">
+                                @foreach ($components as $component)
+                                    <option data-front-code-edit="{{ $component->code }}"
+                                        value="{{ $component->id }}"{{ $component->id == $subcom->component_id ? 'selected' : '' }}>
+                                        {{ $component->name }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="code">Kode</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" id="front_code_edit{{ $component->id }}"
-                                    name="front_code_edit" value="{{ $component->detail->code }}" readonly>
+                                <input type="text" class="form-control" id="front_code_edit{{ $subcom->id }}"
+                                    name="front_code_edit" value="{{ $subcom->component->code }}" readonly>
                                 @php
-                                    $parts = explode('.', $component->code);
+                                    $parts = explode('.', $subcom->code);
                                     $lastPart = end($parts);
                                 @endphp
                                 <input type="text" class="form-control" id="back_code" name="code"
@@ -83,9 +83,9 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="edit_name{{ $component->id }}">Nama</label>
-                            <input type="text" class="form-control" id="edit_name{{ $component->id }}"
-                                name="name" value="{{ $component->name }}">
+                            <label for="edit_name{{ $subcom->id }}">Nama</label>
+                            <input type="text" class="form-control" id="edit_name{{ $subcom->id }}" name="name"
+                                value="{{ $subcom->name }}">
                         </div>
                     </div>
                     <div class="modal-footer">

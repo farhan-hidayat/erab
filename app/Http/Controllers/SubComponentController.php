@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use Alert;
-use Illuminate\Support\Str;
-use App\Http\Requests\ComponentRequest;
+use App\Http\Requests\Sub_ComponentRequest;
 use App\Models\Component;
-use App\Models\Detail;
+use Illuminate\Support\Str;
+use App\Models\SubComponent;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class ComponentController extends Controller
+class SubComponentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,16 +20,15 @@ class ComponentController extends Controller
     public function index()
     {
         $data = [
-            'components' => Component::with('detail')->get(),
-            'details' => Detail::all(),
+            'sub_components' => SubComponent::with('component', 'user')->where('user_id', Auth::user()->id)->get(),
+            'components' => Component::all(),
             'no' => 1
         ];
         $title = 'Hapus Data!';
         $text = "Apakah Anda Yakin Ingin Menghapus Data? Data yang berelasi akan ikut terhapus!";
         confirmDelete($title, $text);
-        return view('pages.components.index', $data);
+        return view('pages.sub_components.index', $data);
     }
-
 
     /**
      * Show the form for creating a new resource.
@@ -46,15 +46,15 @@ class ComponentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ComponentRequest $request)
+    public function store(Sub_ComponentRequest $request)
     {
         $data = $request->all();
         $data['slug'] = Str::slug($request->name);
         $data['code'] = $request->front_code . '.' . $request->code;
-        // return $data;
-        Component::create($data);
+        $data['user_id'] = Auth::user()->id;
+        SubComponent::create($data);
 
-        return redirect()->route('components.index')->with('toast_success', 'Data Berhasil Ditambahkan');
+        return redirect()->route('subs.index')->with('toast_success', 'Data Berhasil Ditambahkan');
     }
 
     /**
@@ -86,15 +86,17 @@ class ComponentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Component $component)
+    public function update(Request $request, $id)
     {
+        $subComponent = SubComponent::find($id);
         $data = $request->all();
         $data['slug'] = Str::slug($request->name);
         $data['code'] = $request->front_code_edit . '.' . $request->code;
-        return $data;
-        $component->update($data);
+        $data['user_id'] = Auth::user()->id;
+        // return $data;
+        $subComponent->update($data);
 
-        return redirect()->route('components.index')->with('toast_success', 'Data Berhasil Diubah');
+        return redirect()->route('subs.index')->with('toast_success', 'Data Berhasil Diubah');
     }
 
     /**
@@ -103,10 +105,11 @@ class ComponentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Component $component)
+    public function destroy($id)
     {
-        $component->delete();
+        $subComponent = SubComponent::find($id);
+        $subComponent->delete();
 
-        return redirect()->route('components.index')->with('toast_success', 'Data Berhasil Dihapus');
+        return redirect()->route('subs.index')->with('toast_success', 'Data Berhasil Diubah');
     }
 }

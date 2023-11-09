@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('title')
-    E-RAB | Komponen
+    E-RAB | Sub Komponen
 @endsection
 
 @push('prepend-style')
@@ -14,11 +14,11 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Data Komponen</h1>
+                <h1>Data Sub Komponen</h1>
                 <div class="section-header-button">
                     <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#ModalTambah"> <i
                             class="fa-solid fa-plus"></i> Tambah
-                        Komponen </a>
+                        Sub Komponen </a>
                 </div>
             </div>
 
@@ -41,27 +41,27 @@
                                                     #
                                                 </th>
                                                 <th>Kode</th>
-                                                <th>Rincian</th>
+                                                <th>Komponen</th>
                                                 <th>Nama</th>
                                                 <th>Slug</th>
                                                 <th width="20%" class="text-center">Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($components as $component)
+                                            @foreach ($sub_components as $subcom)
                                                 <tr>
                                                     <td>{{ $no++ }}</td>
-                                                    <td>{{ $component->code }}
+                                                    <td>{{ $subcom->code }}
                                                     </td>
-                                                    <td>{{ $component->detail->name }}</td>
-                                                    <td>{{ $component->name }}</td>
-                                                    <td>{{ $component->slug }}</td>
+                                                    <td>{{ $subcom->component->name }}</td>
+                                                    <td>{{ $subcom->name }}</td>
+                                                    <td>{{ $subcom->slug }}</td>
                                                     <td>
                                                         <a href="#" class="btn btn-primary btn-edit"
-                                                            data-toggle="modal" data-target="#ModalEdit{{ $component->id }}"
-                                                            data-id="{{ $component->id }}"><i class="fas fa-edit"></i>
+                                                            data-toggle="modal" data-target="#ModalEdit{{ $subcom->id }}"
+                                                            data-id="{{ $subcom->id }}"><i class="fas fa-edit"></i>
                                                             Ubah</a>
-                                                        <a href="{{ route('components.destroy', $component->id) }}"
+                                                        <a href="{{ route('subs.destroy', $subcom->id) }}"
                                                             class="btn btn-danger" data-confirm-delete="true"><i
                                                                 class="fas fa-trash"></i> Hapus</a>
                                                     </td>
@@ -78,7 +78,7 @@
         </section>
     </div>
 
-    @include('pages.components.modals')
+    @include('pages.sub_components.modals')
 @endsection
 
 @push('prepend-script')
@@ -92,19 +92,19 @@
         $(document).ready(function() {
             // Menampilkan modal edit ketika tombol "Ubah" diklik
             $('.btn-edit').click(function() {
-                var componentId = $(this).data('id');
-                $('#ModalEdit' + componentId).modal('show');
-                $('#detailedit' + componentId).change(function() {
+                var subcomId = $(this).data('id');
+                $('#ModalEdit' + subcomId).modal('show');
+                $('#componentedit' + subcomId).change(function() {
                     var selectedOption = $(this).find('option:selected');
                     var frontCode = selectedOption.data('front-code-edit');
-                    $('#front_code_edit' + componentId).val(frontCode);
+                    $('#front_code_edit' + subcomId).val(frontCode);
                 });
             });
         });
     </script>
     <script>
         $(document).ready(function() {
-            $('#detail').change(function() {
+            $('#component').change(function() {
                 var selectedOption = $(this).find('option:selected');
                 var frontCode = selectedOption.data('front-code');
                 $('#front_code').val(frontCode);
