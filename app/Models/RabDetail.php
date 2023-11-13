@@ -13,7 +13,6 @@ class RabDetail extends Model
         'rab_id',
         'sub_component_id',
         'program_id',
-        'type_id',
         'description',
         'volume',
         'unit',
@@ -34,10 +33,5 @@ class RabDetail extends Model
     public function program()
     {
         return $this->belongsTo(Program::class);
-    }
-
-    public function type()
-    {
-        return $this->belongsTo(Type::class);
     }
 }

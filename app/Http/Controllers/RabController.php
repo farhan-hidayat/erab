@@ -12,6 +12,7 @@ use App\Models\Group;
 use App\Models\Program;
 use Illuminate\Support\Str;
 use App\Models\Rab;
+use App\Models\RabRequest as ModelsRabRequest;
 use App\Models\Resource;
 use App\Models\SubComponent;
 use App\Models\Type;
@@ -60,6 +61,7 @@ class RabController extends Controller
             'resources' => Resource::all(),
             'groups' => Group::with('resource')->get(),
             'types' => Type::with('group')->get(),
+            'rab_requests' => ModelsRabRequest::with('sub_component', 'user', 'program')->where('user_id', Auth::user()->id)->sortBy('sub_component_id', 'asc')->get(),
         ];
         return view('pages.rabs.create', $data);
     }
@@ -102,7 +104,21 @@ class RabController extends Controller
      */
     public function edit($id)
     {
-        //
+        $activity = Activity::where('slug', $id)->first();
+        $data = [
+            'activity' => $activity,
+            'classifications' => Classification::with('activity')->where('activity_id', $activity->id)->get(),
+            'details' => Detail::with('classification')->withCount('components')->get(),
+            'components' => Component::with('detail')->get(),
+            'sub_components' => SubComponent::with('component', 'user')->where('user_id', Auth::user()->id)->get(),
+            'programs' => Program::all(),
+            'resources' => Resource::all(),
+            'groups' => Group::with('resource')->get(),
+            'types' => Type::with('group')->get(),
+            'rab_requests' => ModelsRabRequest::with('sub_component', 'user', 'program', 'activity')->where('activity_id', $activity->id)->where('user_id', Auth::user()->id)->get(),
+        ];
+
+        return view('pages.rabs.create', $data);
     }
 
     /**

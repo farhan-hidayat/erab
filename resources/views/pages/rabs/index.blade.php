@@ -18,8 +18,11 @@
                 <h1>Data RAB</h1>
                 @if (Auth::user()->roles == 'USER')
                     <div class="section-header-button">
-                        <a href="{{ route('rabs.create') }}" class="btn btn-primary"> <i class="fa-solid fa-plus"></i> Buat
+                        <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#ModalTambah"> <i
+                                class="fa-solid fa-plus"></i> Buat
                             RAB </a>
+                        {{-- <a href="{{ route('rabs.create') }}" class="btn btn-primary"> <i class="fa-solid fa-plus"></i> Buat
+                            RAB </a> --}}
                     </div>
                 @endif
             </div>

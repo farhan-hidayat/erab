@@ -10,19 +10,27 @@ class Rab extends Model
     use HasFactory;
 
     protected $fillable = [
-        'rab_request_id',
+        'user_id',
+        'activity_id',
+        'ticket',
         'price',
+        'type_id',
         'year',
         'status',
     ];
 
-    public function rab_details()
+    public function user()
     {
-        return $this->hasMany(RabDetail::class);
+        return $this->belongsTo(User::class);
     }
 
-    public function rab_request()
+    public function activity()
     {
-        return $this->belongsTo(RabRequest::class);
+        return $this->belongsTo(Activity::class);
+    }
+
+    public function type()
+    {
+        return $this->belongsTo(Type::class);
     }
 }

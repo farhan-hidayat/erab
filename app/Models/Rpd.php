@@ -14,6 +14,7 @@ class Rpd extends Model
         'rab_id',
         'price',
         'status',
+        'month',
         'balance'
     ];
 

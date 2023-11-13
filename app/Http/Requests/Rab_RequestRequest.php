@@ -26,9 +26,8 @@ class Rab_RequestRequest extends FormRequest
     {
         return [
             'price' => ['required'],
-            'balance' => ['required'],
-            'year' => ['required'],
-            'status' => ['required'],
+            'description' => ['required'],
+            'unit' => ['required'],
         ];
     }
 
@@ -36,9 +35,8 @@ class Rab_RequestRequest extends FormRequest
     {
         return [
             'price.required' => 'Harga harus diisi',
-            'balance.required' => 'Balance harus diisi',
-            'year.required' => 'Tahun harus diisi',
-            'status.required' => 'Status harus diisi',
+            'description.required' => 'Deskripsi harus diisi',
+            'unit.required' => 'Satuan harus diisi',
         ];
     }
 }

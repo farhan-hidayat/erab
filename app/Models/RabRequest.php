@@ -10,20 +10,34 @@ class RabRequest extends Model
     use HasFactory;
 
     protected $fillable = [
-        'ticket',
+        'user_id',
+        'activity_id',
+        'sub_component_id',
+        'program_id',
+        'description',
+        'volume',
+        'unit',
         'price',
-        'balance',
-        'year',
-        'status',
+        'total'
     ];
 
-    public function rabs()
+    public function user()
     {
-        return $this->hasMany(Rab::class);
+        return $this->belongsTo(User::class);
     }
 
-    public function rpds()
+    public function activity()
     {
-        return $this->hasMany(Rpd::class);
+        return $this->belongsTo(Activity::class);
+    }
+
+    public function sub_component()
+    {
+        return $this->belongsTo(SubComponent::class);
+    }
+
+    public function program()
+    {
+        return $this->belongsTo(Program::class);
     }
 }
