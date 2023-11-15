@@ -13,7 +13,7 @@ class DashboardController extends Controller
     {
         $data = [
             'c_users' => User::where('roles', 'user')->count(),
-            'rabs' => Rab::with('user', 'type', 'component')->get(),
+            'rabs' => Rab::with('user', 'type', 'activity')->get(),
             'c_rabMenunggu' => Rab::where('status', 'PENGAJUAN')->get(),
             'c_rabDiterima' => Rab::where('status', 'DITERIMA')->get(),
             'c_rabDitolak' => Rab::where('status', 'DITOLAK')->get(),

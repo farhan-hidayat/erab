@@ -12,7 +12,7 @@ class RabDetail extends Model
     protected $fillable = [
         'rab_id',
         'sub_component_id',
-        'program_id',
+        'type_id',
         'description',
         'volume',
         'unit',
@@ -30,8 +30,8 @@ class RabDetail extends Model
         return $this->belongsTo(SubComponent::class);
     }
 
-    public function program()
+    public function type()
     {
-        return $this->belongsTo(Program::class);
+        return $this->belongsTo(Type::class);
     }
 }

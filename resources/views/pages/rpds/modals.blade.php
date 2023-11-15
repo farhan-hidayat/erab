@@ -22,26 +22,26 @@
                                 value="{{ $rab->ticket }}" disabled>
                         </div>
                     </div>
-                    <div class="form-group">
+                    {{-- <div class="form-group">
                         <div class="input-group">
                             <div class="input-group-prepend">
-                                <span class="input-group-text">Komponen</span>
+                                <span class="input-group-text">Sub Komponen</span>
                             </div>
-                            <input type="text" name="component_id" class="form-control"
-                                value="{{ $rab->component->code }}" disabled>
+                            <input type="text" name="sub_component_id" class="form-control"
+                                value="{{ $rab->sub_component->code }}" disabled>
                             <div class="input-group-append">
                                 <span class="input-group-text">Akun Dana</span>
                             </div>
                             <input type="text" name="type_id" class="form-control" value="{{ $rab->type->code }}"
                                 disabled>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="card">
                         <div class="card-header">
                             <h4>{{ $rab->user->faculty->name }}</h4>
                         </div>
                         <div class="card-body">
-                            <div class="section-title mt-0">Total RAB : Rp. {{ number_format($rab->price) }}</div>
+                            <div class="mt-0 section-title">Total RAB : Rp. {{ number_format($rab->price) }}</div>
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
@@ -49,6 +49,7 @@
                                         <th scope="col">Tiket</th>
                                         <th scope="col">Nominal</th>
                                         <th scope="col">Sisa</th>
+                                        <th scope="col">Bulan Pencairan</th>
                                         <th scope="col">Status</th>
                                         @if (Auth::user()->roles == 'ADMIN')
                                             <th scope="col">Aksi</th>
@@ -65,6 +66,8 @@
                                             <td>{{ $rpd->ticket }}</td>
                                             <td>Rp. {{ number_format($rpd->price) }}</td>
                                             <td>Rp. {{ number_format($rpd->balance) }}</td>
+                                            <td> {{ \Carbon\Carbon::createFromFormat('!m', $rpd->month)->format('F') }}
+                                            </td>
                                             <td>
                                                 @if ($rpd->status == 'PENGAJUAN')
                                                     <span class="badge badge-warning">Pengajuan</span>
@@ -95,9 +98,15 @@
                                         </tr>
                                     @empty
                                         <tr>
-                                            <th scope="row" colspan="5" class="text-center">
-                                                <h1>Belum ada pencairan dana</h1>
-                                            </th>
+                                            @if (Auth::user()->roles == 'ADMIN')
+                                                <th scope="row" colspan="6" class="text-center">
+                                                    <h1>Belum ada pencairan dana</h1>
+                                                </th>
+                                            @else
+                                                <th scope="row" colspan="5" class="text-center">
+                                                    <h1>Belum ada pencairan dana</h1>
+                                                </th>
+                                            @endif
                                         </tr>
                                     @endforelse
                                 </tbody>
@@ -137,22 +146,39 @@
                                 </div>
                                 <input type="text" class="form-control" id="ticket" name="ticket"
                                     value="{{ $rab->ticket }}" disabled>
+                                {{-- <div class="input-group-prepend">
+                                    <span class="input-group-text"></span>
+                                </div> --}}
+                                <select name="month" class="form-control" id="month" required>
+                                    <option value="">- Bulan Pencairan -</option>
+                                    @php
+                                        $currentYear = now()->year;
+                                        $currentMonth = now()->month;
+                                    @endphp
+
+                                    @for ($i = $currentMonth; $i <= $currentMonth + (12 - $currentMonth); $i++)
+                                        @php
+                                            $formattedMonth = date('F', mktime(0, 0, 0, $i, 1));
+                                        @endphp
+                                        <option value="{{ $i }}">{{ $formattedMonth }}</option>
+                                    @endfor
+                                </select>
                             </div>
                         </div>
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <div class="input-group">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text">Komponen</span>
+                                    <span class="input-group-text">Sub Komponen</span>
                                 </div>
-                                <input type="text" name="component_id" class="form-control"
-                                    value="{{ $rab->component->code }}" disabled>
+                                <input type="text" name="sub_component_id" class="form-control"
+                                    value="{{ $rab->sub_component->code }}" disabled>
                                 <div class="input-group-append">
                                     <span class="input-group-text">Akun Dana</span>
                                 </div>
                                 <input type="text" name="type_id" class="form-control"
                                     value="{{ $rab->type->code }}" disabled>
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="form-group">
                             <div class="input-group">
                                 <div class="input-group-prepend">

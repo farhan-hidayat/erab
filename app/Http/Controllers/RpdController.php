@@ -19,7 +19,7 @@ class RpdController extends Controller
     public function index()
     {
         $data = [
-            'rabs' => Rab::with('type', 'user', 'user.faculty')->where('status', 'DITERIMA')->get(),
+            'rabs' => Rab::with('activity', 'user', 'user.faculty')->where('status', 'DITERIMA')->get(),
             'rpds' => Rpd::with('rab')->get(),
             'no' => 1
         ];

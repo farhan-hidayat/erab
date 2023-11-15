@@ -20,3 +20,89 @@
         </div>
     </div>
 </div>
+
+<!-- Modal Verifikasi RAB -->
+@foreach ($rabs as $rab)
+    <div class="modal fade" id="ModalVerifikasi{{ $rab->id }}" tabindex="-1" role="dialog"
+        aria-labelledby="ModalVerifikasi{{ $rab->id }}" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ModalVerifikasi{{ $rab->id }}">Verifikasi RAB</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="myForm{{ $rab->id }}" method="POST" action="{{ route('rabs.update', $rab->id) }}"
+                    enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="ModalVerifikasi{{ $rab->id }}">{{ $rab->ticket }}</h5>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col" width="5%">#</th>
+                                    <th scope="col">Deskripsi</th>
+                                    <th scope="col" width="12%">Volume</th>
+                                    <th scope="col" width="15%">Satuan</th>
+                                    <th scope="col" width="18%">Harga</th>
+                                    <th scope="col" width="20%">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @php
+                                    $no = 1;
+                                    $totalKeseluruhan = 0;
+                                @endphp
+                                @foreach ($rab_details as $rab_detail)
+                                    <tr>
+                                        <th rowspan="{{ $rab_detail->sub_component->count() }}" scope="row">
+                                            {{ $no++ }}</th>
+                                        <th colspan="5">
+                                            {{ $rab_detail->sub_component->code }}-{{ $rab_detail->sub_component->name }}
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="5">
+                                            {{ $rab_detail->type->code }}-{{ $rab_detail->type->name }}
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <textarea name="deskripsi" id="deskripsi" cols="30" rows="3" style="border: none;" disabled>{{ $rab_detail->description }}</textarea>
+                                        </td>
+                                        <td>{{ $rab_detail->volume }}</td>
+                                        <td>{{ $rab_detail->unit }}</td>
+                                        <td>Rp. {{ number_format($rab_detail->price) }}</td>
+                                        <td>Rp. {{ number_format($rab_detail->total) }}</td>
+                                    </tr>
+                                    @php
+                                        $totalKeseluruhan += $rab_detail->total;
+                                    @endphp
+                                @endforeach
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th colspan="4" class="text-right">Total Keseluruhan</th>
+                                    <input type="hidden" name="totalKeseluruhan" value="{{ $totalKeseluruhan }}">
+                                    <th colspan="2">Rp. {{ number_format($totalKeseluruhan) }}</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" name="status" id="status{{ $rab->id }}" value="">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success btn-terima" onclick="setStatus('DITERIMA')"
+                            data-id="{{ $rab->id }}">Terima</button>
+                        <button type="submit" class="btn btn-danger btn-tolak" onclick="setStatus('DITOLAK')"
+                            data-id="{{ $rab->id }}">Tolak</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+@endforeach

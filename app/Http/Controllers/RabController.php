@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use Alert;
 use App\Http\Requests\RabRequest;
 use App\Models\Activity;
@@ -12,6 +13,7 @@ use App\Models\Group;
 use App\Models\Program;
 use Illuminate\Support\Str;
 use App\Models\Rab;
+use App\Models\RabDetail;
 use App\Models\RabRequest as ModelsRabRequest;
 use App\Models\Resource;
 use App\Models\SubComponent;
@@ -36,7 +38,8 @@ class RabController extends Controller
             'resources' => Resource::all(),
             'groups' => Group::with('resource')->get(),
             'types' => Type::with('group')->get(),
-            'rabs' => Rab::with('user', 'type', 'type.group', 'type.group.resource', 'component', 'component.detail', 'component.detail.classification', 'component.detail.classification.activity')->get(),
+            'rabs' => Rab::with('user', 'user.faculty', 'activity')->get(),
+            'rab_details' => RabDetail::with('rab', 'sub_component', 'type')->get(),
         ];
         $title = 'Hapus Data!';
         $text = "Apakah Anda Yakin Ingin Menghapus Data? Data yang berelasi akan ikut terhapus!";
@@ -61,7 +64,7 @@ class RabController extends Controller
             'resources' => Resource::all(),
             'groups' => Group::with('resource')->get(),
             'types' => Type::with('group')->get(),
-            'rab_requests' => ModelsRabRequest::with('sub_component', 'user', 'program')->where('user_id', Auth::user()->id)->sortBy('sub_component_id', 'asc')->get(),
+            'rab_requests' => ModelsRabRequest::with('sub_component', 'user', 'type')->where('user_id', Auth::user()->id)->sortBy('sub_component_id', 'asc')->get(),
         ];
         return view('pages.rabs.create', $data);
     }
@@ -72,16 +75,43 @@ class RabController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(RabRequest $request)
+    public function store(Request $request)
     {
-        $data = $request->all();
-        $data['ticket'] = 'RAB-' . date('Ymd') . '-' . Str::random(5);
-        $data['user_id'] = auth()->user()->id;
-        $data['price'] = Str::replace(',', '', $data['price']);
-        $data['balance'] = $data['price'];
-        $data['status'] = 'PENGAJUAN';
-        // return $data;
-        Rab::create($data);
+        //Save data user
+        $user = Auth::user();
+        $user->update($request->except('totalKeseluruhan'));
+
+        //Proses pengajuan rab
+        $ticket = 'RAB-' . date('Ymd') . '-' . Str::random(5);
+        $rab_requests = ModelsRabRequest::with('user', 'sub_component', 'type')->where('user_id', Auth::user()->id)->get();
+
+        // RAB Create
+        $rab = Rab::create([
+            'ticket' => $ticket,
+            'user_id' => Auth::user()->id,
+            'activity_id' => $request->activity_id,
+            'year' => date('Y'),
+            'price' => $request->totalKeseluruhan,
+            'balance' => $request->totalKeseluruhan,
+            'status' => 'PENGAJUAN',
+        ]);
+
+        foreach ($rab_requests as $rab_request) {
+            RabDetail::create([
+                'rab_id' => $rab->id,
+                'sub_component_id' => $rab_request->sub_component_id,
+                'type_id' => $rab_request->type_id,
+                'description' => $rab_request->description,
+                'volume' => $rab_request->volume,
+                'unit' => $rab_request->unit,
+                'price' => $rab_request->price,
+                'total' => $rab_request->total
+            ]);
+        }
+
+        //Delete RAB Request data
+        ModelsRabRequest::where('user_id', Auth::user()->id)->delete();
+
         return redirect()->route('rabs.index')->with('toast_success', 'Data Berhasil Ditambahkan');
     }
 
@@ -115,7 +145,7 @@ class RabController extends Controller
             'resources' => Resource::all(),
             'groups' => Group::with('resource')->get(),
             'types' => Type::with('group')->get(),
-            'rab_requests' => ModelsRabRequest::with('sub_component', 'user', 'program', 'activity')->where('activity_id', $activity->id)->where('user_id', Auth::user()->id)->get(),
+            'rab_requests' => ModelsRabRequest::with('sub_component', 'user', 'type', 'activity')->where('activity_id', $activity->id)->where('user_id', Auth::user()->id)->get(),
         ];
 
         return view('pages.rabs.create', $data);

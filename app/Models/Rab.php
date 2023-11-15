@@ -14,6 +14,7 @@ class Rab extends Model
         'activity_id',
         'ticket',
         'price',
+        'balance',
         'type_id',
         'year',
         'status',

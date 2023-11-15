@@ -29,11 +29,11 @@
                     <div class="col-12">
                         <div class="card">
                             <form method="POST" action="{{ route('requests.store') }}" enctype="multipart/form-data">
+                                @csrf
                                 <div class="card-header">
                                     <h4>Data RAB</h4>
                                 </div>
                                 <div class="card-body">
-                                    @csrf
                                     <div class="modal-body">
                                         <div class="form-group">
                                             <div class="input-group">
@@ -74,13 +74,13 @@
                                             <div class="input-group">
 
                                                 <div class="input-group-append">
-                                                    <span class="input-group-text">Program</span>
+                                                    <span class="input-group-text">Sumber Dana</span>
                                                 </div>
-                                                <select name="program_id" class="form-control">
-                                                    <option value="">Pilih Program</option>
-                                                    @foreach ($programs as $program)
-                                                        <option value="{{ $program->id }}">{{ $program->code }} -
-                                                            {{ $program->name }}</option>
+                                                <select name="type_id" class="form-control">
+                                                    <option value="">Pilih Sumber</option>
+                                                    @foreach ($types as $type)
+                                                        <option value="{{ $type->id }}">{{ $type->code }} -
+                                                            {{ $type->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -132,77 +132,93 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
-                            <div class="card-body">
-                                {{-- @foreach ($rab_requests as $subcom)
-                                    <div class="mt-0 section-title">Sub Komponen : {{ $subcom->sub_component->name }}</div>
-                                @endforeach --}}
-                            </div>
-                            <div class="mt-0 section-title">Program : Program A
-                            </div>
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th scope="col" width="5%">#</th>
-                                        <th scope="col">Deskripsi</th>
-                                        <th scope="col" width="12%">Volume</th>
-                                        <th scope="col" width="15%">Satuan</th>
-                                        <th scope="col" width="18%">Harga</th>
-                                        <th scope="col" width="20%">Total</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @php
-                                        $no = 1;
-                                        $totalKeseluruhan = 0;
-                                    @endphp
-                                    @foreach ($rab_requests as $rab_request)
-                                        <tr>
-                                            <th scope="row">{{ $no++ }}</th>
-                                            <td>
-                                                <textarea name="deskripsi" id="deskripsi" cols="30" rows="3" style="border: none;">{{ $rab_request->description }}</textarea>
-                                            </td>
-                                            <td>
-                                                <input type="number" class="form-control" id="volume" name="volume"
-                                                    value="{{ $rab_request->volume }}">
-                                            </td>
-                                            <td>
-                                                <input type="text" class="form-control" id="unit" name="unit"
-                                                    value="{{ $rab_request->unit }}">
-                                            </td>
-                                            <td>
-                                                <input type="text" class="form-control currency" id="price"
-                                                    name="price" value="Rp. {{ number_format($rab_request->price) }}">
-                                            </td>
-                                            <td>
-                                                <input type="text" class="form-control currency" id="total"
-                                                    name="total" value="Rp. {{ number_format($rab_request->total) }}"
-                                                    placeholder="Rp. 0" readonly>
-                                            </td>
-                                        </tr>
-                                        @php
-                                            $totalKeseluruhan += $rab_request->total;
-                                        @endphp
-                                    @endforeach
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th colspan="4" class="text-right">Total Keseluruhan</th>
-                                        <th colspan="3">Rp. {{ number_format($totalKeseluruhan) }}</th>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                        <div class="card-footer">
-                            <button type="submit" class="btn btn-success"><i class="fa-solid fa-paper-plane"></i>
-                                Ajukan RAB</button>
-                            <button type="submit" class="btn btn-secondary"><i class="fa-solid fa-floppy-disk"></i>
-                                Draft</button>
+                            <form action="{{ route('rabs.store') }} " method="post" enctype="multipart/form-data">
+                                @csrf
+                                <div class="card-body">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" width="5%">#</th>
+                                                <th scope="col">Deskripsi</th>
+                                                <th scope="col" width="12%">Volume</th>
+                                                <th scope="col" width="15%">Satuan</th>
+                                                <th scope="col" width="18%">Harga</th>
+                                                <th scope="col" width="20%">Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @php
+                                                $no = 1;
+                                                $totalKeseluruhan = 0;
+                                            @endphp
+                                            @foreach ($rab_requests as $rab_request)
+                                                <tr>
+                                                    <th rowspan="{{ $rab_request->sub_component->count() }}"
+                                                        scope="row">
+                                                        {{ $no++ }}</th>
+                                                    <th colspan="5">
+                                                        {{ $rab_request->sub_component->code }}-{{ $rab_request->sub_component->name }}
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <th colspan="5">
+                                                        {{ $rab_request->type->code }}-{{ $rab_request->type->name }}
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <textarea name="deskripsi" id="deskripsi" cols="30" rows="3" style="border: none;">{{ $rab_request->description }}</textarea>
+                                                    </td>
+                                                    <td>
+                                                        <input type="number" class="form-control" id="volume"
+                                                            name="volume" value="{{ $rab_request->volume }}">
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control" id="unit"
+                                                            name="unit" value="{{ $rab_request->unit }}">
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control currency"
+                                                            id="price" name="price"
+                                                            value="Rp. {{ number_format($rab_request->price) }}">
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control currency"
+                                                            id="total" name="total"
+                                                            value="Rp. {{ number_format($rab_request->total) }}"
+                                                            placeholder="Rp. 0" readonly>
+                                                    </td>
+                                                </tr>
+                                                @php
+                                                    $totalKeseluruhan += $rab_request->total;
+                                                @endphp
+                                            @endforeach
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th colspan="4" class="text-right">Total Keseluruhan</th>
+                                                <input type="hidden" name="totalKeseluruhan"
+                                                    value="{{ $totalKeseluruhan }}">
+                                                <th colspan="2">Rp. {{ number_format($totalKeseluruhan) }}</th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                <div class="card-footer">
+                                    <input type="hidden" name="activity_id" value="{{ $activity->id }}">
+                                    <button type="submit" class="btn btn-success"><i
+                                            class="fa-solid fa-paper-plane"></i>
+                                        Ajukan RAB</button>
+                                    <a href="{{ route('rabs.index') }}" class="btn btn-secondary"><i
+                                            class="fa-solid fa-floppy-disk"></i>
+                                        Draft</a>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
-    </div>
-    </section>
+        </section>
     </div>
 @endsection
 

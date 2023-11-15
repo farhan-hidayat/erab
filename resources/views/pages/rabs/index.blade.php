@@ -54,27 +54,70 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {{-- @foreach ($components as $component) --}}
-                                            <tr>
-                                                <td>1</td>
-                                                <td>RAB-FT231110
-                                                </td>
-                                                <td>Kegiatan 1</td>
-                                                <td>Teknik</td>
-                                                <td>Rp. 10.000.000</td>
-                                                <td>DRAF</td>
-                                                <td>
-                                                    <a href="#" class="btn btn-success btn-edit" data-toggle="modal"
-                                                        data-target="#ModalEdit1" data-id="1"><i class="fas fa-eye"></i>
-                                                        Detail</a>
-                                                    <a href="#" class="btn btn-primary btn-edit" data-toggle="modal"
-                                                        data-target="#ModalEdit1" data-id="1"><i class="fas fa-edit"></i>
-                                                        Ubah</a>
-                                                    <a href="#" class="btn btn-danger" data-confirm-delete="true"><i
-                                                            class="fas fa-trash"></i> Hapus</a>
-                                                </td>
-                                            </tr>
-                                            {{-- @endforeach --}}
+                                            @php
+                                                $no = 1;
+                                            @endphp
+                                            @if (Auth::user()->roles == 'USER')
+                                                @foreach ($rabs->where('user_id', Auth::user()->id) as $rab)
+                                                    <tr>
+                                                        <td>{{ $no++ }}</td>
+                                                        <td>{{ $rab->ticket }}</td>
+                                                        <td>{{ $rab->activity->code }}-{{ $rab->activity->name }}</td>
+                                                        <td>{{ $rab->user->faculty->name }}</td>
+                                                        <td>Rp. {{ number_format($rab->price) }}</td>
+                                                        <td>
+                                                            @if ($rab->status == 'PENGAJUAN')
+                                                                <span class="badge badge-warning">Pengajuan</span>
+                                                            @elseif($rab->status == 'DITOLAK')
+                                                                <span class="badge badge-danger">Ditolak</span>
+                                                            @else
+                                                                <span class="badge badge-success">Diterima</span>
+                                                            @endif
+                                                        </td>
+                                                        <td>
+                                                            <a href="#" class="btn btn-primary btn-edit"
+                                                                data-toggle="modal"
+                                                                data-target="#ModalEdit{{ $rab->id }}"
+                                                                data-id="{{ $rab->id }}"><i class="fas fa-edit"></i>
+                                                                Ubah</a>
+                                                            <a href="{{ route('rabs.destroy', $rab->id) }}"
+                                                                class="btn btn-danger" data-confirm-delete="true"><i
+                                                                    class="fas fa-trash"></i>
+                                                                Hapus</a>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            @else
+                                                @foreach ($rabs as $rab)
+                                                    <tr>
+                                                        <td>{{ $no++ }}</td>
+                                                        <td>{{ $rab->ticket }}</td>
+                                                        <td>{{ $rab->activity->code }}-{{ $rab->activity->name }}</td>
+                                                        <td>{{ $rab->user->faculty->name }}</td>
+                                                        <td>Rp. {{ number_format($rab->price) }}</td>
+                                                        <td>
+                                                            @if ($rab->status == 'PENGAJUAN')
+                                                                <span class="badge badge-warning">Pengajuan</span>
+                                                            @elseif($rab->status == 'DITOLAK')
+                                                                <span class="badge badge-danger">Ditolak</span>
+                                                            @else
+                                                                <span class="badge badge-success">Diterima</span>
+                                                            @endif
+                                                        </td>
+                                                        <td>
+                                                            <a href="#" class="btn btn-success btn-verifikasi"
+                                                                data-toggle="modal"
+                                                                data-target="#ModalVerifikasi{{ $rab->id }}"
+                                                                data-id="{{ $rab->id }}"><i class="fas fa-edit"></i>
+                                                                Verifikasi</a>
+                                                            <a href="{{ route('rabs.destroy', $rab->id) }}"
+                                                                class="btn btn-danger" data-confirm-delete="true"><i
+                                                                    class="fas fa-trash"></i>
+                                                                Hapus</a>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            @endif
                                         </tbody>
                                     </table>
                                 </div>
