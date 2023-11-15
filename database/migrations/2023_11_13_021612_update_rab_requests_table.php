@@ -19,7 +19,7 @@ return new class extends Migration
             $table->dropColumn('year');
             $table->dropColumn('status');
             $table->foreignId('sub_component_id')->after('id')->constrained()->onDelete('cascade');
-            $table->foreignId('program_id')->after('component_id')->constrained()->onDelete('cascade');
+            $table->foreignId('program_id')->after('sub_component_id')->constrained()->onDelete('cascade');
             $table->string('description')->after('program_id');
             $table->integer('volume')->after('description');
             $table->string('unit')->after('volume');
