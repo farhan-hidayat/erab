@@ -39,7 +39,7 @@ class RabController extends Controller
             'groups' => Group::with('resource')->get(),
             'types' => Type::with('group')->get(),
             'rabs' => Rab::with('user', 'user.faculty', 'activity')->get(),
-            'rab_details' => RabDetail::with('rab', 'sub_component', 'type')->get(),
+            'rab_details' => RabDetail::with('rab', 'sub_component', 'type')->orderBy('sub_component_id', 'asc')->orderBy('type_id', 'asc')->get(),
         ];
         $title = 'Hapus Data!';
         $text = "Apakah Anda Yakin Ingin Menghapus Data? Data yang berelasi akan ikut terhapus!";
@@ -64,7 +64,7 @@ class RabController extends Controller
             'resources' => Resource::all(),
             'groups' => Group::with('resource')->get(),
             'types' => Type::with('group')->get(),
-            'rab_requests' => ModelsRabRequest::with('sub_component', 'user', 'type')->where('user_id', Auth::user()->id)->orderBy('sub_component_id', 'asc')->orderBy('type_id', 'asc')->orderBy('id', 'asc')->get(),
+            'rab_requests' => ModelsRabRequest::with('sub_component', 'user', 'type')->where('user_id', Auth::user()->id)->orderBy('sub_component_id', 'asc')->orderBy('type_id', 'asc')->get(),
         ];
         return $data['rab_requests'];
         // return view('pages.rabs.create', $data);

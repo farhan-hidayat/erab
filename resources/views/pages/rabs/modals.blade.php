@@ -56,21 +56,31 @@
                                 @php
                                     $no = 1;
                                     $totalKeseluruhan = 0;
+                                    $currentSubComponent = null;
+                                    $currentType = null;
                                 @endphp
                                 @foreach ($rab_details->where('rab_id', $rab->id) as $rab_detail)
                                     <tr>
-                                        <th rowspan="{{ $rab_detail->sub_component->count() }}" scope="row">
-                                            {{ $no++ }}</th>
-                                        <th colspan="5">
+                                        <th colspan="6">
                                             {{ $rab_detail->sub_component->code }}-{{ $rab_detail->sub_component->name }}
                                         </th>
+                                        @php
+                                            $currentSubComponent = $rab_detail->sub_component->id;
+                                            $currentType = null; // Reset currentType when sub_component changes
+                                            $no = 1; // Reset $no when sub_component changes
+                                        @endphp
                                     </tr>
                                     <tr>
-                                        <th colspan="5">
+                                        <th colspan="6">
                                             {{ $rab_detail->type->code }}-{{ $rab_detail->type->name }}
                                         </th>
+                                        @php
+                                            $currentType = $rab_detail->type->id;
+                                            $no = 1; // Reset $no when type changes
+                                        @endphp
                                     </tr>
                                     <tr>
+                                        <th scope="row">{{ $no++ }}</th>
                                         <td>
                                             <textarea name="deskripsi" id="deskripsi" cols="30" rows="3" style="border: none;" disabled>{{ $rab_detail->description }}</textarea>
                                         </td>
