@@ -64,9 +64,10 @@ class RabController extends Controller
             'resources' => Resource::all(),
             'groups' => Group::with('resource')->get(),
             'types' => Type::with('group')->get(),
-            'rab_requests' => ModelsRabRequest::with('sub_component', 'user', 'type')->where('user_id', Auth::user()->id)->sortBy('sub_component_id', 'asc')->get(),
+            'rab_requests' => ModelsRabRequest::with('sub_component', 'user', 'type')->where('user_id', Auth::user()->id)->orderBy('sub_component_id', 'asc')->orderBy('type_id', 'asc')->orderBy('id', 'asc')->get(),
         ];
-        return view('pages.rabs.create', $data);
+        return $data['rab_requests'];
+        // return view('pages.rabs.create', $data);
     }
 
     /**
@@ -145,7 +146,7 @@ class RabController extends Controller
             'resources' => Resource::all(),
             'groups' => Group::with('resource')->get(),
             'types' => Type::with('group')->get(),
-            'rab_requests' => ModelsRabRequest::with('sub_component', 'user', 'type', 'activity')->where('activity_id', $activity->id)->where('user_id', Auth::user()->id)->get(),
+            'rab_requests' => ModelsRabRequest::with('sub_component', 'user', 'type')->where('user_id', Auth::user()->id)->orderBy('sub_component_id', 'asc')->orderBy('type_id', 'asc')->get(),
         ];
 
         return view('pages.rabs.create', $data);

@@ -8,7 +8,7 @@ use App\Http\Requests\Rab_RequestRequest;
 use App\Models\RabRequest;
 use Illuminate\Http\Request;
 
-class RabRequestComponentController extends Controller
+class RabRequestController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -89,8 +89,10 @@ class RabRequestComponentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(RabRequest $rabRequest)
     {
-        //
+        $rabRequest->delete();
+        toast('Data Berhasil Dihapus', 'success');
+        return redirect()->back();
     }
 }

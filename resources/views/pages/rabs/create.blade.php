@@ -140,55 +140,79 @@
                                             <tr>
                                                 <th scope="col" width="5%">#</th>
                                                 <th scope="col">Deskripsi</th>
-                                                <th scope="col" width="12%">Volume</th>
-                                                <th scope="col" width="15%">Satuan</th>
-                                                <th scope="col" width="18%">Harga</th>
-                                                <th scope="col" width="20%">Total</th>
+                                                <th scope="col">Satuan</th>
+                                                <th scope="col">Volume</th>
+                                                <th scope="col">Harga</th>
+                                                <th scope="col">Total</th>
+                                                <th scope="col">Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @php
                                                 $no = 1;
                                                 $totalKeseluruhan = 0;
+                                                $currentSubComponent = null;
+                                                $currentType = null;
                                             @endphp
+
                                             @foreach ($rab_requests as $rab_request)
+                                                @if ($currentSubComponent !== $rab_request->sub_component->id)
+                                                    <tr>
+                                                        <th colspan="7">
+                                                            {{ $rab_request->sub_component->code }}-{{ $rab_request->sub_component->name }}
+                                                        </th>
+                                                        @php
+                                                            $currentSubComponent = $rab_request->sub_component->id;
+                                                            $currentType = null; // Reset currentType when sub_component changes
+                                                            $no = 1; // Reset $no when sub_component changes
+                                                        @endphp
+                                                    </tr>
+                                                @endif
+
+                                                @if ($currentType !== $rab_request->type->id)
+                                                    <tr>
+                                                        <th colspan="7">
+                                                            {{ $rab_request->type->code }}-{{ $rab_request->type->name }}
+                                                        </th>
+                                                        @php
+                                                            $currentType = $rab_request->type->id;
+                                                            $no = 1; // Reset $no when type changes
+                                                        @endphp
+                                                    </tr>
+                                                @endif
+
                                                 <tr>
-                                                    <th rowspan="{{ $rab_request->sub_component->count() }}"
-                                                        scope="row">
-                                                        {{ $no++ }}</th>
-                                                    <th colspan="5">
-                                                        {{ $rab_request->sub_component->code }}-{{ $rab_request->sub_component->name }}
-                                                    </th>
-                                                </tr>
-                                                <tr>
-                                                    <th colspan="5">
-                                                        {{ $rab_request->type->code }}-{{ $rab_request->type->name }}
-                                                    </th>
-                                                </tr>
-                                                <tr>
+                                                    <th scope="row">{{ $no++ }}</th>
                                                     <td>
-                                                        <textarea name="deskripsi" id="deskripsi" cols="30" rows="3" style="border: none;">{{ $rab_request->description }}</textarea>
+                                                        <textarea name="deskripsi" id="deskripsi" cols="30" rows="3" style="border: none;" disabled>{{ $rab_request->description }}</textarea>
                                                     </td>
-                                                    <td>
-                                                        <input type="number" class="form-control" id="volume"
-                                                            name="volume" value="{{ $rab_request->volume }}">
+                                                    <td>{{ $rab_request->volume }}
+                                                        {{-- <input type="number" class="form-control" id="volume"
+                                                            name="volume" value="{{ $rab_request->volume }}"> --}}
                                                     </td>
-                                                    <td>
-                                                        <input type="text" class="form-control" id="unit"
-                                                            name="unit" value="{{ $rab_request->unit }}">
+                                                    <td>{{ $rab_request->unit }}
+                                                        {{-- <input type="text" class="form-control" id="unit"
+                                                            name="unit" value="{{ $rab_request->unit }}"> --}}
                                                     </td>
-                                                    <td>
-                                                        <input type="text" class="form-control currency"
+                                                    <td>Rp. {{ number_format($rab_request->price) }}
+                                                        {{-- <input type="text" class="form-control currency"
                                                             id="price" name="price"
-                                                            value="Rp. {{ number_format($rab_request->price) }}">
+                                                            value="Rp. {{ number_format($rab_request->price) }}"> --}}
                                                     </td>
-                                                    <td>
-                                                        <input type="text" class="form-control currency"
+                                                    <td>Rp. {{ number_format($rab_request->total) }}
+                                                        {{-- <input type="text" class="form-control currency"
                                                             id="total" name="total"
                                                             value="Rp. {{ number_format($rab_request->total) }}"
-                                                            placeholder="Rp. 0" readonly>
+                                                            placeholder="Rp. 0" readonly> --}}
+                                                    </td>
+                                                    <td>
+                                                        <a href="{{ route('requests.destroy', $rab_request->id) }}"
+                                                            class="btn btn-danger" data-confirm-delete="true"><i
+                                                                class="fas fa-trash"></i>
+                                                        </a>
                                                     </td>
                                                 </tr>
+
                                                 @php
                                                     $totalKeseluruhan += $rab_request->total;
                                                 @endphp
@@ -203,6 +227,7 @@
                                             </tr>
                                         </tfoot>
                                     </table>
+
                                 </div>
                                 <div class="card-footer">
                                     <input type="hidden" name="activity_id" value="{{ $activity->id }}">

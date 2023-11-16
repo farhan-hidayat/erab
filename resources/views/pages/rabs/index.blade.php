@@ -50,7 +50,13 @@
                                                 <th>Fakultas</th>
                                                 <th>Nominal</th>
                                                 <th>Status</th>
-                                                <th width="20%" class="text-center">Aksi</th>
+                                                @if (Auth::user()->roles == 'USER')
+                                                    @if ($rabs->where('user_id', Auth::user()->id)->where('status', 'DITOLAK')->count() > 0)
+                                                        <th width="20%" class="text-center">Aksi</th>
+                                                    @endif
+                                                @else
+                                                    <th width="20%" class="text-center">Aksi</th>
+                                                @endif
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -74,17 +80,20 @@
                                                                 <span class="badge badge-success">Diterima</span>
                                                             @endif
                                                         </td>
-                                                        <td>
-                                                            <a href="#" class="btn btn-primary btn-edit"
-                                                                data-toggle="modal"
-                                                                data-target="#ModalEdit{{ $rab->id }}"
-                                                                data-id="{{ $rab->id }}"><i class="fas fa-edit"></i>
-                                                                Ubah</a>
-                                                            <a href="{{ route('rabs.destroy', $rab->id) }}"
-                                                                class="btn btn-danger" data-confirm-delete="true"><i
-                                                                    class="fas fa-trash"></i>
-                                                                Hapus</a>
-                                                        </td>
+                                                        @if ($rab->status == 'DITOLAK')
+                                                            <td>
+                                                                <a href="#" class="btn btn-primary btn-edit"
+                                                                    data-toggle="modal"
+                                                                    data-target="#ModalEdit{{ $rab->id }}"
+                                                                    data-id="{{ $rab->id }}"><i
+                                                                        class="fas fa-edit"></i>
+                                                                    Ubah</a>
+                                                                <a href="{{ route('rabs.destroy', $rab->id) }}"
+                                                                    class="btn btn-danger" data-confirm-delete="true"><i
+                                                                        class="fas fa-trash"></i>
+                                                                    Hapus</a>
+                                                            </td>
+                                                        @endif
                                                     </tr>
                                                 @endforeach
                                             @else

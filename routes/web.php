@@ -9,7 +9,7 @@ use App\Http\Controllers\GroupController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\RabComboboxController;
 use App\Http\Controllers\RabController;
-use App\Http\Controllers\RabRequestComponentController;
+use App\Http\Controllers\RabRequestController;
 use App\Http\Controllers\ResourceController;
 use App\Http\Controllers\RpdController;
 use App\Http\Controllers\SubComponentController;
@@ -42,7 +42,7 @@ Route::middleware([
     Route::resource('subs', SubComponentController::class);
     Route::resource('programs', ProgramController::class);
     Route::resource('rabs', RabController::class);
-    Route::resource('requests', RabRequestComponentController::class);
+    Route::resource('requests', RabRequestController::class);
     Route::get('get-classifications/{activityId}', [RabComboboxController::class, 'getClassificationsByActivity']);
     Route::get('get-details/{classificationId}', [RabComboboxController::class, 'getDetailsByClassification']);
     Route::get('get-components/{detailId}', [RabComboboxController::class, 'getComponentsByDetail']);

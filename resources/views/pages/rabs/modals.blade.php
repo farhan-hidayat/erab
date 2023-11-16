@@ -57,7 +57,7 @@
                                     $no = 1;
                                     $totalKeseluruhan = 0;
                                 @endphp
-                                @foreach ($rab_details as $rab_detail)
+                                @foreach ($rab_details->where('rab_id', $rab->id) as $rab_detail)
                                     <tr>
                                         <th rowspan="{{ $rab_detail->sub_component->count() }}" scope="row">
                                             {{ $no++ }}</th>
