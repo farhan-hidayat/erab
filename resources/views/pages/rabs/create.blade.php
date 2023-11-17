@@ -221,15 +221,14 @@
                                         <tfoot>
                                             <tr>
                                                 <th colspan="4" class="text-right">Total Keseluruhan</th>
-                                                <input type="hidden" name="totalKeseluruhan"
-                                                    value="{{ $totalKeseluruhan }}">
-                                                <th colspan="2">Rp. {{ number_format($totalKeseluruhan) }}</th>
+                                                <th colspan="3">Rp. {{ number_format($totalKeseluruhan) }}</th>
                                             </tr>
                                         </tfoot>
                                     </table>
 
                                 </div>
                                 <div class="card-footer">
+                                    <input type="hidden" name="totalKeseluruhan" value="{{ $totalKeseluruhan }}">
                                     <input type="hidden" name="activity_id" value="{{ $activity->id }}">
                                     <button type="submit" class="btn btn-success"><i
                                             class="fa-solid fa-paper-plane"></i>

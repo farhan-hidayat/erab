@@ -89,10 +89,11 @@ class RabRequestController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(RabRequest $rabRequest)
+    public function destroy($id)
     {
-        $rabRequest->delete();
-        toast('Data Berhasil Dihapus', 'success');
-        return redirect()->back();
+        $rab_request = RabRequest::findOrFail($id);
+        $rab_request->delete();
+
+        return redirect()->back()->with('toast_success', 'Data Berhasil Dihapus');
     }
 }

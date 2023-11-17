@@ -149,6 +149,10 @@ class RabController extends Controller
             'rab_requests' => ModelsRabRequest::with('sub_component', 'user', 'type')->where('user_id', Auth::user()->id)->orderBy('sub_component_id', 'asc')->orderBy('type_id', 'asc')->get(),
         ];
 
+        $title = 'Hapus Data!';
+        $text = "Apakah Anda Yakin Ingin Menghapus Data? Data yang berelasi akan ikut terhapus!";
+        confirmDelete($title, $text);
+
         return view('pages.rabs.create', $data);
     }
 
