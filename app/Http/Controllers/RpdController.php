@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Alert;
 use App\Http\Requests\RpdRequest;
+use App\Models\Activity;
 use App\Models\Rab;
+use App\Models\RabDetail;
 use App\Models\Rpd;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -19,8 +21,10 @@ class RpdController extends Controller
     public function index()
     {
         $data = [
+            'activities' => Activity::withCount('classifications')->get(),
             'rabs' => Rab::with('activity', 'user', 'user.faculty')->where('status', 'DITERIMA')->get(),
             'rpds' => Rpd::with('rab')->get(),
+            'rab_details' => RabDetail::with('rab', 'sub_component', 'type')->orderBy('sub_component_id', 'asc')->orderBy('type_id', 'asc')->get(),
             'no' => 1
         ];
         $title = 'Hapus Data!';

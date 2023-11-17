@@ -13,14 +13,12 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>RAB & RPD</h1>
-                @if (Auth::user()->roles == 'USER')
-                    <div class="section-header-button">
-                        <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#ModalTambah"> <i
-                                class="fa-solid fa-plus"></i> Buat
-                            RAB </a>
-                    </div>
-                @endif
+                <h1>Data RPD</h1>
+                {{-- <div class="section-header-button">
+                    <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#ModalTambah"> <i
+                            class="fa-solid fa-plus"></i> Tambah
+                        Sumber Dana </a>
+                </div> --}}
             </div>
 
             <div class="section-body">
@@ -33,9 +31,6 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
-                            <div class="card-header">
-                                <h4>Data RAB</h4>
-                            </div>
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-striped" id="table-1">
@@ -64,17 +59,17 @@
                                                         <td>Rp. {{ number_format($rab->price) }}</td>
                                                         <td>Rp. {{ number_format($rab->balance) }}</td>
                                                         <td class="text-center">
-                                                            <a href="#" class="btn btn-primary btn-verifikasi"
-                                                                data-toggle="modal"
-                                                                data-target="#ModalVerifikasi{{ $rab->id }}"
-                                                                data-id="{{ $rab->id }}"><i class="fas fa-edit"></i>
-                                                                Detail</a>
-                                                            <a href="#" class="btn btn-success btn-lihat"
+                                                            <a href="#" class="btn btn-primary btn-lihat"
                                                                 data-toggle="modal"
                                                                 data-target="#ModalLihat{{ $rab->id }}"
+                                                                data-id="{{ $rab->id }}"><i class="fas fa-eye"></i>
+                                                                Lihat</a>
+                                                            <a href="#" class="btn btn-success btn-tarik"
+                                                                data-toggle="modal"
+                                                                data-target="#ModalTarik{{ $rab->id }}"
                                                                 data-id="{{ $rab->id }}"><i
-                                                                    class="fas fa-money-bill-1-wave"></i>
-                                                                RPD</a>
+                                                                    class="fa-solid fa-money-bill-1-wave"></i>
+                                                                Pencairan</a>
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -90,17 +85,16 @@
                                                         <td>Rp. {{ number_format($rab->price) }}</td>
                                                         <td>Rp. {{ number_format($rab->balance) }}</td>
                                                         <td class="text-center">
-                                                            <a href="#" class="btn btn-primary btn-verifikasi"
-                                                                data-toggle="modal"
-                                                                data-target="#ModalVerifikasi{{ $rab->id }}"
-                                                                data-id="{{ $rab->id }}"><i class="fas fa-eye"></i>
-                                                                Detail</a>
-                                                            <a href="#" class="btn btn-success btn-lihat"
+                                                            <a href="#" class="btn btn-primary btn-lihat"
                                                                 data-toggle="modal"
                                                                 data-target="#ModalLihat{{ $rab->id }}"
+                                                                data-id="{{ $rab->id }}"><i class="fas fa-eye"></i>
+                                                                Lihat</a>
+                                                            {{-- <a href="#" class="btn btn-success btn-tarik"
+                                                                data-toggle="modal" data-target="#ModalTarik"
                                                                 data-id="{{ $rab->id }}"><i
-                                                                    class="fas fa-money-bill-1-wave"></i>
-                                                                RPD</a>
+                                                                    class="fa-solid fa-money-bill-1-wave"></i>
+                                                                Pencairan</a> --}}
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -148,6 +142,10 @@
                     var rabId = $(this).data('id');
                     setStatus('DITOLAK', rabId);
                 });
+            });
+            $('.btn-tarik').click(function() {
+                var rabId = $(this).data('id');
+                $('#ModaTarik' + rabId).modal('show');
 
                 const rabPriceInput = document.querySelector('#rab_price' + rabId);
                 const rabBalanceInput = document.querySelector('#rab_balance' + rabId);

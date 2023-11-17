@@ -63,13 +63,13 @@
                 <span>Program</span></a>
         </li> --}}
         <li class="menu-header">Aplikasi</li>
-        <li class="{{ request()->is('rabs*') ? 'active' : '' }}">
+        {{-- <li class="{{ request()->is('rabs*') ? 'active' : '' }}">
             <a href="{{ route('rabs.index') }}" class="nav-link"><i class="fas fa-scale-balanced fa-beat"></i>
                 <span>RAB</span></a>
-        </li>
+        </li> --}}
         <li class="{{ request()->is('rpds*') ? 'active' : '' }}">
             <a href="{{ route('rpds.index') }}" class="nav-link"><i class="fas fa-money-bill-transfer fa-beat"></i>
-                <span>RPD</span></a>
+                <span>RAB & RPD</span></a>
         </li>
     </ul>
 
