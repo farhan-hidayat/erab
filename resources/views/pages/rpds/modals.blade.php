@@ -305,6 +305,7 @@
                                     $currentType = null;
                                 @endphp
                                 @foreach ($rab_details->where('rab_id', $rab->id) as $rab_detail)
+                                    @if ($currentSubComponent !== $rab_detail->sub_component->id)
                                     <tr>
                                         <th colspan="6">
                                             {{ $rab_detail->sub_component->code }}-{{ $rab_detail->sub_component->name }}
@@ -315,6 +316,8 @@
                                             $no = 1; // Reset $no when sub_component changes
                                         @endphp
                                     </tr>
+                                    @endif
+                                    @if ($currentType !== $rab_detail->type->id)
                                     <tr>
                                         <th colspan="6">
                                             {{ $rab_detail->type->code }}-{{ $rab_detail->type->name }}
@@ -324,6 +327,7 @@
                                             $no = 1; // Reset $no when type changes
                                         @endphp
                                     </tr>
+                                    @endif
                                     <tr>
                                         <th scope="row">{{ $no++ }}</th>
                                         <td>

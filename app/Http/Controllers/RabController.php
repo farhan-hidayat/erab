@@ -40,6 +40,7 @@ class RabController extends Controller
             'types' => Type::with('group')->get(),
             'rabs' => Rab::with('user', 'user.faculty', 'activity')->get(),
             'rab_details' => RabDetail::with('rab', 'sub_component', 'type')->orderBy('sub_component_id', 'asc')->orderBy('type_id', 'asc')->get(),
+            'rab_requests' => ModelsRabRequest::with('sub_component', 'user', 'type')->where('user_id', Auth::user()->id)->orderBy('sub_component_id', 'asc')->orderBy('type_id', 'asc')->get()
         ];
         $title = 'Hapus Data!';
         $text = "Apakah Anda Yakin Ingin Menghapus Data? Data yang berelasi akan ikut terhapus!";
@@ -113,7 +114,7 @@ class RabController extends Controller
         //Delete RAB Request data
         ModelsRabRequest::where('user_id', Auth::user()->id)->delete();
 
-        return redirect()->route('rabs.index')->with('toast_success', 'Data Berhasil Ditambahkan');
+        return redirect()->route('rpds.index')->with('toast_success', 'Data Berhasil Ditambahkan');
     }
 
     /**

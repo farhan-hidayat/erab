@@ -22,7 +22,8 @@ class RpdController extends Controller
     {
         $data = [
             'activities' => Activity::withCount('classifications')->get(),
-            'rabs' => Rab::with('activity', 'user', 'user.faculty')->where('status', 'DITERIMA')->get(),
+            'rabs' => Rab::with('activity', 'user', 'user.faculty')->get(),
+            // 'rabs' => Rab::with('activity', 'user', 'user.faculty')->where('status', 'DITERIMA')->get(),
             'rpds' => Rpd::with('rab')->get(),
             'rab_details' => RabDetail::with('rab', 'sub_component', 'type')->orderBy('sub_component_id', 'asc')->orderBy('type_id', 'asc')->get(),
             'no' => 1
