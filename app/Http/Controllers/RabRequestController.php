@@ -80,7 +80,20 @@ class RabRequestController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $rab_request = RabRequest::findOrFail($id);
+        $data = $request->all();
+
+        if ($request->has('price')) {
+            $data['price'] = preg_replace('/[^0-9]/', '', $data['price']);
+            $data['total'] = $data['price'] * $data['volume'];
+        }
+
+        // Update data jika ada perubahan
+        if (!empty($data)) {
+            $rab_request->update($data);
+        }
+
+        return redirect()->back()->with('toast_success', 'Data Berhasil Diubah');
     }
 
     /**

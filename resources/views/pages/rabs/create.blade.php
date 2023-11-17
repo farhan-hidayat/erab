@@ -140,8 +140,8 @@
                                             <tr>
                                                 <th scope="col" width="5%">#</th>
                                                 <th scope="col">Deskripsi</th>
-                                                <th scope="col">Satuan</th>
                                                 <th scope="col">Volume</th>
+                                                <th scope="col">Satuan</th>
                                                 <th scope="col">Harga</th>
                                                 <th scope="col">Total</th>
                                                 <th scope="col">Aksi</th>
@@ -206,6 +206,11 @@
                                                             placeholder="Rp. 0" readonly> --}}
                                                     </td>
                                                     <td>
+                                                        <a href="#" class="btn btn-primary btn-edit"
+                                                            data-toggle="modal"
+                                                            data-target="#ModalEdit{{ $rab_request->id }}"
+                                                            data-id="{{ $rab_request->id }}"><i class="fas fa-edit"></i>
+                                                        </a>
                                                         <a href="{{ route('requests.destroy', $rab_request->id) }}"
                                                             class="btn btn-danger" data-confirm-delete="true"><i
                                                                 class="fas fa-trash"></i>
@@ -244,6 +249,8 @@
             </div>
         </section>
     </div>
+
+    @include('pages.rabs.modals')
 @endsection
 
 @push('prepend-script')
@@ -300,6 +307,42 @@
             $('.btn-edit').click(function() {
                 var rabId = $(this).data('id');
                 $('#ModalEdit' + rabId).modal('show');
+
+                const volumeInput = document.getElementById('volume' + rabId);
+                const priceInput = document.getElementById('price' + rabId);
+                const totalInput = document.getElementById('total' + rabId);
+
+                const currencyInputs = document.querySelectorAll('.currency' + rabId);
+
+                currencyInputs.forEach(function(input) {
+                    input.addEventListener('input', function() {
+                        // Menghapus karakter selain angka
+                        let value = this.value.replace(/[^0-9]/g, '');
+
+                        // Format angka menjadi ribuan
+                        if (value.length > 3) {
+                            value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                        }
+
+                        // Setel nilai input dengan format ribuan
+                        this.value = 'Rp. ' + value;
+                        updateTotal();
+                    });
+                });
+
+                volumeInput.addEventListener('input', function() {
+                    updateTotal();
+                });
+
+                function updateTotal() {
+                    const volume = parseFloat(volumeInput.value) || 0;
+                    const price = parseFloat(priceInput.value.replace(/[^0-9]/g, '')) || 0;
+                    const total = volume * price;
+
+                    // Format angka menjadi ribuan untuk input "Total"
+                    totalInput.value = 'Rp. ' + total.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                }
+
                 // Ambil selectbox Klasifikasi
                 var classificationSelect = $('#classificationED' + rabId);
                 // Ambil selectbox Rincian

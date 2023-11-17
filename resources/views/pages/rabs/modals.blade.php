@@ -1,5 +1,5 @@
 <!-- Modal Tambah -->
-<div class="modal fade" id="ModalTambah" tabindex="-1" role="dialog" aria-labelledby="ModalTambah" aria-hidden="true">
+{{-- <div class="modal fade" id="ModalTambah" tabindex="-1" role="dialog" aria-labelledby="ModalTambah" aria-hidden="true">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -19,10 +19,69 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}
+
+<!-- Modal Ubah -->
+@foreach ($rab_requests as $rab_request)
+    <div class="modal fade" id="ModalEdit{{ $rab_request->id }}" tabindex="-1" role="dialog"
+        aria-labelledby="ModalEdit{{ $rab_request->id }}" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ModalEdit{{ $rab_request->id }}">Edit Pengajuan RAB</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="POST" action="{{ route('requests.update', $rab_request->id) }}"
+                    enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="edit_description{{ $rab_request->id }}">Deskripsi</label>
+                            {{-- <textarea id="description" name="description">{!! $rab_request->description !!}</textarea> --}}
+                            <input type="text" class="form-control" id="edit_description{{ $rab_request->id }}"
+                                name="description" value="{{ $rab_request->description }}">
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Volume</span>
+                                </div>
+                                <input type="number" class="form-control" id="volume{{ $rab_request->id }}"
+                                    name="volume" value="{{ $rab_request->volume }}">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">Satuan</span>
+                                </div>
+                                <input type="text" class="form-control" id="unit" name="unit"
+                                    value="{{ $rab_request->unit }}">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">Harga</span>
+                                </div>
+                                <input type="text" class="form-control currency{{ $rab_request->id }}"
+                                    id="price{{ $rab_request->id }}" name="price"
+                                    value=" Rp. {{ number_format($rab_request->price) }}">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">Total</span>
+                                </div>
+                                <input type="text" class="form-control currency" id="total{{ $rab_request->id }}"
+                                    name="total" value=" Rp. {{ number_format($rab_request->total) }}" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+@endforeach
 
 <!-- Modal Verifikasi RAB -->
-@foreach ($rabs as $rab)
+{{-- @foreach ($rabs as $rab)
     <div class="modal fade" id="ModalVerifikasi{{ $rab->id }}" tabindex="-1" role="dialog"
         aria-labelledby="ModalVerifikasi{{ $rab->id }}" aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
@@ -115,4 +174,4 @@
             </div>
         </div>
     </div>
-@endforeach
+@endforeach --}}
