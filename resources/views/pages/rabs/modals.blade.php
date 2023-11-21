@@ -1,26 +1,86 @@
 <!-- Modal Tambah -->
-{{-- <div class="modal fade" id="ModalTambah" tabindex="-1" role="dialog" aria-labelledby="ModalTambah"
-    aria-hidden="true">
-    <div class="modal-dialog modal-sm" role="document">
+@foreach ($rab_requests as $rab_request)
+<div class="modal fade" id="ModalTambahan{{ $rab_request->id }}" tabindex="-1" role="dialog"
+    aria-labelledby="ModalTambahan{{ $rab_request->id }}" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="ModalTambah">Pengajuan RAB</h5>
+                <h5 class="modal-title" id="ModalTambahan{{ $rab_request->id }}">Tambah RAB</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                @foreach ($activities as $activity)
-                <div class="form-group d-flex justify-content-center">
-                    <a href="{{ route('rabs.edit', $activity->slug) }}" class="btn btn-primary">{{ $activity->code }}-{{
-                        $activity->name }}</a>
-                    <br>
+            <form method="POST" action="{{ route('requests.store') }}" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Sub Komponen</span>
+                            </div>
+                            <input type="hidden" class="form-control" id="sub_component_id" name="sub_component_id"
+                                value="{{ $rab_request->sub_component_id }}">
+                            <input type="text" class="form-control"
+                                value="{{ $rab_request->sub_component->code }} - {{ $rab_request->sub_component->name }}"
+                                readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-append">
+                                <span class="input-group-text">Sumber Dana</span>
+                            </div>
+                            <input type="hidden" class="form-control" id="type_id" name="type_id"
+                                value="{{ $rab_request->type_id }}">
+                            <input type="text" class="form-control"
+                                value="{{ $rab_request->type->code }} - {{ $rab_request->type->name }}" readonly>
+                        </div>
+                    </div>
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Deskripsi</th>
+                                <th scope="col" width="15%">Volume</th>
+                                <th scope="col" width="15%">Satuan</th>
+                                <th scope="col" width="18%">Harga</th>
+                                <th scope="col" width="20%">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <textarea name="description" id="description" cols="30" rows="3"
+                                        style="border: none;"></textarea>
+                                </td>
+                                <td>
+                                    <input type="number" class="form-control" id="volumeTB{{ $rab_request->id }}"
+                                        name="volume" placeholder="0">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" id="unit" name="unit">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control currencyTB{{ $rab_request->id }}"
+                                        id="priceTB{{ $rab_request->id }}" name="price">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control currency" id="totalTB{{ $rab_request->id }}"
+                                        name="total" placeholder="Rp. 0" readonly>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-                @endforeach
-            </div>
+                <div class="modal-footer">
+                    <input type="hidden" class="form-control" name="activity_id" value="{{ $activity->id }}">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+            </form>
         </div>
     </div>
-</div> --}}
+</div>
+@endforeach
 
 <!-- Modal Ubah -->
 @foreach ($rab_requests as $rab_request)
