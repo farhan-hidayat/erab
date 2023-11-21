@@ -14,7 +14,6 @@ E-RAB | RAB
 @push('addon-style')
 <style>
     #myBtn {
-        display: none;
         /* Hidden by default */
         position: fixed;
         /* Fixed/sticky position */
@@ -43,7 +42,7 @@ E-RAB | RAB
     }
 
     #myBtn:hover {
-        background-color: #555;
+        background-color: rgb(6, 211, 16);
         /* Add a dark-grey background on hover */
     }
 </style>
@@ -63,7 +62,7 @@ E-RAB | RAB
                     href="https://datatables.net/">here</a>.
             </p> --}}
 
-            <div class="row">
+            {{-- <div class="row">
                 <div class="col-12">
                     <div class="card">
                         <form method="POST" action="{{ route('requests.store') }}" enctype="multipart/form-data">
@@ -166,10 +165,13 @@ E-RAB | RAB
                         </form>
                     </div>
                 </div>
-            </div>
+            </div> --}}
             <div class="row">
                 <div class="col-12">
                     <div class="card">
+                        <div class="card-header">
+                            <h4>Data RAB</h4>
+                        </div>
                         <form action="{{ route('rabs.store') }} " method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="card-body">
@@ -279,8 +281,8 @@ E-RAB | RAB
                 </div>
             </div>
         </div>
-        <button onclick="topFunction()" id="myBtn" title="Go to top"><i
-                class="fa-regular fa-circle-up fa-bounce fa-xl"></i></button>
+        <button id="myBtn" title="Tambah Data" data-toggle="modal" data-target="#ModalTambah"><i
+                class="fa-solid fa-plus fa-bounce fa-xl"></i></button>
     </section>
 </div>
 
@@ -298,27 +300,6 @@ E-RAB | RAB
 <script src="/node_modules/cleave.js/dist/addons/cleave-phone.us.js"></script>
 @endpush
 @push('addon-script')
-<script>
-    // Get the button:
-    let mybutton = document.getElementById("myBtn");
-    
-    // When the user scrolls down 20px from the top of the document, show the button
-    window.onscroll = function() {scrollFunction()};
-    
-    function scrollFunction() {
-    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-    mybutton.style.display = "block";
-    } else {
-    mybutton.style.display = "none";
-    }
-    }
-    
-    // When the user clicks on the button, scroll to the top of the document
-    function topFunction() {
-    document.body.scrollTop = 0; // For Safari
-    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-    }
-</script>
 <script>
     // Ambil elemen input
         const volumeInput = document.getElementById('volume');

@@ -1,4 +1,109 @@
 <!-- Modal Tambah -->
+<div class="modal fade" id="ModalTambah" tabindex="-1" role="dialog" aria-labelledby="ModalTambah" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalTambah">Tambah Data RAB</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="POST" action="{{ route('requests.store') }}" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-append">
+                                <span class="input-group-text">Klasifikasi</span>
+                            </div>
+                            <select name="classification_id" id="classificationTD" class="form-control">
+                                <option value="">Pilih Kegiatan</option>
+                                @foreach ($classifications as $classification)
+                                <option value="{{ $classification->id }}">
+                                    {{ $classification->code }} -
+                                    {{ $classification->name }}</option>
+                                @endforeach
+                            </select>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Rincian</span>
+                            </div>
+                            <select name="detail_id" id="detailTD" class="form-control">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+
+                            <div class="input-group-append">
+                                <span class="input-group-text">Komponen</span>
+                            </div>
+                            <select name="component_id" id="componentTD" class="form-control">
+                            </select>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Sub Komponen</span>
+                            </div>
+                            <select name="sub_component_id" id="sub_componentTD" class="form-control">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+
+                            <div class="input-group-append">
+                                <span class="input-group-text">Sumber Dana</span>
+                            </div>
+                            <select name="type_id" class="form-control">
+                                <option value="">Pilih Sumber</option>
+                                @foreach ($types as $type)
+                                <option value="{{ $type->id }}">{{ $type->code }} -
+                                    {{ $type->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Deskripsi</th>
+                                <th scope="col" width="15%">Volume</th>
+                                <th scope="col" width="15%">Satuan</th>
+                                <th scope="col" width="18%">Harga</th>
+                                <th scope="col" width="20%">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <textarea name="description" id="description" cols="30" rows="3"
+                                        style="border: none;"></textarea>
+                                </td>
+                                <td>
+                                    <input type="number" class="form-control" id="volume" name="volume" placeholder="0">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" id="unit" name="unit">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control currency" id="price" name="price">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control currency" id="total" name="total"
+                                        placeholder="Rp. 0" readonly>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="activity_id" value="{{ $activity->id }}">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Tambah</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Modal Tambah Item -->
 @foreach ($rab_requests as $rab_request)
 <div class="modal fade" id="ModalTambahan{{ $rab_request->id }}" tabindex="-1" role="dialog"
     aria-labelledby="ModalTambahan{{ $rab_request->id }}" aria-hidden="true">
