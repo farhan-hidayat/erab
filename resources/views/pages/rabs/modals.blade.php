@@ -50,10 +50,10 @@
                         <div class="input-group">
 
                             <div class="input-group-append">
-                                <span class="input-group-text">Sumber Dana</span>
+                                <span class="input-group-text">Akun Belanja</span>
                             </div>
                             <select name="type_id" class="form-control">
-                                <option value="">Pilih Sumber</option>
+                                <option value="">Pilih Akun Belanja</option>
                                 @foreach ($types as $type)
                                 <option value="{{ $type->id }}">{{ $type->code }} -
                                     {{ $type->name }}</option>

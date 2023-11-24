@@ -51,12 +51,12 @@
                                 </div> --}}
                                     <select name="month" class="form-control" id="month" required>
                                     <option value="">- Bulan Pencairan -</option>
-                                        @php
+                                        <!-- @php
                                             $currentYear = now()->year;
                                             $currentMonth = now()->month;
-                                        @endphp
+                                        @endphp -->
 
-                                        @for ($i = 12 - $currentMonth; $i <= $currentMonth + (12 - $currentMonth); $i++)
+                                        @for ($i = 1; $i <= 12; $i++)
                                             @php
                                                 $formattedMonth = date('F', mktime(0, 0, 0, $i, 1));
                                             @endphp

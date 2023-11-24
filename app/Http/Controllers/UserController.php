@@ -106,6 +106,10 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        // Memeriksa apakah pengguna yang sedang login adalah pengguna yang akan dihapus
+        if ($user->id === auth()->id()) {
+            return redirect()->route('users.index')->with('error', 'Anda tidak dapat menghapus akun Anda sendiri.');
+        }
         $user->deleteProfilePhoto();
         $user->tokens->each->delete();
         $user->delete();
