@@ -50,6 +50,19 @@
                                     <span class="input-group-text"></span>
                                 </div> --}}
                                     <select name="month" class="form-control" id="month" required>
+                                    <option value="">- Bulan Pencairan -</option>
+                                        @php
+                                            $currentYear = now()->year;
+                                            $currentMonth = now()->month;
+                                        @endphp
+
+                                        @for ($i = 12 - $currentMonth; $i <= $currentMonth + (12 - $currentMonth); $i++)
+                                            @php
+                                                $formattedMonth = date('F', mktime(0, 0, 0, $i, 1));
+                                            @endphp
+                                            <option value="{{ $i }}">{{ $formattedMonth }}</option>
+                                        @endfor
+                                        <!--
                                         <option value="">- Bulan Pencairan -</option>
                                         @php
                                             $currentYear = now()->year;
@@ -62,6 +75,7 @@
                                             @endphp
                                             <option value="{{ $i }}">{{ $formattedMonth }}</option>
                                         @endfor
+                                        -->
                                     </select>
                                 </div>
                             </div>
@@ -80,7 +94,7 @@
                                         class="form-control rab-balance" value="Rp. {{ number_format($rab->balance) }}"
                                         disabled>
                                     <div class="input-group-append">
-                                        <span class="input-group-text">Cairakan</span>
+                                        <span class="input-group-text">Cairkan</span>
                                     </div>
                                     <input type="text" name="price" id="rpd_price{{ $rab->id }}"
                                         class="form-control currency{{ $rab->id }}">

@@ -12,9 +12,9 @@
                 @csrf
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="resource">Sumber Dana</label>
+                        <label for="resource">Akun Belanja</label>
                         <select name="resource_id" id="resource" class="form-control selectric">
-                            <option value="">Pilih Sumber Dana</option>
+                            <option value="">Pilih Akun Belanja</option>
                             @foreach ($resources as $resource)
                                 <option value="{{ $resource->id }}" data-front-code="{{ $resource->code }}">
                                     {{ $resource->name }}</option>
