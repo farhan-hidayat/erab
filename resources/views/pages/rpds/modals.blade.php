@@ -300,71 +300,143 @@
                         <h5 class="modal-title" id="ModalVerifikasi{{ $rab->id }}">{{ $rab->ticket }}</h5>
                     </div>
                     <div class="modal-body">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th scope="col" width="5%">#</th>
-                                    <th scope="col">Deskripsi</th>
-                                    <th scope="col" width="12%">Volume</th>
-                                    <th scope="col" width="15%">Satuan</th>
-                                    <th scope="col" width="18%">Harga</th>
-                                    <th scope="col" width="20%">Total</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @php
-                                    $no = 1;
-                                    $totalKeseluruhan = 0;
-                                    $currentSubComponent = null;
-                                    $currentType = null;
-                                @endphp
-                                @foreach ($rab_details->where('rab_id', $rab->id) as $rab_detail)
-                                    @if ($currentSubComponent !== $rab_detail->sub_component->id)
-                                    <tr>
-                                        <th colspan="6">
-                                            {{ $rab_detail->sub_component->code }}-{{ $rab_detail->sub_component->name }}
-                                        </th>
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>{{ $rab->user->faculty->name }}</h4>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" width="5%">#</th>
+                                            <th scope="col">Deskripsi</th>
+                                            <th scope="col" width="12%">Volume</th>
+                                            <th scope="col" width="15%">Satuan</th>
+                                            <th scope="col" width="18%">Harga</th>
+                                            <th scope="col" width="20%">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
                                         @php
-                                            $currentSubComponent = $rab_detail->sub_component->id;
-                                            $currentType = null; // Reset currentType when sub_component changes
-                                            $no = 1; // Reset $no when sub_component changes
+                                            $no = 1;
+                                            $totalKeseluruhan = 0;
+                                            $currentSubComponent = null;
+                                            $currentType = null;
                                         @endphp
-                                    </tr>
-                                    @endif
-                                    @if ($currentType !== $rab_detail->type->id)
-                                    <tr>
-                                        <th colspan="6">
-                                            {{ $rab_detail->type->code }}-{{ $rab_detail->type->name }}
-                                        </th>
-                                        @php
-                                            $currentType = $rab_detail->type->id;
-                                            $no = 1; // Reset $no when type changes
-                                        @endphp
-                                    </tr>
-                                    @endif
-                                    <tr>
-                                        <th scope="row">{{ $no++ }}</th>
-                                        <td>
-                                            <textarea name="deskripsi" id="deskripsi" cols="30" rows="3" style="border: none;" disabled>{{ $rab_detail->description }}</textarea>
-                                        </td>
-                                        <td>{{ $rab_detail->volume }}</td>
-                                        <td>{{ $rab_detail->unit }}</td>
-                                        <td>Rp. {{ number_format($rab_detail->price) }}</td>
-                                        <td>Rp. {{ number_format($rab_detail->total) }}</td>
-                                    </tr>
-                                    @php
-                                        $totalKeseluruhan += $rab_detail->total;
-                                    @endphp
-                                @endforeach
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th colspan="4" class="text-right">Total Keseluruhan</th>
-                                    <input type="hidden" name="totalKeseluruhan" value="{{ $totalKeseluruhan }}">
-                                    <th colspan="2">Rp. {{ number_format($totalKeseluruhan) }}</th>
-                                </tr>
-                            </tfoot>
-                        </table>
+                                        @foreach ($rab_details->where('rab_id', $rab->id) as $rab_detail)
+                                            @if ($currentSubComponent !== $rab_detail->sub_component->id)
+                                            <tr>
+                                                <th colspan="6">
+                                                    {{ $rab_detail->sub_component->code }}-{{ $rab_detail->sub_component->name }}
+                                                </th>
+                                                @php
+                                                    $currentSubComponent = $rab_detail->sub_component->id;
+                                                    $currentType = null; // Reset currentType when sub_component changes
+                                                    $no = 1; // Reset $no when sub_component changes
+                                                @endphp
+                                            </tr>
+                                            @endif
+                                            @if ($currentType !== $rab_detail->type->id)
+                                            <tr>
+                                                <th colspan="6">
+                                                    {{ $rab_detail->type->code }}-{{ $rab_detail->type->name }}
+                                                </th>
+                                                @php
+                                                    $currentType = $rab_detail->type->id;
+                                                    $no = 1; // Reset $no when type changes
+                                                @endphp
+                                            </tr>
+                                            @endif
+                                            <tr>
+                                                <th scope="row">{{ $no++ }}</th>
+                                                <td>
+                                                    <textarea name="deskripsi" id="deskripsi" cols="30" rows="3" style="border: none;" disabled>{{ $rab_detail->description }}</textarea>
+                                                </td>
+                                                <td>{{ $rab_detail->volume }}</td>
+                                                <td>{{ $rab_detail->unit }}</td>
+                                                <td>Rp. {{ number_format($rab_detail->price) }}</td>
+                                                <td>Rp. {{ number_format($rab_detail->total) }}</td>
+                                            </tr>
+                                            @php
+                                                $totalKeseluruhan += $rab_detail->total;
+                                            @endphp
+                                        @endforeach
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th colspan="4" class="text-right">Total Keseluruhan</th>
+                                            <input type="hidden" name="totalKeseluruhan" value="{{ $totalKeseluruhan }}">
+                                            <th colspan="2">Rp. {{ number_format($totalKeseluruhan) }}</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                        @if(Auth::user()->roles == 'ADMIN')
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="mt-0 section-title">Total RAB : Rp. {{ number_format($rab->price) }}</div>
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" width="5%">#</th>
+                                                <th scope="col">Tiket</th>
+                                                <th scope="col">Nominal</th>
+                                                <th scope="col">Sisa</th>
+                                                <th scope="col">Bulan Pencairan</th>
+                                                <th scope="col">Status</th>
+                                                <th scope="col">Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @php
+                                            $no = 1;
+                                            @endphp
+                                            @forelse ($rpds->where('rab_id', $rab->id) as $rpd)
+                                            <tr>
+                                                <th scope="row">{{ $no++ }}</th>
+                                                <td>{{ $rpd->ticket }}</td>
+                                                <td>Rp. {{ number_format($rpd->price) }}</td>
+                                                <td>Rp. {{ number_format($rpd->balance) }}</td>
+                                                <td> {{ \Carbon\Carbon::createFromFormat('!m', $rpd->month)->format('F') }}
+                                                </td>
+                                                <td>
+                                                    @if ($rpd->status == 'PENGAJUAN')
+                                                    <span class="badge badge-warning">Pengajuan</span>
+                                                    @elseif($rpd->status == 'DITOLAK')
+                                                    <span class="badge badge-danger">Ditolak</span>
+                                                    @else
+                                                    <span class="badge badge-success">Diterima</span>
+                                                    @endif
+                                                </td>
+                                                <td class="text-center">
+                                                    <form action="{{ route('rpds.update', $rpd->id) }}" method="post">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <div class="form-group">
+                                                            <input type="hidden" name="status" id="status{{ $rpd->id }}" value="">
+                                                            <button type="submit" class="btn btn-success btn-terima" onclick="setStatus('DITERIMA')"
+                                                                data-id="{{ $rpd->id }}" @if ($rpd->status == 'DITERIMA') disabled
+                                                                @endif>Terima</button>
+                                                            <button type="submit" class="btn btn-danger btn-tolak" onclick="setStatus('DITOLAK')"
+                                                                data-id="{{ $rpd->id }}" @if ($rpd->status == 'DITERIMA') disabled
+                                                                @endif>Tolak</button>
+                                                        </div>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                            @empty
+                                            <tr>
+                                                <th scope="row" colspan="7" class="text-center">
+                                                    <h1>Belum ada pencairan dana</h1>
+                                                </th>
+                                            </tr>
+                                            @endforelse
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        @endif
                     </div>
                     <div class="modal-footer">
                         <input type="hidden" name="status" id="status{{ $rab->id }}" value="">

@@ -3,6 +3,7 @@
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\ClassificationController;
 use App\Http\Controllers\ComponentController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DetailController;
 use App\Http\Controllers\FacultyController;
 use App\Http\Controllers\GroupController;
@@ -72,4 +73,5 @@ Route::middleware([
     Route::resource('resources', ResourceController::class);
     Route::resource('groups', GroupController::class);
     Route::resource('types', TypeController::class);
+    Route::get('cetak-rab/{rabId}', [DashboardController::class, 'cetak_pdf'])->name('cetak-rab');
 });

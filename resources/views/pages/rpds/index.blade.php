@@ -1,132 +1,128 @@
 @extends('layouts.dashboard')
 
 @section('title')
-    E-RAB | RPD
+E-RAB | RPD
 @endsection
 
 @push('prepend-style')
-    <link rel="stylesheet" href="/node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="/node_modules/datatables.net-select-bs4/css/select.bootstrap4.min.css">
+<link rel="stylesheet" href="/node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="/node_modules/datatables.net-select-bs4/css/select.bootstrap4.min.css">
 @endpush
 
 @section('content')
-    <div class="main-content">
-        <section class="section">
-            <div class="section-header">
-                <h1>RAB & RPD</h1>
-                @if (Auth::user()->roles == 'USER')
-                    <div class="section-header-button">
-                        <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#ModalTambah"> <i
-                                class="fa-solid fa-plus"></i> Buat
-                            RAB </a>
-                    </div>
-                @endif
+<div class="main-content">
+    <section class="section">
+        <div class="section-header">
+            <h1>RAB & RPD</h1>
+            @if (Auth::user()->roles == 'USER')
+            <div class="section-header-button">
+                <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#ModalTambah"> <i
+                        class="fa-solid fa-plus"></i> Buat
+                    RAB </a>
             </div>
+            @endif
+        </div>
 
-            <div class="section-body">
-                {{-- <h2 class="section-title">DataTables</h2>
-                <p class="section-lead">
-                    We use 'DataTables' made by @SpryMedia. You can check the full documentation <a
-                        href="https://datatables.net/">here</a>.
-                </p> --}}
+        <div class="section-body">
+            {{-- <h2 class="section-title">DataTables</h2>
+            <p class="section-lead">
+                We use 'DataTables' made by @SpryMedia. You can check the full documentation <a
+                    href="https://datatables.net/">here</a>.
+            </p> --}}
 
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4>Data RAB</h4>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-striped" id="table-1">
-                                        <thead>
-                                            <tr>
-                                                <th class="text-center" width="5%">
-                                                    #
-                                                </th>
-                                                <th>Tiket</th>
-                                                <th>Fakultas</th>
-                                                <th>Total</th>
-                                                <th>Sisa</th>
-                                                <th width="20%" class="text-center">Aksi</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @if (Auth::user()->roles == 'USER')
-                                                @php
-                                                    $no = 1;
-                                                @endphp
-                                                @foreach ($rabs->where('user_id', Auth::user()->id) as $rab)
-                                                    <tr>
-                                                        <td>{{ $no++ }}</td>
-                                                        <td>{{ $rab->ticket }}</td>
-                                                        <td>{{ $rab->user->faculty->name }}</td>
-                                                        <td>Rp. {{ number_format($rab->price) }}</td>
-                                                        <td>Rp. {{ number_format($rab->balance) }}</td>
-                                                        <td class="text-center">
-                                                            <a href="#" class="btn btn-primary btn-verifikasi"
-                                                                data-toggle="modal"
-                                                                data-target="#ModalVerifikasi{{ $rab->id }}"
-                                                                data-id="{{ $rab->id }}"><i class="fas fa-edit"></i>
-                                                                Detail</a>
-                                                            <a href="#" class="btn btn-success btn-lihat"
-                                                                data-toggle="modal"
-                                                                data-target="#ModalLihat{{ $rab->id }}"
-                                                                data-id="{{ $rab->id }}"><i
-                                                                    class="fas fa-money-bill-1-wave"></i>
-                                                                RPD</a>
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-                                            @else
-                                                @php
-                                                    $no = 1;
-                                                @endphp
-                                                @foreach ($rabs as $rab)
-                                                    <tr>
-                                                        <td>{{ $no++ }}</td>
-                                                        <td>{{ $rab->ticket }}</td>
-                                                        <td>{{ $rab->user->faculty->name }}</td>
-                                                        <td>Rp. {{ number_format($rab->price) }}</td>
-                                                        <td>Rp. {{ number_format($rab->balance) }}</td>
-                                                        <td class="text-center">
-                                                            <a href="#" class="btn btn-primary btn-verifikasi"
-                                                                data-toggle="modal"
-                                                                data-target="#ModalVerifikasi{{ $rab->id }}"
-                                                                data-id="{{ $rab->id }}"><i class="fas fa-eye"></i>
-                                                                Detail</a>
-                                                            <a href="#" class="btn btn-success btn-lihat"
-                                                                data-toggle="modal"
-                                                                data-target="#ModalLihat{{ $rab->id }}"
-                                                                data-id="{{ $rab->id }}"><i
-                                                                    class="fas fa-money-bill-1-wave"></i>
-                                                                RPD</a>
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-                                            @endif
-                                        </tbody>
-                                    </table>
-                                </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Data RAB</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped" id="table-1">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center" width="5%">
+                                                #
+                                            </th>
+                                            <th>Tiket</th>
+                                            <th>Fakultas</th>
+                                            <th>Total</th>
+                                            <th>Sisa</th>
+                                            <th width="20%" class="text-center">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Auth::user()->roles == 'USER')
+                                        @php
+                                        $no = 1;
+                                        @endphp
+                                        @foreach ($rabs->where('user_id', Auth::user()->id) as $rab)
+                                        <tr>
+                                            <td>{{ $no++ }}</td>
+                                            <td>{{ $rab->ticket }}</td>
+                                            <td>{{ $rab->user->faculty->name }}</td>
+                                            <td>Rp. {{ number_format($rab->price) }}</td>
+                                            <td>Rp. {{ number_format($rab->balance) }}</td>
+                                            <td class="text-center">
+                                                <a href="#" class="btn btn-primary btn-verifikasi" data-toggle="modal"
+                                                    data-target="#ModalVerifikasi{{ $rab->id }}"
+                                                    data-id="{{ $rab->id }}"><i class="fas fa-edit"></i>
+                                                    Detail</a>
+                                                <a href="#" class="btn btn-success btn-lihat" data-toggle="modal"
+                                                    data-target="#ModalLihat{{ $rab->id }}" data-id="{{ $rab->id }}"><i
+                                                        class="fas fa-money-bill-1-wave"></i>
+                                                    RPD</a>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                        @else
+                                        @php
+                                        $no = 1;
+                                        @endphp
+                                        @foreach ($rabs as $rab)
+                                        <tr>
+                                            <td>{{ $no++ }}</td>
+                                            <td>{{ $rab->ticket }}</td>
+                                            <td>{{ $rab->user->faculty->name }}</td>
+                                            <td>Rp. {{ number_format($rab->price) }}</td>
+                                            <td>Rp. {{ number_format($rab->balance) }}</td>
+                                            <td class="text-center">
+                                                <a href="#" class="btn btn-primary btn-verifikasi" data-toggle="modal"
+                                                    data-target="#ModalVerifikasi{{ $rab->id }}"
+                                                    data-id="{{ $rab->id }}"><i class="fas fa-eye"></i>
+                                                    Detail</a>
+                                                {{-- <a href="#" class="btn btn-success btn-lihat" data-toggle="modal"
+                                                    data-target="#ModalLihat{{ $rab->id }}" data-id="{{ $rab->id }}"><i
+                                                        class="fas fa-money-bill-1-wave"></i>
+                                                    RPD</a> --}}
+                                                <a href="{{ route('cetak-rab', $rab->id) }}" class="btn btn-danger"><i
+                                                        class="fas fa-print"></i> Cetak</a>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                        @endif
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-    </div>
+        </div>
+    </section>
+</div>
 
-    @include('pages.rpds.modals')
+@include('pages.rpds.modals')
 @endsection
 
 @push('prepend-script')
-    <script src="/node_modules/datatables/media/js/jquery.dataTables.min.js"></script>
-    <script src="/node_modules/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
-    <script src="/node_modules/datatables.net-select-bs4/js/select.bootstrap4.min.js"></script>
+<script src="/node_modules/datatables/media/js/jquery.dataTables.min.js"></script>
+<script src="/node_modules/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="/node_modules/datatables.net-select-bs4/js/select.bootstrap4.min.js"></script>
 @endpush
 @push('addon-script')
-    <script>
-        $(document).ready(function() {
+<script>
+    $(document).ready(function() {
             // Menampilkan modal edit ketika tombol "Ubah" diklik
             $('.btn-lihat').click(function() {
                 var rabId = $(this).data('id');
@@ -230,6 +226,6 @@
                 });
             });
         });
-    </script>
-    <script src="/assets/js/page/modules-datatables.js"></script>
+</script>
+<script src="/assets/js/page/modules-datatables.js"></script>
 @endpush

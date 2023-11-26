@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Rab;
+use App\Models\RabDetail;
 use App\Models\Rpd;
 use App\Models\User;
+use PDF;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -23,5 +25,16 @@ class DashboardController extends Controller
             'c_rpdDitolak' => Rpd::with('rab')->where('status', 'DITOLAK')->get(),
         ];
         return view('pages.dashboard', $data);
+    }
+
+    public function cetak_pdf($id)
+    {
+        $data = [
+            'rab' => Rab::find($id),
+            'rab_details' => RabDetail::with('rab', 'sub_component', 'type')->where('rab_id', $id)->orderBy('sub_component_id', 'asc')->orderBy('type_id', 'asc')->get()
+        ];
+        // return $data;
+        $pdf = PDF::loadView('pages.rabs.cetak_pdf', $data);
+        return $pdf->stream();
     }
 }
