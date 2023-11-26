@@ -13,10 +13,10 @@
 </head>
 
 <body>
-    <h1 class="text-center">Cetak RAB</h1>
-    <h4 class="text-center">Tiket : {{ $rab->ticket }}</h4>
-    <h4 class="text-center">Fakultas : {{ $rab->user->faculty->name }}</h4>
-    <h4 class="text-center">Total : Rp. {{ number_format($rab->price) }}</h4>
+    <img class="center" width="100%" src="{{ asset('assets/kop.jpg') }}" alt="">
+    <h4 class="text-center">{{ $rab->user->faculty->name }}</h4>
+    <h6 class="text-center">{{ $rab->ticket }}</h6>
+    </br>
 
     <table class="table table-bordered">
         <thead>
