@@ -34,8 +34,9 @@ class DashboardController extends Controller
             'rab_details' => RabDetail::with('rab', 'sub_component', 'type')->where('rab_id', $id)->orderBy('sub_component_id', 'asc')->orderBy('type_id', 'asc')->get()
         ];
         // return $data;
+        return view('pages.rabs.cetak_pdf', $data);
         $pdf = PDF::loadView('pages.rabs.cetak_pdf', $data);
-        // return $pdf->download('laporan-rab');
+        return $pdf->download('laporan-rab');
         set_time_limit(200);
         return $pdf->stream();
     }
