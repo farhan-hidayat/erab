@@ -227,5 +227,34 @@ E-RAB | RPD
             });
         });
 </script>
+<script>
+    $(document).ready(function() {
+        $('.btn-verifikasi').click(function() {
+            var rpdId = $(this).data('id');
+            $('#ModalVerifikasi' + rpdId).modal('show');
+
+            // Fungsi untuk mengatur status dan mengirim form
+            function setStatus(status, rpdId) {
+            console.log('Status:', status);
+            console.log('Rpd ID:', rpdId);
+            document.getElementById('statusRPD' + rpdId).value = status;
+            document.getElementById('myForm' + rpdId).submit();
+            }
+            
+            // Mengikat fungsi setStatus ke tombol "Terima" dan "Tolak"
+            $('.btn-terima').click(function() {
+            var rpdId = $(this).data('id');
+            console.log('Button Terima Clicked - Rpd ID:', rpdId);
+            setStatus('DITERIMA', rpdId);
+            });
+            
+            $('.btn-tolak').click(function() {
+            var rpdId = $(this).data('id');
+            console.log('Button Tolak Clicked - Rpd ID:', rpdId);
+            setStatus('DITOLAK', rpdId);
+            });
+        });
+    });
+</script>
 <script src="/assets/js/page/modules-datatables.js"></script>
 @endpush

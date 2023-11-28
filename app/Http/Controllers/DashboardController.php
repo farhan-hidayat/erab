@@ -36,7 +36,7 @@ class DashboardController extends Controller
         // return $data;
         return view('pages.rabs.cetak_pdf', $data);
         $pdf = PDF::loadView('pages.rabs.cetak_pdf', $data);
-        return $pdf->download('laporan-rab');
+        // return $pdf->download('laporan-rab');
         set_time_limit(200);
         return $pdf->stream();
     }
