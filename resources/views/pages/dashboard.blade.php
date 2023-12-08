@@ -35,66 +35,70 @@
                             </div>
                         </div>
                     </div> --}}
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-12">
-                        <div class="card card-statistic-1">
-                            <div class="card-icon bg-primary">
-                                <i class="fas fa-scale-balanced fa-beat"></i>
-                            </div>
-                            <div class="card-wrap">
-                                <div class="card-header">
-                                    <h4>Pengajuan RAB</h4>
+                    <a href="{{ route('rpds.index') }}" class="col-lg-6 col-md-6 col-sm-6 col-12">
+                        {{-- <div class="col-lg-6 col-md-6 col-sm-6 col-12"> --}}
+                            <div class="card card-statistic-1">
+                                <div class="card-icon bg-primary">
+                                    <i class="fas fa-scale-balanced fa-beat"></i>
                                 </div>
-                                <div class="card-body">
+                                <div class="card-wrap">
+                                    <div class="card-header">
+                                        <h4>Pengajuan RAB</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        @if (Auth::user()->roles == 'ADMIN')
+                                            {{-- <span class="badge badge-warning">{{ $c_rabMenunggu->count() }} Pengajuan</span>
+                                            <span class="badge badge-danger">{{ $c_rabDitolak->count() }} Ditolak</span> --}}
+                                            <span class="badge badge-success">{{ $c_rab->count() }}</span>
+                                        @else
+                                            {{-- <span
+                                                class="badge badge-warning">{{ $c_rabMenunggu->where('user_id', Auth::user()->id)->count() }}
+                                                Pengajuan</span>
+                                            <span
+                                                class="badge badge-danger">{{ $c_rabDitolak->where('user_id', Auth::user()->id)->count() }}
+                                                Ditolak</span> --}}
+                                            <span
+                                                class="badge badge-success">{{ $c_rab->where('user_id', Auth::user()->id)->count() }}
+                                                </span>
+                                        @endif
+                                    </div>
+                                </div>
+                            {{-- </div> --}}
+                        </div>
+                    </a>
+                    <a href="{{ route('rpds.index') }}" class="col-lg-6 col-md-6 col-sm-6 col-12">
+                        {{-- <div class="col-lg-6 col-md-6 col-sm-6 col-12"> --}}
+                            <div class="card card-statistic-1">
+                                <div class="card-icon bg-primary">
+                                    <i class="fas fa-money-bill-transfer fa-beat"></i>
+                                </div>
+                                <div class="card-wrap">
+                                    <div class="card-header">
+                                        <h4>Pengajuan RPD</h4>
+                                    </div>
                                     @if (Auth::user()->roles == 'ADMIN')
-                                        <span class="badge badge-warning">{{ $c_rabMenunggu->count() }} Pengajuan</span>
-                                        <span class="badge badge-danger">{{ $c_rabDitolak->count() }} Ditolak</span>
-                                        <span class="badge badge-success">{{ $c_rabDiterima->count() }} Diterima</span>
+                                        <div class="card-body">
+                                            <span class="badge badge-warning">{{ $c_rpdMenunggu->count() }} Pengajuan</span>
+                                            <span class="badge badge-danger">{{ $c_rpdDitolak->count() }} Ditolak</span>
+                                            <span class="badge badge-success">{{ $c_rpdDiterima->count() }} Diterima</span>
+                                        </div>
                                     @else
-                                        <span
-                                            class="badge badge-warning">{{ $c_rabMenunggu->where('user_id', Auth::user()->id)->count() }}
-                                            Pengajuan</span>
-                                        <span
-                                            class="badge badge-danger">{{ $c_rabDitolak->where('user_id', Auth::user()->id)->count() }}
-                                            Ditolak</span>
-                                        <span
-                                            class="badge badge-success">{{ $c_rabDiterima->where('user_id', Auth::user()->id)->count() }}
-                                            Diterima</span>
+                                        <div class="card-body">
+                                            <span
+                                                class="badge badge-warning">{{ $c_rpdMenunggu->where('rab.user_id', Auth::user()->id)->count() }}
+                                                Pengajuan</span>
+                                            <span
+                                                class="badge badge-danger">{{ $c_rpdDitolak->where('rab.user_id', Auth::user()->id)->count() }}
+                                                Ditolak</span>
+                                            <span
+                                                class="badge badge-success">{{ $c_rpdDiterima->where('rab.user_id', Auth::user()->id)->count() }}
+                                                Diterima</span>
+                                        </div>
                                     @endif
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-12">
-                        <div class="card card-statistic-1">
-                            <div class="card-icon bg-primary">
-                                <i class="fas fa-money-bill-transfer fa-beat"></i>
-                            </div>
-                            <div class="card-wrap">
-                                <div class="card-header">
-                                    <h4>Pengajuan RPD</h4>
-                                </div>
-                                @if (Auth::user()->roles == 'ADMIN')
-                                    <div class="card-body">
-                                        <span class="badge badge-warning">{{ $c_rpdMenunggu->count() }} Pengajuan</span>
-                                        <span class="badge badge-danger">{{ $c_rpdDitolak->count() }} Ditolak</span>
-                                        <span class="badge badge-success">{{ $c_rpdDiterima->count() }} Diterima</span>
-                                    </div>
-                                @else
-                                    <div class="card-body">
-                                        <span
-                                            class="badge badge-warning">{{ $c_rpdMenunggu->where('rab.user_id', Auth::user()->id)->count() }}
-                                            Pengajuan</span>
-                                        <span
-                                            class="badge badge-danger">{{ $c_rpdDitolak->where('rab.user_id', Auth::user()->id)->count() }}
-                                            Ditolak</span>
-                                        <span
-                                            class="badge badge-success">{{ $c_rpdDiterima->where('rab.user_id', Auth::user()->id)->count() }}
-                                            Diterima</span>
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
+                        {{-- </div> --}}
+                    </a>
                 </div>
                 {{-- <div class="row">
                     <div class="col-lg-8 col-md-12 col-12 col-sm-12">
