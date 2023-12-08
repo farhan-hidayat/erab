@@ -28,6 +28,7 @@ class RpdRequest extends FormRequest
             'rab_id' => ['required', 'exists:rabs,id'],
             'price' => ['required'],
             'month' => ['required'],
+            'year' => ['required'],
         ];
     }
 
@@ -37,6 +38,7 @@ class RpdRequest extends FormRequest
             'rab_id.required' => 'Rab harus diisi',
             'price.required' => 'Harga harus diisi',
             'month.required' => 'Bulan harus diisi',
+            'year.required' => 'Tahun harus diisi',
         ];
     }
 }

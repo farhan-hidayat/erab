@@ -50,32 +50,19 @@
                                     <span class="input-group-text"></span>
                                 </div> --}}
                                     <select name="month" class="form-control" id="month" required>
-                                    <option value="">- Bulan Pencairan -</option>
-                                        <!-- @php
-                                            $currentYear = now()->year;
-                                            $currentMonth = now()->month;
-                                        @endphp -->
-
+                                        <option value="">- Bulan Pencairan -</option>
                                         @for ($i = 1; $i <= 12; $i++)
                                             @php
                                                 $formattedMonth = date('F', mktime(0, 0, 0, $i, 1));
                                             @endphp
                                             <option value="{{ $i }}">{{ $formattedMonth }}</option>
                                         @endfor
-                                        <!--
-                                        <option value="">- Bulan Pencairan -</option>
-                                        @php
-                                            $currentYear = now()->year;
-                                            $currentMonth = now()->month;
-                                        @endphp
-
-                                        @for ($i = $currentMonth; $i <= $currentMonth + (12 - $currentMonth); $i++)
-                                            @php
-                                                $formattedMonth = date('F', mktime(0, 0, 0, $i, 1));
-                                            @endphp
-                                            <option value="{{ $i }}">{{ $formattedMonth }}</option>
+                                    </select>
+                                    <select name="year" class="form-control" id="year" required>
+                                        <option value="">- Tahun Pencairan -</option>
+                                        @for ($i = now()->year; $i <= now()->year + 1; $i++)
+                                            <option value="{{ $i }}">{{ $i }}</option>
                                         @endfor
-                                        -->
                                     </select>
                                 </div>
                             </div>
@@ -131,6 +118,7 @@
                                         <th scope="col">Nominal</th>
                                         <th scope="col">Sisa</th>
                                         <th scope="col">Bulan Pencairan</th>
+                                        <th scope="col">Tahun Pencairan</th>
                                         <th scope="col">Status</th>
                                         @if (Auth::user()->roles == 'ADMIN')
                                             <th scope="col">Aksi</th>
@@ -149,6 +137,7 @@
                                             <td>Rp. {{ number_format($rpd->balance) }}</td>
                                             <td> {{ \Carbon\Carbon::createFromFormat('!m', $rpd->month)->format('F') }}
                                             </td>
+                                            <td>{{ $rpd->year }}</td>
                                             <td>
                                                 @if ($rpd->status == 'PENGAJUAN')
                                                     <span class="badge badge-warning">Pengajuan</span>
@@ -233,16 +222,17 @@
                                 </div> --}}
                                 <select name="month" class="form-control" id="month" required>
                                     <option value="">- Bulan Pencairan -</option>
-                                    @php
-                                        $currentYear = now()->year;
-                                        $currentMonth = now()->month;
-                                    @endphp
-
-                                    @for ($i = $currentMonth; $i <= $currentMonth + (12 - $currentMonth); $i++)
+                                    @for ($i = 1; $i <= 12; $i++)
                                         @php
                                             $formattedMonth = date('F', mktime(0, 0, 0, $i, 1));
                                         @endphp
                                         <option value="{{ $i }}">{{ $formattedMonth }}</option>
+                                    @endfor
+                                </select>
+                                <select name="year" class="form-control" id="year" required>
+                                    <option value="">- Tahun Pencairan -</option>
+                                    @for ($i = now()->year; $i <= now()->year + 1; $i++)
+                                        <option value="{{ $i }}">{{ $i }}</option>
                                     @endfor
                                 </select>
                             </div>
@@ -376,9 +366,10 @@
                                             <th scope="col">Tiket</th>
                                             <th scope="col">Nominal</th>
                                             <th scope="col">Sisa</th>
-                                            <th scope="col">Bulan Pencairan</th>
-                                            <th scope="col">Status</th>
-                                            <th scope="col">Aksi</th>
+                                            <th scope="col" width="7%">Bulan Pencairan</th>
+                                            <th scope="col" width="7%">Tahun Pencairan</th>
+                                            <th scope="col" width="7%">Status</th>
+                                            <th scope="col" width="7%">Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -392,6 +383,7 @@
                                             <td>Rp. {{ number_format($rpd->price) }}</td>
                                             <td>Rp. {{ number_format($rpd->balance) }}</td>
                                             <td> {{ \Carbon\Carbon::createFromFormat('!m', $rpd->month)->format('F') }}
+                                            <td>{{ $rpd->year }}</td>
                                             </td>
                                             <td>
                                                 @if ($rpd->status == 'PENGAJUAN')
@@ -410,10 +402,10 @@
                                                         <input type="hidden" name="status" id="statusRPD{{ $rpd->id }}" value="">
                                                         <button type="submit" class="btn btn-success btn-terima" onclick="setStatus('DITERIMA')"
                                                             data-id="{{ $rpd->id }}"
-                                                            @if ($rpd->status == 'DITERIMA') disabled @endif>Terima</button>
+                                                            @if ($rpd->status == 'DITERIMA') disabled @endif><i class="fa-solid fa-check"></i></button>
                                                         <button type="submit" class="btn btn-danger btn-tolak" onclick="setStatus('DITOLAK')"
                                                             data-id="{{ $rpd->id }}"
-                                                            @if ($rpd->status == 'DITERIMA') disabled @endif>Tolak</button>
+                                                            @if ($rpd->status == 'DITERIMA') disabled @endif><i class="fa-solid fa-xmark"></i></button>
                                                     </div>
                                                 </form>
                                             </td>

@@ -15,6 +15,7 @@ class Rpd extends Model
         'price',
         'status',
         'month',
+        'year',
         'balance'
     ];
 
